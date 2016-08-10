@@ -57,6 +57,18 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>doclint-java8-disable</id>
+            <activation>
+                <jdk>[1.8,)</jdk>
+            </activation>
+            <properties>
+                <javadoc.opts>-Xdoclint:none</javadoc.opts>
+            </properties>
+        </profile>
+    </profiles>
+
     <!--
       Hey... since we're open source, let's compile the source and javadocs into jars as well
     -->
@@ -95,6 +107,9 @@
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
+                        <configuration>
+                            <additionalparam>${javadoc.opts}</additionalparam>
+                        </configuration>
                         <goals>
                             <goal>jar</goal>
                         </goals>
