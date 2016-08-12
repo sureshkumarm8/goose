@@ -11,8 +11,6 @@
 
 package me.angrybyte.goose;
 
-import android.util.Log;
-
 import org.jsoup.nodes.Attribute;
 import org.jsoup.nodes.Attributes;
 import org.jsoup.nodes.Document;
@@ -443,10 +441,6 @@ public class ContentExtractor {
 
         int topNodeScore = 0;
         for (Element e : parentNodes) {
-
-            ;// Log.d(TAG, "ParentNode: score='" + e.attr("gravityScore") + "' nodeCount='" + e.attr("gravityNodes") + "' id='" + e.id() + "' class='" + e.attr
-                    ("class") + "' ");
-
             int score = getScore(e);
             if (score > topNodeScore) {
                 topNode = e;

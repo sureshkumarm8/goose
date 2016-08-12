@@ -11,8 +11,6 @@
 
 package me.angrybyte.goose.cleaners;
 
-import android.util.Log;
-
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
@@ -182,9 +180,6 @@ public class DefaultDocumentCleaner implements DocumentCleaner {
             }
 
         }
-
-        ;// Log.d(TAG, "Found " + divs.size() + " total divs with " + badDivs + " bad divs replaced and " + convertedTextNodes + " textnodes converted " +
-                "inside divs");
 
         return doc;
     }

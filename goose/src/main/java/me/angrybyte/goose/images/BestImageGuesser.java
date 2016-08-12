@@ -11,8 +11,6 @@
 
 package me.angrybyte.goose.images;
 
-import android.util.Log;
-
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -217,8 +215,6 @@ public class BestImageGuesser implements ImageExtractor {
         Elements images = node.select("img");
 
         String nodeId = this.getNodeIds(node);
-        ;// Log.d(TAG, "checkForLargeImages: Checking for large images, found: " + images.size() + " - parent depth: " + parentDepth + " sibling depth: " +
-                siblingDepth + " for node: " + nodeId);
         ArrayList<Element> goodImages;
 
         goodImages = this.filterBadNames(images);
@@ -259,9 +255,6 @@ public class BestImageGuesser implements ImageExtractor {
                 // we start at the top node then recursively go up to siblings/parent/grandparent to find something good
                 Element prevSibling = node.previousElementSibling();
                 if (prevSibling != null) {
-                    ;// Log.d(TAG, "About to do a check against the sibling element, tagname: '" + prevSibling.tagName() + "' class: '" + prevSibling.attr
-                            ("class") + "' id: '" + prevSibling
-                            .id() + "'");
                     siblingDepth++;
                     this.checkForLargeImages(prevSibling, parentDepth, siblingDepth);
                 } else {
