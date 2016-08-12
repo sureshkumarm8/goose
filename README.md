@@ -1,28 +1,20 @@
-Try it out online!
-http://jimplush.com/blog/goose
+Goose for Android
+-----------------
 
+Original Goose library (Scala, command line) is licensed by Gravity.com under the Apache 2.0 license, see the LICENSE file for more details.
 
-Please view the wiki pages for all the details on the project :)
+This fork addresses the issues using Scala imposes on Android, such as using external programs (image-magick), using outdated HTTP libraries (Apache), downloading images to any location on the disk (no open disk on Android), managing cache, SD cards, battery consumption, network issues, redirects, etc.
 
-Wiki can be found by clicking the Wiki link or going here: https://github.com/jiminoc/goose/wiki
+Work in progress
+----------------
 
-If you find Goose useful or have issues please drop me a line, I'd love to hear how you're using it or what features should be improved
+This is still being developed, to comment all logs use:
 
-Goose is licensed by Gravity.com under the Apache 2.0 license, see the LICENSE file for more details
+```find . -name "*\.java" | xargs grep -l 'Log\.' | xargs sed -i 's/Log\./;\/\/ Log\./g'```
 
-To use goose from the command line:
+And to uncomment all logs use:
+```find . -name "*\.java" | xargs grep -l 'Log\.' | xargs sed -i 's/;\/\/ Log\./Log\./g'```
 
-cd into the goose directory
-mvn compile
-MAVEN_OPTS="-Xms256m -Xmx2000m" mvn exec:java -Dexec.mainClass=com.jimplush.goose.TalkToMeGoose  -Dexec.args="http://techcrunch.com/2011/05/13/native-apps-or-web-apps-particle-code-wants-you-to-do-both/" -e -q > ~/Desktop/gooseresult.txt
-
-TODO fill for Android
----------------------
-
-Comment all logs:
-find . -name "*\.java" | xargs grep -l 'Log\.' | xargs sed -i 's/Log\./;\/\/ Log\./g'
-
-Uncomment all logs:
-find . -name "*\.java" | xargs grep -l 'Log\.' | xargs sed -i 's/;\/\/ Log\./Log\./g'
+Any help is _appreciated_.
 
 
