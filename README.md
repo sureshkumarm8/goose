@@ -13,6 +13,7 @@ This is still being developed, to comment all logs use:
 ```find . -name "*\.java" | xargs grep -l 'Log\.' | xargs sed -i 's/Log\./;\/\/ Log\./g'```
 
 And to uncomment all logs use:
+
 ```find . -name "*\.java" | xargs grep -l 'Log\.' | xargs sed -i 's/;\/\/ Log\./Log\./g'```
 
 Any help is _appreciated_.
