@@ -155,7 +155,7 @@ public class Article {
             url = new URL(urlToParse);
             domain = url.getHost();
         } catch (MalformedURLException e) {
-            Log.e(Article.class.getSimpleName(), e.toString(), e);
+            ;// Log.e(Article.class.getSimpleName(), e.toString(), e);
         }
         this.domain = domain;
     }

@@ -110,8 +110,8 @@ public class HtmlFetcher {
                         encodingType = "UTF-8";
                     }
                 } catch (Exception e) {
-                    Log.d(TAG, "Unable to get charset for: " + url);
-                    Log.d(TAG, "Encoding Type is: " + encodingType);
+                    ;// Log.d(TAG, "Unable to get charset for: " + url);
+                    ;// Log.d(TAG, "Encoding Type is: " + encodingType);
                 }
 
                 try {
@@ -121,23 +121,23 @@ public class HtmlFetcher {
                 }
 
             } else {
-                Log.w(TAG, "Unable to fetch URL Properly: " + url);
+                ;// Log.w(TAG, "Unable to fetch URL Properly: " + url);
             }
 
         } catch (NullPointerException e) {
-            Log.w(TAG, e.toString() + " " + e.getMessage());
+            ;// Log.w(TAG, e.toString() + " " + e.getMessage());
 
         } catch (MaxBytesException e) {
 
-            Log.w(TAG, "GRVBIGFAIL: " + url + " Reached max bytes size");
+            ;// Log.w(TAG, "GRVBIGFAIL: " + url + " Reached max bytes size");
             throw e;
         } catch (SocketException e) {
-            Log.w(TAG, e.getMessage());
+            ;// Log.w(TAG, e.getMessage());
 
         } catch (SocketTimeoutException e) {
-            Log.w(TAG, e.toString());
+            ;// Log.w(TAG, e.toString());
         } catch (Exception e) {
-            Log.w(TAG, "FAILURE FOR LINK: " + url + " " + e.toString());
+            ;// Log.w(TAG, "FAILURE FOR LINK: " + url + " " + e.toString());
             return null;
         } finally {
 
@@ -145,7 +145,7 @@ public class HtmlFetcher {
                 try {
                     instream.close();
                 } catch (Exception e) {
-                    Log.w(TAG, e.getMessage());
+                    ;// Log.w(TAG, e.getMessage());
                 }
             }
             if (httpget != null) {
@@ -179,7 +179,7 @@ public class HtmlFetcher {
                         return htmlResult;
                     }
 
-                    Log.w(TAG, "GRVBIGFAIL: " + mimeType + " - " + url);
+                    ;// Log.w(TAG, "GRVBIGFAIL: " + mimeType + " - " + url);
                     throw new NotHtmlException();
                 }
 
@@ -188,10 +188,10 @@ public class HtmlFetcher {
             }
 
         } catch (UnsupportedEncodingException e) {
-            Log.w(TAG, e.getMessage());
+            ;// Log.w(TAG, e.getMessage());
 
         } catch (IOException e) {
-            Log.w(TAG, e.getMessage());
+            ;// Log.w(TAG, e.getMessage());
         }
 
         return htmlResult;
@@ -282,12 +282,12 @@ public class HtmlFetcher {
             return s.toString();
 
         } catch (SocketTimeoutException e) {
-            Log.w(TAG, e.toString() + " " + e.getMessage());
+            ;// Log.w(TAG, e.toString() + " " + e.getMessage());
         } catch (UnsupportedEncodingException e) {
-            Log.w(TAG, e.toString() + " Encoding: " + encodingType);
+            ;// Log.w(TAG, e.toString() + " Encoding: " + encodingType);
 
         } catch (IOException e) {
-            Log.w(TAG, e.toString() + " " + e.getMessage());
+            ;// Log.w(TAG, e.toString() + " " + e.getMessage());
         } finally {
             if (r != null) {
                 try {

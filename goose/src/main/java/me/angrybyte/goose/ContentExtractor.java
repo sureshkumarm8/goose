@@ -171,11 +171,11 @@ public class ContentExtractor {
             // cleans up all the temp images that we've downloaded
             releaseResources();
         } catch (MaxBytesException e) {
-            Log.e(TAG, e.toString(), e);
+            ;// Log.e(TAG, e.toString(), e);
         } catch (NotHtmlException e) {
-            Log.e(TAG, "URL: " + urlToCrawl + " did not contain valid HTML to parse, exiting. " + e.toString());
+            ;// Log.e(TAG, "URL: " + urlToCrawl + " did not contain valid HTML to parse, exiting. " + e.toString());
         } catch (Exception e) {
-            Log.e(TAG, "General Exception occurred on url: " + urlToCrawl + " " + e.toString());
+            ;// Log.e(TAG, "General Exception occurred on url: " + urlToCrawl + " " + e.toString());
         }
 
         return article;
@@ -205,7 +205,7 @@ public class ContentExtractor {
             finalURL = urlToCrawl;
         }
 
-        Log.d(TAG, "Goose Extraction: " + finalURL);
+        ;// Log.d(TAG, "Goose Extraction: " + finalURL);
         return finalURL;
     }
 
@@ -276,7 +276,7 @@ public class ContentExtractor {
             // http://money.cnn.com/2010/10/25/news/companies/motley_crue_bp.fortune/index.htm?section=money_latest
             title = MOTLEY_REPLACEMENT.replaceAll(title);
         } catch (NullPointerException e) {
-            Log.e(TAG, e.toString());
+            ;// Log.e(TAG, e.toString());
         }
         return title;
 
@@ -385,7 +385,7 @@ public class ContentExtractor {
         // we want to give the last 20% of nodes negative scores in case they're comments
         double bottomNodesForNegativeScore = (float) numberOfNodes * 0.25;
 
-        Log.d(TAG, "About to inspect num of nodes with text: " + numberOfNodes);
+        ;// Log.d(TAG, "About to inspect num of nodes with text: " + numberOfNodes);
 
         for (Element node : nodesWithText) {
 
@@ -417,7 +417,7 @@ public class ContentExtractor {
                 }
             }
 
-            Log.d(TAG, "Location Boost Score: " + boostScore + " on interation: " + i + "' id='" + node.parent().id() + "' class='" + node.parent());
+            ;// Log.d(TAG, "Location Boost Score: " + boostScore + " on interation: " + i + "' id='" + node.parent().id() + "' class='" + node.parent());
 
             String nodeText = node.text();
             WordStats wordStats = StopWords.getStopWordCount(nodeText);
@@ -444,7 +444,7 @@ public class ContentExtractor {
         int topNodeScore = 0;
         for (Element e : parentNodes) {
 
-            Log.d(TAG, "ParentNode: score='" + e.attr("gravityScore") + "' nodeCount='" + e.attr("gravityNodes") + "' id='" + e.id() + "' class='" + e.attr
+            ;// Log.d(TAG, "ParentNode: score='" + e.attr("gravityScore") + "' nodeCount='" + e.attr("gravityNodes") + "' id='" + e.id() + "' class='" + e.attr
                     ("class") + "' ");
 
             int score = getScore(e);
@@ -459,7 +459,7 @@ public class ContentExtractor {
         }
 
         // if (topNode == null) {
-        //     Log.d(TAG, "ARTICLE NOT ABLE TO BE EXTRACTED!, WE HAZ FAILED YOU LORD VADAR");
+        //     ;// Log.d(TAG, "ARTICLE NOT ABLE TO BE EXTRACTED!, WE HAZ FAILED YOU LORD VADAR");
         // } else {
         //     String logText;
         //     String targetText = "";
@@ -475,8 +475,8 @@ public class ContentExtractor {
         //     } else {
         //         logText = targetText;
         //     }
-        //     Log.d(TAG, "TOPNODE TEXT: " + logText.trim());
-        //     Log.d(TAG, "Our TOPNODE: score='" + topNode.attr("gravityScore") + "' nodeCount='" + topNode.attr("gravityNodes") + "' id='" + topNode.id() +
+        //     ;// Log.d(TAG, "TOPNODE TEXT: " + logText.trim());
+        //     ;// Log.d(TAG, "Our TOPNODE: score='" + topNode.attr("gravityScore") + "' nodeCount='" + topNode.attr("gravityNodes") + "' id='" + topNode.id() +
         //             "' class='" + topNode.attr("class") + "' ");
         // }
 
@@ -547,14 +547,14 @@ public class ContentExtractor {
 
             if (sibling.tagName().equals("p")) {
                 if (stepsAway >= 3) {
-                    Log.d(TAG, "Next paragraph is too far away, not boosting");
+                    ;// Log.d(TAG, "Next paragraph is too far away, not boosting");
                     return false;
                 }
 
                 String paraText = sibling.text();
                 WordStats wordStats = StopWords.getStopWordCount(paraText);
                 if (wordStats.getStopWordCount() > 5) {
-                    Log.d(TAG, "We're gonna boost this node, seems contenty");
+                    ;// Log.d(TAG, "We're gonna boost this node, seems contenty");
                     return true;
                 }
 
@@ -633,7 +633,7 @@ public class ContentExtractor {
             for (Element el : objects) {
                 candidates.add(el);
             }
-            Log.d(TAG, "extractVideos: Starting to extract videos. Found: " + candidates.size());
+            ;// Log.d(TAG, "extractVideos: Starting to extract videos. Found: " + candidates.size());
 
             for (Element el : candidates) {
 
@@ -641,25 +641,25 @@ public class ContentExtractor {
 
                 for (Attribute a : attrs) {
                     try {
-                        Log.d(TAG, a.getKey() + " : " + a.getValue());
+                        ;// Log.d(TAG, a.getKey() + " : " + a.getValue());
                         if ((a.getValue().contains("youtube") || a.getValue().contains("vimeo")) && a.getKey().equals("src")) {
-                            Log.d(TAG, "Found video... setting");
-                            Log.d(TAG, "This page has a video!: " + a.getValue());
+                            ;// Log.d(TAG, "Found video... setting");
+                            ;// Log.d(TAG, "This page has a video!: " + a.getValue());
                             goodMovies.add(el);
 
                         }
                     } catch (Exception e) {
-                        Log.e(TAG, e.toString());
+                        ;// Log.e(TAG, e.toString());
                         e.printStackTrace();
                     }
                 }
 
             }
         } catch (Exception e) {
-            Log.e(TAG, e.toString(), e);
+            ;// Log.e(TAG, e.toString(), e);
         }
 
-        Log.d(TAG, "extractVideos: done looking for videos");
+        ;// Log.d(TAG, "extractVideos: done looking for videos");
         return goodMovies;
     }
 
@@ -667,7 +667,7 @@ public class ContentExtractor {
      * Remove any divs that looks like non-content, clusters of links, or paras with no gusto
      */
     private Element cleanupNode(Element node) {
-        Log.d(TAG, "Starting cleanup Node");
+        ;// Log.d(TAG, "Starting cleanup Node");
 
         node = addSiblings(node);
 
@@ -676,10 +676,10 @@ public class ContentExtractor {
             if (e.tagName().equals("p")) {
                 continue;
             }
-            Log.d(TAG, "CLEANUP  NODE: " + e.id() + " class: " + e.attr("class"));
+            ;// Log.d(TAG, "CLEANUP  NODE: " + e.id() + " class: " + e.attr("class"));
             boolean highLinkDensity = isHighLinkDensity(e);
             if (highLinkDensity) {
-                Log.d(TAG, "REMOVING  NODE FOR LINK DENSITY: " + e.id() + " class: " + e.attr("class"));
+                ;// Log.d(TAG, "REMOVING  NODE FOR LINK DENSITY: " + e.id() + " class: " + e.attr("class"));
                 e.remove();
                 continue;
             }
@@ -699,7 +699,7 @@ public class ContentExtractor {
             // first let's remove any element that now doesn't have any p tags at all
             Elements subParagraphs2 = e.getElementsByTag("p");
             if (subParagraphs2.size() == 0 && !e.tagName().equals("td")) {
-                Log.d(TAG, "Removing node because it doesn't have any paragraphs");
+                ;// Log.d(TAG, "Removing node because it doesn't have any paragraphs");
                 e.remove();
                 continue;
             }
@@ -708,13 +708,13 @@ public class ContentExtractor {
             int topNodeScore = getScore(node);
             int currentNodeScore = getScore(e);
             float thresholdScore = (float) (topNodeScore * .08);
-            Log.d(TAG, "topNodeScore: " + topNodeScore + " currentNodeScore: " + currentNodeScore + " threshold: " + thresholdScore);
+            ;// Log.d(TAG, "topNodeScore: " + topNodeScore + " currentNodeScore: " + currentNodeScore + " threshold: " + thresholdScore);
             if (currentNodeScore < thresholdScore) {
                 if (!e.tagName().equals("td")) {
-                    Log.d(TAG, "Removing node due to low threshold score");
+                    ;// Log.d(TAG, "Removing node due to low threshold score");
                     e.remove();
                 } else {
-                    Log.d(TAG, "Not removing TD node");
+                    ;// Log.d(TAG, "Not removing TD node");
                 }
             }
 
@@ -727,12 +727,12 @@ public class ContentExtractor {
      * Adds any siblings that may have a decent score to this node
      */
     private Element addSiblings(Element node) {
-        Log.d(TAG, "Starting to add siblings");
+        ;// Log.d(TAG, "Starting to add siblings");
         int baselineScoreForSiblingParagraphs = getBaselineScoreForSiblings(node);
 
         Element currentSibling = node.previousElementSibling();
         while (currentSibling != null) {
-            Log.d(TAG, "SIBLING CHECK: " + debugNode(currentSibling));
+            ;// Log.d(TAG, "SIBLING CHECK: " + debugNode(currentSibling));
 
             if (currentSibling.tagName().equals("p")) {
 
@@ -754,7 +754,7 @@ public class ContentExtractor {
                 int paragraphScore = wordStats.getStopWordCount();
 
                 if ((float) (baselineScoreForSiblingParagraphs * .30) < paragraphScore) {
-                    Log.d(TAG, "This node looks like a good sibling, adding it");
+                    ;// Log.d(TAG, "This node looks like a good sibling, adding it");
                     node.child(insertedSiblings).before("<p>" + firstParagraph.text() + "<p>");
                     insertedSiblings++;
                 }
@@ -791,7 +791,7 @@ public class ContentExtractor {
 
         if (numberOfParagraphs > 0) {
             base = scoreOfParagraphs / numberOfParagraphs;
-            Log.d(TAG, "The base score for siblings to beat is: " + base + " NumOfParas: " + numberOfParagraphs + " scoreOfAll: " + scoreOfParagraphs);
+            ;// Log.d(TAG, "The base score for siblings to beat is: " + base + " NumOfParas: " + numberOfParagraphs + " scoreOfAll: " + scoreOfParagraphs);
         }
 
         return base;
@@ -812,18 +812,18 @@ public class ContentExtractor {
      * Cleans up any temp files we have laying around like temp images removes any image in the temp dir that starts with the linkHash of the url we parsed
      */
     public void releaseResources() {
-        Log.d(TAG, "STARTING TO RELEASE ALL RESOURCES");
+        ;// Log.d(TAG, "STARTING TO RELEASE ALL RESOURCES");
         File dir = new File(config.getCacheDirectory());
         String[] children = dir.list();
 
         if (children == null) {
-            Log.d(TAG, "No Temp images found for linkHash: " + this.linkHash);
+            ;// Log.d(TAG, "No Temp images found for linkHash: " + this.linkHash);
         } else {
             for (String filename : children) {
                 if (filename.startsWith(this.linkHash)) {
                     File f = new File(dir.getAbsolutePath() + "/" + filename);
                     if (!f.delete()) {
-                        Log.e(TAG, "Unable to remove temp file: " + filename);
+                        ;// Log.e(TAG, "Unable to remove temp file: " + filename);
                     }
                 }
             }

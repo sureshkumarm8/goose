@@ -76,7 +76,7 @@ public class DefaultDocumentCleaner implements DocumentCleaner {
     }
 
     public Document clean(Document doc) {
-        Log.d(TAG, "Starting cleaning phase with DefaultDocumentCleaner");
+        ;// Log.d(TAG, "Starting cleaning phase with DefaultDocumentCleaner");
         Document docToClean = doc;
         docToClean = cleanEmTags(docToClean);
         docToClean = removeDropCaps(docToClean);
@@ -98,7 +98,7 @@ public class DefaultDocumentCleaner implements DocumentCleaner {
     }
 
     private Document convertDivsToParagraphs(Document doc, String domType) {
-        Log.d(TAG, "Starting to replace bad divs...");
+        ;// Log.d(TAG, "Starting to replace bad divs...");
         int badDivs = 0;
         int convertedTextNodes = 0;
         Elements divs = doc.getElementsByTag(domType);
@@ -147,7 +147,7 @@ public class DefaultDocumentCleaner implements DocumentCleaner {
                                 if (previousSib != null) {
                                     if (previousSib.nodeName().equals("a")) {
                                         replacementText.append(previousSib.outerHtml());
-                                        Log.d(TAG, "SIBLING NODENAME ADDITION: " + previousSib.nodeName() + " TEXT: " + previousSib.outerHtml());
+                                        ;// Log.d(TAG, "SIBLING NODENAME ADDITION: " + previousSib.nodeName() + " TEXT: " + previousSib.outerHtml());
                                     }
                                 }
 
@@ -178,26 +178,26 @@ public class DefaultDocumentCleaner implements DocumentCleaner {
 
                 }
             } catch (NullPointerException e) {
-                Log.e(TAG, e.toString());
+                ;// Log.e(TAG, e.toString());
             }
 
         }
 
-        Log.d(TAG, "Found " + divs.size() + " total divs with " + badDivs + " bad divs replaced and " + convertedTextNodes + " textnodes converted " +
+        ;// Log.d(TAG, "Found " + divs.size() + " total divs with " + badDivs + " bad divs replaced and " + convertedTextNodes + " textnodes converted " +
                 "inside divs");
 
         return doc;
     }
 
     private Document removeScriptsAndStyles(Document doc) {
-        Log.d(TAG, "Starting to remove script tags");
+        ;// Log.d(TAG, "Starting to remove script tags");
         Elements scripts = doc.getElementsByTag("script");
         for (Element item : scripts) {
             item.remove();
         }
-        Log.d(TAG, "Removed: " + scripts.size() + " script tags");
+        ;// Log.d(TAG, "Removed: " + scripts.size() + " script tags");
 
-        Log.d(TAG, "Removing Style Tags");
+        ;// Log.d(TAG, "Removing Style Tags");
         Elements styles = doc.getElementsByTag("style");
         for (Element style : styles) {
             style.remove();
@@ -211,7 +211,7 @@ public class DefaultDocumentCleaner implements DocumentCleaner {
      */
     private Document cleanEmTags(Document doc) {
         Elements ems = doc.getElementsByTag("em");
-        Log.d(TAG, "Cleaning " + ems.size() + " EM tags");
+        ;// Log.d(TAG, "Cleaning " + ems.size() + " EM tags");
         for (Element node : ems) {
             // replace the node with a div node
             Elements images = node.getElementsByTag("img");
@@ -229,7 +229,7 @@ public class DefaultDocumentCleaner implements DocumentCleaner {
      */
     private Document removeDropCaps(Document doc) {
         Elements items = doc.select("span[class~=(dropcap|drop_cap)]");
-        Log.d(TAG, "Cleaning " + items.size() + " dropcap tags");
+        ;// Log.d(TAG, "Cleaning " + items.size() + " dropcap tags");
         for (Element item : items) {
             TextNode tn = new TextNode(item.text(), doc.baseUri());
             item.replaceWith(tn);
@@ -242,28 +242,28 @@ public class DefaultDocumentCleaner implements DocumentCleaner {
         Elements children = doc.body().children();
 
         Elements naughtyList = children.select(queryNaughtyIDs);
-        Log.d(TAG, naughtyList.size() + " naughty ID elements found");
+        ;// Log.d(TAG, naughtyList.size() + " naughty ID elements found");
         for (Element node : naughtyList) {
-            Log.d(TAG, "Cleaning: Removing node with id: " + node.id());
+            ;// Log.d(TAG, "Cleaning: Removing node with id: " + node.id());
             removeNode(node);
         }
         Elements naughtyList2 = children.select(queryNaughtyIDs);
-        Log.d(TAG, naughtyList2.size() + " naughty ID elements found after removal");
+        ;// Log.d(TAG, naughtyList2.size() + " naughty ID elements found after removal");
 
         Elements naughtyList3 = children.select(queryNaughtyClasses);
-        Log.d(TAG, naughtyList3.size() + " naughty CLASS elements found");
+        ;// Log.d(TAG, naughtyList3.size() + " naughty CLASS elements found");
         for (Element node : naughtyList3) {
-            Log.d(TAG, "clean: Removing node with class: " + node.className());
+            ;// Log.d(TAG, "clean: Removing node with class: " + node.className());
             removeNode(node);
         }
         Elements naughtyList4 = children.select(queryNaughtyClasses);
-        Log.d(TAG, naughtyList4.size() + " naughty CLASS elements found after removal");
+        ;// Log.d(TAG, naughtyList4.size() + " naughty CLASS elements found after removal");
 
         // star magazine puts shit on name tags instead of class or id
         Elements naughtyList5 = children.select(queryNaughtyNames);
-        Log.d(TAG, naughtyList5.size() + " naughty Name elements found");
+        ;// Log.d(TAG, naughtyList5.size() + " naughty Name elements found");
         for (Element node : naughtyList5) {
-            Log.d(TAG, "clean: Removing node with class: " + node.attr("class") + " id: " + node.id() + " name: " + node.attr("name"));
+            ;// Log.d(TAG, "clean: Removing node with class: " + node.attr("class") + " id: " + node.id() + " name: " + node.attr("name"));
             removeNode(node);
         }
 
@@ -286,19 +286,19 @@ public class DefaultDocumentCleaner implements DocumentCleaner {
     private Document removeNodesViaRegEx(Document doc, Pattern pattern) {
         try {
             Elements naughtyList = doc.getElementsByAttributeValueMatching("id", pattern);
-            Log.d(TAG, "regExRemoveNodes: " + naughtyList.size() + " ID elements found against pattern: " + pattern);
+            ;// Log.d(TAG, "regExRemoveNodes: " + naughtyList.size() + " ID elements found against pattern: " + pattern);
             for (Element node : naughtyList) {
                 removeNode(node);
             }
 
             Elements naughtyList3 = doc.getElementsByAttributeValueMatching("class", pattern);
-            Log.d(TAG, "regExRemoveNodes: " + naughtyList3.size() + " CLASS elements found against pattern: " + pattern);
+            ;// Log.d(TAG, "regExRemoveNodes: " + naughtyList3.size() + " CLASS elements found against pattern: " + pattern);
             for (Element node : naughtyList3) {
                 removeNode(node);
             }
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
-            Log.e(TAG, e.toString());
+            ;// Log.e(TAG, e.toString());
         }
         return doc;
     }

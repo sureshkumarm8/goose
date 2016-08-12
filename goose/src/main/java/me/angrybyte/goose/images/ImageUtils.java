@@ -37,7 +37,7 @@ public class ImageUtils {
             imageDetails.setHeight(height);
             return imageDetails;
         } catch (Exception e) {
-            Log.e(ImageUtils.class.getSimpleName(), "Cannot read image size", e);
+            ;// Log.e(ImageUtils.class.getSimpleName(), "Cannot read image size", e);
             throw new IOException(e);
         }
     }
@@ -70,7 +70,7 @@ public class ImageUtils {
             String mimeTypeCaps = imageDetails.getMimeType().toUpperCase();
 
             if (mimeTypeCaps.contains("GIF")) {
-                Log.e(ImageSaver.class.getSimpleName(), "SNEAKY GIF! " + filePath);
+                ;// Log.e(ImageSaver.class.getSimpleName(), "SNEAKY GIF! " + filePath);
                 throw new SecretGifException();
             }
 
@@ -85,7 +85,7 @@ public class ImageUtils {
 
             return fileExtension;
         } catch (Exception e) {
-            Log.e(ImageSaver.class.getSimpleName(), "Failed to get file extension", e);
+            ;// Log.e(ImageSaver.class.getSimpleName(), "Failed to get file extension", e);
             throw e;
         }
     }

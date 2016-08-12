@@ -103,7 +103,7 @@ public class DefaultOutputFormatter implements OutputFormatter {
      * cleans up and converts any nodes that should be considered text into text
      */
     private void convertLinksToText() {
-        Log.d(this.getClass().getSimpleName(), "Turning links to text");
+        ;// Log.d(this.getClass().getSimpleName(), "Turning links to text");
         Elements links = topNode.getElementsByTag("a");
         for (Element item : links) {
             if (item.getElementsByTag("img").size() == 0) {
@@ -155,7 +155,7 @@ public class DefaultOutputFormatter implements OutputFormatter {
      * remove paragraphs that have less than x number of words, would indicate that it's some sort of link
      */
     private void removeParagraphsWithFewWords() {
-        Log.d(this.getClass().getSimpleName(), "removeParagraphsWithFewWords starting...");
+        ;// Log.d(this.getClass().getSimpleName(), "removeParagraphsWithFewWords starting...");
 
         Elements allNodes = this.topNode.getAllElements();
         for (Element el : allNodes) {
@@ -167,7 +167,7 @@ public class DefaultOutputFormatter implements OutputFormatter {
                     el.remove();
                 }
             } catch (IllegalArgumentException e) {
-                Log.e(this.getClass().getSimpleName(), "Error while removing small paragraphs.. ", e);
+                ;// Log.e(this.getClass().getSimpleName(), "Error while removing small paragraphs.. ", e);
             }
         }
     }

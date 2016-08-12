@@ -115,7 +115,7 @@ public class BestImageGuesser implements ImageExtractor {
 
     public Image getBestImage(Document doc, Element topNode) {
         this.doc = doc;
-        Log.d(TAG, "Starting to Look for the Most Relavent Image");
+        ;// Log.d(TAG, "Starting to Look for the Most Relavent Image");
 
         if (image.getImageSrc() == null) {
             this.checkForKnownElements();
@@ -144,7 +144,7 @@ public class BestImageGuesser implements ImageExtractor {
             return true;
         }
 
-        Log.d(TAG, "unable to find meta image");
+        ;// Log.d(TAG, "unable to find meta image");
         return false;
     }
 
@@ -165,7 +165,7 @@ public class BestImageGuesser implements ImageExtractor {
                 this.image.setImageExtractionType("opengraph");
                 this.image.setConfidenceScore(100);
                 this.image.setBytes(this.getBytesForImage(imagePath));
-                Log.d(TAG, "open graph tag found, using it");
+                ;// Log.d(TAG, "open graph tag found, using it");
                 return true;
             }
             return false;
@@ -191,12 +191,12 @@ public class BestImageGuesser implements ImageExtractor {
                 this.image.setImageExtractionType("linktag");
                 this.image.setConfidenceScore(100);
                 this.image.setBytes(this.getBytesForImage(this.buildImagePath(item.attr("href"))));
-                Log.d(TAG, "link tag found, using it");
+                ;// Log.d(TAG, "link tag found, using it");
                 return true;
             }
             return false;
         } catch (Exception e) {
-            Log.e(TAG, e.toString(), e);
+            ;// Log.e(TAG, e.toString(), e);
             return false;
         }
     }
@@ -217,14 +217,14 @@ public class BestImageGuesser implements ImageExtractor {
         Elements images = node.select("img");
 
         String nodeId = this.getNodeIds(node);
-        Log.d(TAG, "checkForLargeImages: Checking for large images, found: " + images.size() + " - parent depth: " + parentDepth + " sibling depth: " +
+        ;// Log.d(TAG, "checkForLargeImages: Checking for large images, found: " + images.size() + " - parent depth: " + parentDepth + " sibling depth: " +
                 siblingDepth + " for node: " + nodeId);
         ArrayList<Element> goodImages;
 
         goodImages = this.filterBadNames(images);
-        Log.d(TAG, "checkForLargeImages: After filterBadNames we have: " + goodImages.size());
+        ;// Log.d(TAG, "checkForLargeImages: After filterBadNames we have: " + goodImages.size());
         goodImages = findImagesThatPassByteSizeTest(goodImages);
-        Log.d(TAG, "checkForLargeImages: After findImagesThatPassByteSizeTest we have: " + goodImages.size());
+        ;// Log.d(TAG, "checkForLargeImages: After findImagesThatPassByteSizeTest we have: " + goodImages.size());
 
         HashMap<Element, Float> imageResults = downloadImagesAndGetResults(goodImages, parentDepth);
 
@@ -252,20 +252,20 @@ public class BestImageGuesser implements ImageExtractor {
             } else {
                 this.image.setConfidenceScore(0);
             }
-            Log.d(TAG, "High Score Image is: " + this.buildImagePath(highScoreImage.attr("src")));
+            ;// Log.d(TAG, "High Score Image is: " + this.buildImagePath(highScoreImage.attr("src")));
         } else {
-            Log.d(TAG, "unable to find a large image, going to fall back modez. depth: " + parentDepth);
+            ;// Log.d(TAG, "unable to find a large image, going to fall back modez. depth: " + parentDepth);
             if (parentDepth < 2) {
                 // we start at the top node then recursively go up to siblings/parent/grandparent to find something good
                 Element prevSibling = node.previousElementSibling();
                 if (prevSibling != null) {
-                    Log.d(TAG, "About to do a check against the sibling element, tagname: '" + prevSibling.tagName() + "' class: '" + prevSibling.attr
+                    ;// Log.d(TAG, "About to do a check against the sibling element, tagname: '" + prevSibling.tagName() + "' class: '" + prevSibling.attr
                             ("class") + "' id: '" + prevSibling
                             .id() + "'");
                     siblingDepth++;
                     this.checkForLargeImages(prevSibling, parentDepth, siblingDepth);
                 } else {
-                    Log.d(TAG, "no more sibling nodes found, time to roll up to parent node");
+                    ;// Log.d(TAG, "no more sibling nodes found, time to roll up to parent node");
                     parentDepth++;
                     this.checkForLargeImages(node.parent(), parentDepth, siblingDepth);
                 }
@@ -282,13 +282,13 @@ public class BestImageGuesser implements ImageExtractor {
         ArrayList<Element> goodImages = new ArrayList<Element>();
         for (Element image : images) {
             if (cnt > 30) {
-                Log.d(TAG, "Abort! they have over 30 images near the top node: " + this.doc.baseUri());
+                ;// Log.d(TAG, "Abort! they have over 30 images near the top node: " + this.doc.baseUri());
                 return goodImages;
             }
             int bytes = this.getBytesForImage(image.attr("src"));
             // we dont want anything over 15 megs
             if ((bytes == 0 || bytes > this.minBytesForImages) && bytes < 15728640) {
-                Log.d(TAG, "findImagesThatPassByteSizeTest: Found potential image - size: " + bytes + " src: " + image.attr("src"));
+                ;// Log.d(TAG, "findImagesThatPassByteSizeTest: Found potential image - size: " + bytes + " src: " + image.attr("src"));
                 goodImages.add(image);
             } else {
                 image.remove();
@@ -323,7 +323,7 @@ public class BestImageGuesser implements ImageExtractor {
         }
         matchBadImageNames.reset(imgSrc);
         if (matchBadImageNames.find()) {
-            Log.d(TAG, "Found bad filename for image: " + imgSrc);
+            ;// Log.d(TAG, "Found bad filename for image: " + imgSrc);
             return false;
         }
         return true;
@@ -343,7 +343,7 @@ public class BestImageGuesser implements ImageExtractor {
      */
     private void checkForKnownElements() {
         Element knownImage = null;
-        Log.d(TAG, "Checking for known images from large sites");
+        ;// Log.d(TAG, "Checking for known images from large sites");
         for (String knownName : knownIds) {
             try {
                 Element known = this.doc.getElementById(knownName);
@@ -356,11 +356,11 @@ public class BestImageGuesser implements ImageExtractor {
                     Element mainImage = known.getElementsByTag("img").first();
                     if (mainImage != null) {
                         knownImage = mainImage;
-                        Log.d(TAG, "Got Image: " + mainImage.attr("src"));
+                        ;// Log.d(TAG, "Got Image: " + mainImage.attr("src"));
                     }
                 }
             } catch (NullPointerException e) {
-                Log.d(TAG, e.toString(), e);
+                ;// Log.d(TAG, e.toString(), e);
             }
         }
 
@@ -371,7 +371,7 @@ public class BestImageGuesser implements ImageExtractor {
             this.image.setConfidenceScore(90);
             this.image.setBytes(this.getBytesForImage(knownImgSrc));
         } else {
-            Log.d(TAG, "No known images found");
+            ;// Log.d(TAG, "No known images found");
         }
 
     }
@@ -388,7 +388,7 @@ public class BestImageGuesser implements ImageExtractor {
             URL imageURL = new URL(pageURL, image);
             newImage = imageURL.toString();
         } catch (MalformedURLException e) {
-            Log.e(TAG, "Unable to get Image Path: " + image);
+            ;// Log.e(TAG, "Unable to get Image Path: " + image);
         }
         return newImage;
     }
@@ -419,14 +419,14 @@ public class BestImageGuesser implements ImageExtractor {
             } catch (NullPointerException ignored) {
             }
         } catch (Exception e) {
-            Log.e(TAG, e.toString());
+            ;// Log.e(TAG, e.toString());
         } finally {
             try {
                 if (httpHead != null) {
                     httpHead.abort();
                 }
             } catch (NullPointerException e) {
-                Log.e(TAG, "HttpGet is null, can't abortz");
+                ;// Log.e(TAG, "HttpGet is null, can't abortz");
             }
         }
 
@@ -450,7 +450,7 @@ public class BestImageGuesser implements ImageExtractor {
         for (Element image : images) {
 
             if (cnt > 30) {
-                Log.d(TAG, "over 30 images attempted, that's enough for now");
+                ;// Log.d(TAG, "over 30 images attempted, that's enough for now");
                 break;
             }
 
@@ -460,10 +460,10 @@ public class BestImageGuesser implements ImageExtractor {
 
                 String cachePath = ImageSaver.storeTempImage(httpClient, linkhash, imageSource, config.getCacheDirectory(), config.getMinBytesForImages());
                 if (cachePath == null) {
-                    Log.d(TAG, "unable to store this image locally: IMGSRC: " + image.attr("src") + " BUILD SRC: " + imageSource);
+                    ;// Log.d(TAG, "unable to store this image locally: IMGSRC: " + image.attr("src") + " BUILD SRC: " + imageSource);
                     continue;
                 }
-                Log.d(TAG, "Starting image: " + cachePath);
+                ;// Log.d(TAG, "Starting image: " + cachePath);
 
                 // set the temporary image path as an attribute on this node
                 image.attr("tempImagePath", cachePath);
@@ -475,20 +475,20 @@ public class BestImageGuesser implements ImageExtractor {
                 // check for minimum depth requirements, if we're branching out wider in the dom, only get big images
                 if (depthLevel > 1) {
                     if (width < 300) {
-                        Log.d(TAG, "going depth level: " + depthLevel + " and img was only: " + width + " wide: " + cachePath);
+                        ;// Log.d(TAG, "going depth level: " + depthLevel + " and img was only: " + width + " wide: " + cachePath);
                         continue;
                     }
                 }
 
                 // Check dimensions to make sure it doesn't seem like a banner type ad
                 if (this.isBannerDimensions(width, height)) {
-                    Log.d(TAG, image.attr("src") + " seems like a fishy image dimension wise, skipping it");
+                    ;// Log.d(TAG, image.attr("src") + " seems like a fishy image dimension wise, skipping it");
                     image.remove();
                     continue;
                 }
 
                 if (width < 50) {
-                    Log.d(TAG, image.attr("src") + " is too small width: " + width + " removing..");
+                    ;// Log.d(TAG, image.attr("src") + " is too small width: " + width + " removing..");
                     image.remove();
                     continue;
                 }
@@ -505,13 +505,13 @@ public class BestImageGuesser implements ImageExtractor {
                     float areaDifference = (float) area / initialArea;
                     totalScore = (float) sequenceScore * areaDifference;
                 }
-                Log.d(TAG, imageSource + " Area is: " + area + " sequence score: " + sequenceScore + " totalScore: " + totalScore);
+                ;// Log.d(TAG, imageSource + " Area is: " + area + " sequence score: " + sequenceScore + " totalScore: " + totalScore);
 
                 cnt++;
                 imageResults.put(image, totalScore);
             } catch (SecretGifException ignored) {
             } catch (Exception e) {
-                Log.e(TAG, e.toString());
+                ;// Log.e(TAG, e.toString());
             }
         }
 
