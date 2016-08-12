@@ -1,0 +1,15 @@
+<resources>
+
+    <string name="app_name">Goose Demo</string>
+
+    <string name="text_hint">Your text containing the link</string>
+    <string name="extract">Extract article</string>
+
+    <string name="url">Article URL: %s</string>
+    <string name="title">Article Title: %s</string>
+    <string name="photo">Article Photo</string>
+    <string name="details">Article Details: %s</string>
+
+    <string name="please_wait">Wait a bit here..</string>
+
+</resources>
