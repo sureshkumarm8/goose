@@ -3,6 +3,11 @@ Goose for Android
 
 Original Goose library (Scala, command line) is licensed by Gravity.com under the Apache 2.0 license, see the LICENSE file for more details.
 
+Similar to the original library, this allows you to extract relevant information from a web URL, such as article text, title, description, important photo, etc.
+
+About Android fork
+------------------
+
 This fork addresses the issues using Scala imposes on Android, such as using external programs (image-magick), using outdated HTTP libraries (Apache), downloading images to any location on the disk (no open disk on Android), managing cache, SD cards, battery consumption, network issues, redirects, etc.
 
 Sample usage can be found in `DemoActivity.java` in the `app` folder's source.
