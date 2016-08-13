@@ -5,17 +5,24 @@ Original Goose library (Scala, command line) is licensed by Gravity.com under th
 
 This fork addresses the issues using Scala imposes on Android, such as using external programs (image-magick), using outdated HTTP libraries (Apache), downloading images to any location on the disk (no open disk on Android), managing cache, SD cards, battery consumption, network issues, redirects, etc.
 
-Work in progress
-----------------
+Sample usage can be found in `DemoActivity.java` in the `app` folder's source.
 
-This is still being developed, to comment all logs use:
+Help wanted
+-----------
+
+This is still not very clean and nice. It works, but it is not clean. Some of the things to address:
+
+* Comment code and fix javadoc issues. Some comments are... useless, obsolete or just boring
+* Remove code that produces warnings; the base repo had a lot of them and almost none were fixed
+* Remove the backport of the Apache dependency. This still works, but it needs to go
+* Add a task to export the library to `jar` archive
+
+Tip: to comment all logs use:
 
 ```find . -name "*\.java" | xargs grep -l 'Log\.' | xargs sed -i 's/Log\./;\/\/ Log\./g'```
 
-And to uncomment all logs use:
+Tip: to uncomment all logs use:
 
 ```find . -name "*\.java" | xargs grep -l 'Log\.' | xargs sed -i 's/;\/\/ Log\./Log\./g'```
 
-Any help is _appreciated_.
-
-
+Any help is appreciated.
