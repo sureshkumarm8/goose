@@ -1,28 +1,33 @@
-Try it out online!
-http://jimplush.com/blog/goose
+Goose for Android
+-----------------
 
+Original Goose library (Scala, command line) is licensed by Gravity.com under the Apache 2.0 license, see the LICENSE file for more details.
 
-Please view the wiki pages for all the details on the project :)
+Similar to the original library, this allows you to extract relevant information from a web URL, such as article text, title, description, important photo, etc.
 
-Wiki can be found by clicking the Wiki link or going here: https://github.com/jiminoc/goose/wiki
+About Android fork
+------------------
 
-If you find Goose useful or have issues please drop me a line, I'd love to hear how you're using it or what features should be improved
+This fork addresses the issues using Scala imposes on Android, such as using external programs (image-magick), using outdated HTTP libraries (Apache), downloading images to any location on the disk (no open disk on Android), managing cache, SD cards, battery consumption, network issues, redirects, etc.
 
-Goose is licensed by Gravity.com under the Apache 2.0 license, see the LICENSE file for more details
+Sample usage can be found in `DemoActivity.java` in the `app` folder's source.
 
-To use goose from the command line:
+Help wanted
+-----------
 
-cd into the goose directory
-mvn compile
-MAVEN_OPTS="-Xms256m -Xmx2000m" mvn exec:java -Dexec.mainClass=com.jimplush.goose.TalkToMeGoose  -Dexec.args="http://techcrunch.com/2011/05/13/native-apps-or-web-apps-particle-code-wants-you-to-do-both/" -e -q > ~/Desktop/gooseresult.txt
+This is still not very clean and nice. It works, but it is not clean. Some of the things to address:
 
-TODO fill for Android
----------------------
+* Comment code and fix javadoc issues. Some comments are... useless, obsolete or just boring
+* Remove code that produces warnings; the base repo had a lot of them and almost none were fixed
+* Remove the backport of the Apache dependency. This still works, but it needs to go
+* Add a task to export the library to `jar` archive
 
-Comment all logs:
-find . -name "*\.java" | xargs grep -l 'Log\.' | xargs sed -i 's/Log\./;\/\/ Log\./g'
+Tip: to comment all logs use:
 
-Uncomment all logs:
-find . -name "*\.java" | xargs grep -l 'Log\.' | xargs sed -i 's/;\/\/ Log\./Log\./g'
+```find . -name "*\.java" | xargs grep -l 'Log\.' | xargs sed -i 's/Log\./;\/\/ Log\./g'```
 
+Tip: to uncomment all logs use:
 
+```find . -name "*\.java" | xargs grep -l 'Log\.' | xargs sed -i 's/;\/\/ Log\./Log\./g'```
+
+Any help is appreciated.
