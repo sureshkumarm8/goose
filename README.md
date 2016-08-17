@@ -1,5 +1,6 @@
 Goose for Android
 -----------------
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-goose-green.svg?style=true)](https://android-arsenal.com/details/1/4163)
 
 Original Goose library (Scala, command line) is licensed by Gravity.com under the Apache 2.0 license, see the LICENSE file for more details.
 
