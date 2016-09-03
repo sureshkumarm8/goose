@@ -10,11 +10,6 @@
  */
 
 package me.angrybyte.goose;
-/**
- * User: jim plush Date: 12/16/10
- */
-
-import android.util.Log;
 
 import org.jsoup.nodes.Element;
 
@@ -46,7 +41,8 @@ public class Article {
     private String metaDescription;
 
     /**
-     * holds the clean text after we do strip out everything but the text and wrap it up in a nice package this is the guy you probably want, just pure text
+     * holds the clean text after we do strip out everything but the text and wrap it up in a nice package this is the guy you probably
+     * want, just pure text
      */
     private String cleanedArticleText;
 
@@ -66,13 +62,13 @@ public class Article {
     private String canonicalLink;
 
     /**
-     * holds the domain of where the link came from. http://techcrunch.com/article/testme would be techcrunch.com as the domain
+     * holds the domain of where the link came from. http://techcrunch.com/article/testme would be tech crunch.com as the domain
      */
     private String domain;
 
     /**
-     * this represents the jSoup element that we think is the big content dude of this page we can use this node to start grabbing text, images, etc.. around
-     * the content
+     * this represents the jSoup element that we think is the big content dude of this page we can use this node to start grabbing text,
+     * images, etc.. around the content
      */
     private Element topNode;
 
@@ -84,7 +80,7 @@ public class Article {
     /**
      * holds an array of the image candidates we thought might perhaps we decent images related to the content
      */
-    private ArrayList<String> imageCandidates = new ArrayList<String>();
+    private ArrayList<String> imageCandidates = new ArrayList<>();
 
     /**
      * holds a list of elements that related to youtube or vimeo movie embeds
@@ -111,6 +107,7 @@ public class Article {
      *
      * @return an instance of {@link Date} or <code>null</code> if no date was identified
      */
+    @SuppressWarnings("unused")
     public Date getPublishDate() {
         return publishDate;
     }
@@ -127,6 +124,7 @@ public class Article {
         this.metaDescription = metaDescription;
     }
 
+    @SuppressWarnings("unused")
     public String getMetaKeywords() {
         return metaKeywords;
     }
@@ -143,6 +141,7 @@ public class Article {
         this.canonicalLink = canonicalLink;
     }
 
+    @SuppressWarnings("unused")
     public String getDomain() {
         return domain;
     }
@@ -150,12 +149,11 @@ public class Article {
     public void setDomain(String urlToParse) {
         String domain = "";
 
-        URL url = null;
+        URL url;
         try {
             url = new URL(urlToParse);
             domain = url.getHost();
-        } catch (MalformedURLException e) {
-            ;// Log.e(Article.class.getSimpleName(), e.toString(), e);
+        } catch (MalformedURLException ignored) {
         }
         this.domain = domain;
     }
@@ -168,6 +166,7 @@ public class Article {
         this.topNode = topNode;
     }
 
+    @SuppressWarnings("unused")
     public ArrayList<Element> getMovies() {
         return movies;
     }
@@ -181,9 +180,10 @@ public class Article {
      *
      * @return the unique set of TAGs extracted from this {@link Article}
      */
+    @SuppressWarnings("unused")
     public Set<String> getTags() {
         if (tags == null) {
-            tags = new HashSet<String>();
+            tags = new HashSet<>();
         }
         return tags;
     }
@@ -192,10 +192,12 @@ public class Article {
         this.tags = tags;
     }
 
+    @SuppressWarnings("unused")
     public ArrayList<String> getImageCandidates() {
         return imageCandidates;
     }
 
+    @SuppressWarnings("unused")
     public void setImageCandidates(ArrayList<String> imageCandidates) {
         this.imageCandidates = imageCandidates;
     }
@@ -216,6 +218,7 @@ public class Article {
         this.cleanedArticleText = cleanedArticleText;
     }
 
+    @SuppressWarnings("unused")
     public String getRawHtml() {
         return rawHtml;
     }
@@ -225,11 +228,13 @@ public class Article {
     }
 
     /**
-     * A property bucket for consumers of goose to store custom data extractions. This is populated by an implementation of {@link
-     * me.angrybyte.goose.extractors.AdditionalDataExtractor} which is executed before document cleansing within {@link ContentExtractor#extractContent}
+     * A property bucket for consumers of goose to store custom data extractions. This is populated by an implementation of
+     * {@link me.angrybyte.goose.extractors.AdditionalDataExtractor} which is executed before document cleansing within
+     * {@link ContentExtractor#extractContent}
      *
-     * @return a {@link Map Map&lt;String,String&gt;} of property name to property vaue (represented as a {@link String}.
+     * @return a {@link Map Map&lt;String,String&gt;} of property name to property value (represented as a {@link String}.
      */
+    @SuppressWarnings("unused")
     public Map<String, String> getAdditionalData() {
         return additionalData;
     }

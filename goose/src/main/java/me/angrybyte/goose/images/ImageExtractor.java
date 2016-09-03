@@ -29,6 +29,7 @@ public interface ImageExtractor {
     /**
      * Returns all image candidates
      */
+    @SuppressWarnings("unused")
     ArrayList<Element> getAllImages();
 
 }

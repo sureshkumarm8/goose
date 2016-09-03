@@ -20,12 +20,19 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 /**
- * <p>A PrintWriter that maintains a String as its backing store.</p> <p/> <p>Usage:
+ * <p>
+ * A PrintWriter that maintains a String as its backing store.
+ * </p>
+ * <p/>
+ * <p>
+ * Usage:
+ * 
  * <pre>
  * StringPrintWriter out = new StringPrintWriter();
  * printTo(out);
- * System.out.println( out.getString() );
+ * System.out.println(out.getString());
  * </pre>
+ * 
  * </p>
  *
  * @author Alex Chaffee
@@ -52,14 +59,16 @@ public class StringPrintWriter extends PrintWriter {
     }
 
     /**
-     * <p>Since toString() returns information *about* this object, we want a separate method to extract just the contents of the internal buffer as a
-     * String.</p>
+     * <p>
+     * Since toString() returns information *about* this object, we want a separate method to extract just the contents of the internal
+     * buffer as a String.
+     * </p>
      *
      * @return the contents of the internal string buffer
      */
     public String getString() {
         flush();
-        return ((StringWriter) this.out).toString();
+        return this.out.toString();
     }
 
 }

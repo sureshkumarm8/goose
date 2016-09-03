@@ -1,4 +1,6 @@
+
 package me.angrybyte.goose.apache;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
@@ -21,7 +23,17 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * <p>A contiguous range of characters, optionally negated.</p> <p/> <p>Instances are immutable.</p> <p/> <p>#ThreadSafe#</p>
+ * <p>
+ * A contiguous range of characters, optionally negated.
+ * </p>
+ * <p/>
+ * <p>
+ * Instances are immutable.
+ * </p>
+ * <p/>
+ * <p>
+ * #ThreadSafe#
+ * </p>
  *
  * @author Apache Software Foundation
  * @author Chris Feldhacker
@@ -60,12 +72,12 @@ public final class CharRange implements Serializable {
     //-----------------------------------------------------------------------
 
     /**
-     * <p>Constructs a <code>CharRange</code> over a single character.</p>
+     * <p>
+     * Constructs a <code>CharRange</code> over a single character.
+     * </p>
      *
      * @param ch only character in this range
-     *
      * @return the new CharRange object
-     *
      * @see CharRange#CharRange(char, char, boolean)
      * @since 2.5
      */
@@ -74,12 +86,12 @@ public final class CharRange implements Serializable {
     }
 
     /**
-     * <p>Constructs a negated <code>CharRange</code> over a single character.</p>
+     * <p>
+     * Constructs a negated <code>CharRange</code> over a single character.
+     * </p>
      *
      * @param ch only character in this range
-     *
      * @return the new CharRange object
-     *
      * @see CharRange#CharRange(char, char, boolean)
      * @since 2.5
      */
@@ -88,13 +100,13 @@ public final class CharRange implements Serializable {
     }
 
     /**
-     * <p>Constructs a <code>CharRange</code> over a set of characters.</p>
+     * <p>
+     * Constructs a <code>CharRange</code> over a set of characters.
+     * </p>
      *
      * @param start first character, inclusive, in this range
      * @param end last character, inclusive, in this range
-     *
      * @return the new CharRange object
-     *
      * @see CharRange#CharRange(char, char, boolean)
      * @since 2.5
      */
@@ -103,13 +115,13 @@ public final class CharRange implements Serializable {
     }
 
     /**
-     * <p>Constructs a negated <code>CharRange</code> over a set of characters.</p>
+     * <p>
+     * Constructs a negated <code>CharRange</code> over a set of characters.
+     * </p>
      *
      * @param start first character, inclusive, in this range
      * @param end last character, inclusive, in this range
-     *
      * @return the new CharRange object
-     *
      * @see CharRange#CharRange(char, char, boolean)
      * @since 2.5
      */
@@ -120,7 +132,9 @@ public final class CharRange implements Serializable {
     //-----------------------------------------------------------------------
 
     /**
-     * <p>Constructs a <code>CharRange</code> over a single character.</p>
+     * <p>
+     * Constructs a <code>CharRange</code> over a single character.
+     * </p>
      *
      * @param ch only character in this range
      */
@@ -129,8 +143,13 @@ public final class CharRange implements Serializable {
     }
 
     /**
-     * <p>Constructs a <code>CharRange</code> over a single character, optionally negating the range.</p> <p/> <p>A negated range includes everything except the
-     * specified char.</p>
+     * <p>
+     * Constructs a <code>CharRange</code> over a single character, optionally negating the range.
+     * </p>
+     * <p/>
+     * <p>
+     * A negated range includes everything except the specified char.
+     * </p>
      *
      * @param ch only character in this range
      * @param negated true to express everything except the range
@@ -140,7 +159,9 @@ public final class CharRange implements Serializable {
     }
 
     /**
-     * <p>Constructs a <code>CharRange</code> over a set of characters.</p>
+     * <p>
+     * Constructs a <code>CharRange</code> over a set of characters.
+     * </p>
      *
      * @param start first character, inclusive, in this range
      * @param end last character, inclusive, in this range
@@ -150,9 +171,17 @@ public final class CharRange implements Serializable {
     }
 
     /**
-     * <p>Constructs a <code>CharRange</code> over a set of characters, optionally negating the range.</p> <p/> <p>A negated range includes everything except
-     * that defined by the start and end characters.</p> <p/> <p>If start and end are in the wrong order, they are reversed. Thus <code>a-e</code> is the same
-     * as <code>e-a</code>.</p>
+     * <p>
+     * Constructs a <code>CharRange</code> over a set of characters, optionally negating the range.
+     * </p>
+     * <p/>
+     * <p>
+     * A negated range includes everything except that defined by the start and end characters.
+     * </p>
+     * <p/>
+     * <p>
+     * If start and end are in the wrong order, they are reversed. Thus <code>a-e</code> is the same as <code>e-a</code>.
+     * </p>
      *
      * @param start first character, inclusive, in this range
      * @param end last character, inclusive, in this range
@@ -175,7 +204,9 @@ public final class CharRange implements Serializable {
     //-----------------------------------------------------------------------
 
     /**
-     * <p>Gets the start character for this character range.</p>
+     * <p>
+     * Gets the start character for this character range.
+     * </p>
      *
      * @return the start char (inclusive)
      */
@@ -184,7 +215,9 @@ public final class CharRange implements Serializable {
     }
 
     /**
-     * <p>Gets the end character for this character range.</p>
+     * <p>
+     * Gets the end character for this character range.
+     * </p>
      *
      * @return the end char (inclusive)
      */
@@ -193,7 +226,13 @@ public final class CharRange implements Serializable {
     }
 
     /**
-     * <p>Is this <code>CharRange</code> negated.</p> <p/> <p>A negated range includes everything except that defined by the start and end characters.</p>
+     * <p>
+     * Is this <code>CharRange</code> negated.
+     * </p>
+     * <p/>
+     * <p>
+     * A negated range includes everything except that defined by the start and end characters.
+     * </p>
      *
      * @return <code>true</code> is negated
      */
@@ -205,10 +244,11 @@ public final class CharRange implements Serializable {
     //-----------------------------------------------------------------------
 
     /**
-     * <p>Is the character specified contained in this range.</p>
+     * <p>
+     * Is the character specified contained in this range.
+     * </p>
      *
      * @param ch the character to check
-     *
      * @return <code>true</code> if this range contains the input character
      */
     public boolean contains(char ch) {
@@ -216,12 +256,12 @@ public final class CharRange implements Serializable {
     }
 
     /**
-     * <p>Are all the characters of the passed in range contained in this range.</p>
+     * <p>
+     * Are all the characters of the passed in range contained in this range.
+     * </p>
      *
      * @param range the range to check against
-     *
      * @return <code>true</code> if this range entirely contains the input range
-     *
      * @throws IllegalArgumentException if <code>null</code> input
      */
     public boolean contains(CharRange range) {
@@ -244,10 +284,11 @@ public final class CharRange implements Serializable {
     //-----------------------------------------------------------------------
 
     /**
-     * <p>Compares two CharRange objects, returning true if they represent exactly the same range of characters defined in the same way.</p>
+     * <p>
+     * Compares two CharRange objects, returning true if they represent exactly the same range of characters defined in the same way.
+     * </p>
      *
      * @param obj the object to compare to
-     *
      * @return true if equal
      */
     public boolean equals(Object obj) {
@@ -262,7 +303,9 @@ public final class CharRange implements Serializable {
     }
 
     /**
-     * <p>Gets a hashCode compatible with the equals method.</p>
+     * <p>
+     * Gets a hashCode compatible with the equals method.
+     * </p>
      *
      * @return a suitable hashCode
      */
@@ -271,7 +314,9 @@ public final class CharRange implements Serializable {
     }
 
     /**
-     * <p>Gets a string representation of the character range.</p>
+     * <p>
+     * Gets a string representation of the character range.
+     * </p>
      *
      * @return string representation of this range
      */
@@ -295,11 +340,15 @@ public final class CharRange implements Serializable {
     //-----------------------------------------------------------------------
 
     /**
-     * <p>Returns an iterator which can be used to walk through the characters described by this range.</p> <p/> <p>#NotThreadSafe# the iterator is not
-     * threadsafe</p>
+     * <p>
+     * Returns an iterator which can be used to walk through the characters described by this range.
+     * </p>
+     * <p/>
+     * <p>
+     * #NotThreadSafe# the iterator is not threadsafe
+     * </p>
      *
      * @return an iterator to the chars represented by this range
-     *
      * @since 2.5
      */
     public Iterator iterator() {
@@ -307,7 +356,10 @@ public final class CharRange implements Serializable {
     }
 
     /**
-     * Character {@link Iterator}. <p>#NotThreadSafe#</p>
+     * Character {@link Iterator}.
+     * <p>
+     * #NotThreadSafe#
+     * </p>
      */
     private static class CharacterIterator implements Iterator {
 

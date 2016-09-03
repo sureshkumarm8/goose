@@ -1,4 +1,6 @@
+
 package me.angrybyte.goose.extractors;
+
 /**
  * Created by IntelliJ IDEA. User: robbie Date: 5/19/11 Time: 9:57 PM
  */
@@ -17,5 +19,3 @@ public abstract class AdditionalDataExtractor implements Extractor<Map<String, S
     public abstract Map<String, String> extract(Element rootElement);
 
 }
-
-

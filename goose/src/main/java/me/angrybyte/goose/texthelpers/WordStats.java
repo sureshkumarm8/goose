@@ -34,8 +34,9 @@ public class WordStats {
     /**
      * Holds an actual list of the stop words we found
      */
-    private List<String> stopWords = new ArrayList<String>();
+    private List<String> stopWords = new ArrayList<>();
 
+    @SuppressWarnings("unused")
     public List<String> getStopWords() {
         return stopWords;
     }
@@ -52,6 +53,7 @@ public class WordStats {
         this.stopWordCount = stopWordCount;
     }
 
+    @SuppressWarnings("unused")
     public int getWordCount() {
         return wordCount;
     }

@@ -48,12 +48,12 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
             Matcher urlMatcher = PATTERN_URL.matcher(messageText);
 
             if (!urlMatcher.find()) {
-                ;// Log.d(TAG, "No URL found");
+                // Log.d(TAG, "No URL found");
                 return UNKNOWN_FAIL;
             }
 
             String url = messageText.substring(urlMatcher.start(0), urlMatcher.end(0));
-            ;// Log.d(TAG, "Article extraction: found URL " + url);
+            // Log.d(TAG, "Article extraction: found URL " + url);
 
             if (isCancelled()) {
                 return UNKNOWN_FAIL;
@@ -145,7 +145,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
                 InputStream input = connection.getInputStream();
                 return BitmapFactory.decodeStream(input);
             } catch (Exception e) {
-                ;// Log.e(TAG, "Bitmap download exception");
+                // Log.e(TAG, "Bitmap download exception");
                 return null;
             }
         }

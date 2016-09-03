@@ -21,6 +21,7 @@ import me.angrybyte.goose.ContentExtractor;
 
 /**
  * Encapsulates the process of extracting some type <code>T</code> from an article
+ * 
  * @param <T> the type of {@link Object} the implementing class will return
  */
 public interface Extractor<T> {
@@ -33,5 +34,3 @@ public interface Extractor<T> {
      */
     T extract(Element rootElement);
 }
-
-

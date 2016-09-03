@@ -25,7 +25,8 @@ import me.angrybyte.goose.extractors.PublishDateExtractor;
 public class Configuration {
 
     /**
-     * What's the minimum bytes for an image we'd accept is, a lot of times we want to filter out the author's little images in the beginning of the article
+     * What's the minimum bytes for an image we'd accept is, a lot of times we want to filter out the author's little images in the
+     * beginning of the article
      */
     private int minBytesForImages = 4500;
 
@@ -55,8 +56,10 @@ public class Configuration {
         return publishDateExtractor;
     }
 
+    @SuppressWarnings("unused")
     public void setPublishDateExtractor(PublishDateExtractor extractor) throws IllegalArgumentException {
-        if (extractor == null) throw new IllegalArgumentException("extractor must not be null!");
+        if (extractor == null)
+            throw new IllegalArgumentException("extractor must not be null!");
         this.publishDateExtractor = extractor;
     }
 
@@ -71,6 +74,7 @@ public class Configuration {
         return additionalDataExtractor;
     }
 
+    @SuppressWarnings("unused")
     public void setAdditionalDataExtractor(AdditionalDataExtractor extractor) {
         additionalDataExtractor = extractor;
     }
@@ -79,6 +83,7 @@ public class Configuration {
         return minBytesForImages;
     }
 
+    @SuppressWarnings("unused")
     public void setMinBytesForImages(int minBytesForImages) {
         this.minBytesForImages = minBytesForImages;
     }
@@ -87,6 +92,7 @@ public class Configuration {
         return enableImageFetching;
     }
 
+    @SuppressWarnings("unused")
     public void setEnableImageFetching(boolean enableImageFetching) {
         this.enableImageFetching = enableImageFetching;
     }

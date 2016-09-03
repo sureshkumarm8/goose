@@ -1,4 +1,6 @@
+
 package me.angrybyte.goose.apache;
+
 /*
  * Copyright 2002-2005 The Apache Software Foundation.
  *
@@ -18,8 +20,14 @@ package me.angrybyte.goose.apache;
 import java.io.Serializable;
 
 /**
- * <p>Operations on <code>Object</code>.</p> <p/> <p>This class tries to handle <code>null</code> input gracefully. An exception will generally not be thrown
- * for a <code>null</code> input. Each method documents its behaviour in more detail.</p>
+ * <p>
+ * Operations on <code>Object</code>.
+ * </p>
+ * <p/>
+ * <p>
+ * This class tries to handle <code>null</code> input gracefully. An exception will generally not be thrown for a <code>null</code> input.
+ * Each method documents its behaviour in more detail.
+ * </p>
  *
  * @author <a href="mailto:nissim@nksystems.com">Nissim Karpenstein</a>
  * @author <a href="mailto:janekdb@yahoo.co.uk">Janek Bogucki</a>
@@ -33,17 +41,35 @@ import java.io.Serializable;
 public class ObjectUtils {
 
     /**
-     * <p>Singleton used as a <code>null</code> placeholder where <code>null</code> has another meaning.</p> <p/> <p>For example, in a <code>HashMap</code> the
-     * {@link java.util.HashMap#get(java.lang.Object)} method returns <code>null</code> if the <code>Map</code> contains <code>null</code> or if there is no
-     * matching key. The <code>Null</code> placeholder can be used to distinguish between these two cases.</p> <p/> <p>Another example is
-     * <code>Hashtable</code>, where <code>null</code> cannot be stored.</p> <p/> <p>This instance is Serializable.</p>
+     * <p>
+     * Singleton used as a <code>null</code> placeholder where <code>null</code> has another meaning.
+     * </p>
+     * <p/>
+     * <p>
+     * For example, in a <code>HashMap</code> the {@link java.util.HashMap#get(java.lang.Object)} method returns <code>null</code> if the
+     * <code>Map</code> contains <code>null</code> or if there is no matching key. The <code>Null</code> placeholder can be used to
+     * distinguish between these two cases.
+     * </p>
+     * <p/>
+     * <p>
+     * Another example is <code>Hashtable</code>, where <code>null</code> cannot be stored.
+     * </p>
+     * <p/>
+     * <p>
+     * This instance is Serializable.
+     * </p>
      */
     public static final Null NULL = new Null();
 
     /**
-     * <p><code>ObjectUtils</code> instances should NOT be constructed in standard programming. Instead, the class should be used as
-     * <code>ObjectUtils.defaultIfNull("a","b");</code>.</p> <p/> <p>This constructor is public to permit tools that require a JavaBean instance to
-     * operate.</p>
+     * <p>
+     * <code>ObjectUtils</code> instances should NOT be constructed in standard programming. Instead, the class should be used as
+     * <code>ObjectUtils.defaultIfNull("a","b");</code>.
+     * </p>
+     * <p/>
+     * <p>
+     * This constructor is public to permit tools that require a JavaBean instance to operate.
+     * </p>
      */
     public ObjectUtils() {
     }
@@ -52,8 +78,11 @@ public class ObjectUtils {
     //-----------------------------------------------------------------------
 
     /**
-     * <p>Returns a default value if the object passed is <code>null</code>.</p>
+     * <p>
+     * Returns a default value if the object passed is <code>null</code>.
+     * </p>
      * <p/>
+     * 
      * <pre>
      * ObjectUtils.defaultIfNull(null, null)      = null
      * ObjectUtils.defaultIfNull(null, "")        = ""
@@ -64,7 +93,6 @@ public class ObjectUtils {
      *
      * @param object the <code>Object</code> to test, may be <code>null</code>
      * @param defaultValue the default value to return, may be <code>null</code>
-     *
      * @return <code>object</code> if it is not <code>null</code>, defaultValue otherwise
      */
     public static Object defaultIfNull(Object object, Object defaultValue) {
@@ -72,8 +100,11 @@ public class ObjectUtils {
     }
 
     /**
-     * <p>Compares two objects for equality, where either one or both objects may be <code>null</code>.</p>
+     * <p>
+     * Compares two objects for equality, where either one or both objects may be <code>null</code>.
+     * </p>
      * <p/>
+     * 
      * <pre>
      * ObjectUtils.equals(null, null)                  = true
      * ObjectUtils.equals(null, "")                    = false
@@ -87,7 +118,6 @@ public class ObjectUtils {
      *
      * @param object1 the first object, may be <code>null</code>
      * @param object2 the second object, may be <code>null</code>
-     *
      * @return <code>true</code> if the values of both objects are the same
      */
     public static boolean equals(Object object1, Object object2) {
@@ -101,17 +131,18 @@ public class ObjectUtils {
     }
 
     /**
-     * <p>Gets the hash code of an object returning zero when the object is <code>null</code>.</p>
+     * <p>
+     * Gets the hash code of an object returning zero when the object is <code>null</code>.
+     * </p>
      * <p/>
+     * 
      * <pre>
      * ObjectUtils.hashCode(null)   = 0
      * ObjectUtils.hashCode(obj)    = obj.hashCode()
      * </pre>
      *
      * @param obj the object to obtain the hash code of, may be <code>null</code>
-     *
      * @return the hash code of the object, or zero if null
-     *
      * @since 2.1
      */
     public static int hashCode(Object obj) {
@@ -122,9 +153,12 @@ public class ObjectUtils {
     //-----------------------------------------------------------------------
 
     /**
-     * <p>Gets the toString that would be produced by <code>Object</code> if a class did not override toString itself. <code>null</code> will return
-     * <code>null</code>.</p>
+     * <p>
+     * Gets the toString that would be produced by <code>Object</code> if a class did not override toString itself. <code>null</code> will
+     * return <code>null</code>.
+     * </p>
      * <p/>
+     * 
      * <pre>
      * ObjectUtils.identityToString(null)         = null
      * ObjectUtils.identityToString("")           = "java.lang.String@1e23"
@@ -132,7 +166,6 @@ public class ObjectUtils {
      * </pre>
      *
      * @param object the object to create a toString for, may be <code>null</code>
-     *
      * @return the default toString text, or <code>null</code> if <code>null</code> passed in
      */
     public static String identityToString(Object object) {
@@ -143,9 +176,12 @@ public class ObjectUtils {
     }
 
     /**
-     * <p>Appends the toString that would be produced by <code>Object</code> if a class did not override toString itself. <code>null</code> will return
-     * <code>null</code>.</p>
+     * <p>
+     * Appends the toString that would be produced by <code>Object</code> if a class did not override toString itself. <code>null</code>
+     * will return <code>null</code>.
+     * </p>
      * <p/>
+     * 
      * <pre>
      * ObjectUtils.appendIdentityToString(*, null)            = null
      * ObjectUtils.appendIdentityToString(null, "")           = "java.lang.String@1e23"
@@ -155,9 +191,7 @@ public class ObjectUtils {
      *
      * @param buffer the buffer to append to, may be <code>null</code>
      * @param object the object to create a toString for, may be <code>null</code>
-     *
      * @return the default toString text, or <code>null</code> if <code>null</code> passed in
-     *
      * @since 2.0
      */
     public static StringBuffer appendIdentityToString(StringBuffer buffer, Object object) {
@@ -174,8 +208,11 @@ public class ObjectUtils {
     //-----------------------------------------------------------------------
 
     /**
-     * <p>Gets the <code>toString</code> of an <code>Object</code> returning an empty string ("") if <code>null</code> input.</p>
+     * <p>
+     * Gets the <code>toString</code> of an <code>Object</code> returning an empty string ("") if <code>null</code> input.
+     * </p>
      * <p/>
+     * 
      * <pre>
      * ObjectUtils.toString(null)         = ""
      * ObjectUtils.toString("")           = ""
@@ -184,9 +221,7 @@ public class ObjectUtils {
      * </pre>
      *
      * @param obj the Object to <code>toString</code>, may be null
-     *
      * @return the passed in Object's toString, or nullStr if <code>null</code> input
-     *
      * @see StringUtils#defaultString(String)
      * @see String#valueOf(Object)
      * @since 2.0
@@ -196,8 +231,11 @@ public class ObjectUtils {
     }
 
     /**
-     * <p>Gets the <code>toString</code> of an <code>Object</code> returning a specified text if <code>null</code> input.</p>
+     * <p>
+     * Gets the <code>toString</code> of an <code>Object</code> returning a specified text if <code>null</code> input.
+     * </p>
      * <p/>
+     * 
      * <pre>
      * ObjectUtils.toString(null, null)           = null
      * ObjectUtils.toString(null, "null")         = "null"
@@ -208,9 +246,7 @@ public class ObjectUtils {
      *
      * @param obj the Object to <code>toString</code>, may be null
      * @param nullStr the String to return if <code>null</code> input, may be null
-     *
      * @return the passed in Object's toString, or nullStr if <code>null</code> input
-     *
      * @see StringUtils#defaultString(String, String)
      * @see String#valueOf(Object)
      * @since 2.0
@@ -223,10 +259,19 @@ public class ObjectUtils {
     //-----------------------------------------------------------------------
 
     /**
-     * <p>Class used as a null placeholder where <code>null</code> has another meaning.</p> <p/> <p>For example, in a <code>HashMap</code> the {@link
-     * java.util.HashMap#get(java.lang.Object)} method returns <code>null</code> if the <code>Map</code> contains <code>null</code> or if there is no matching
-     * key. The <code>Null</code> placeholder can be used to distinguish between these two cases.</p> <p/> <p>Another example is <code>Hashtable</code>, where
-     * <code>null</code> cannot be stored.</p>
+     * <p>
+     * Class used as a null placeholder where <code>null</code> has another meaning.
+     * </p>
+     * <p/>
+     * <p>
+     * For example, in a <code>HashMap</code> the {@link java.util.HashMap#get(java.lang.Object)} method returns <code>null</code> if the
+     * <code>Map</code> contains <code>null</code> or if there is no matching key. The <code>Null</code> placeholder can be used to
+     * distinguish between these two cases.
+     * </p>
+     * <p/>
+     * <p>
+     * Another example is <code>Hashtable</code>, where <code>null</code> cannot be stored.
+     * </p>
      */
     public static class Null implements Serializable {
 
@@ -240,7 +285,9 @@ public class ObjectUtils {
         }
 
         /**
-         * <p>Ensure singleton.</p>
+         * <p>
+         * Ensure singleton.
+         * </p>
          *
          * @return the singleton value
          */

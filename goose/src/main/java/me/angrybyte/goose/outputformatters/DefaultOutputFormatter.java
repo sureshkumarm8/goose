@@ -9,11 +9,11 @@
  * CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
  */
 
-package me.angrybyte.goose.outputformatters; /**
+package me.angrybyte.goose.outputformatters;
+
+/**
  * User: jim plush Date: 12/19/10
  */
-
-import android.util.Log;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.TextNode;
@@ -24,17 +24,17 @@ import me.angrybyte.goose.texthelpers.StopWords;
 import me.angrybyte.goose.texthelpers.WordStats;
 
 /**
- * this class will be responsible for taking our top node and stripping out junk we don't want and getting it ready for how we want it presented to the user
+ * this class will be responsible for taking our top node and stripping out junk we don't want and getting it ready for how we want it
+ * presented to the user
  */
 public class DefaultOutputFormatter implements OutputFormatter {
 
     private Element topNode;
 
     /**
-     * Depricated use {@link #getFormattedText(Element)}
+     * Deprecated use {@link #getFormattedText(Element)}
      *
      * @param topNode the top most node to format
-     *
      * @return the prepared Element
      */
     @Deprecated
@@ -55,10 +55,9 @@ public class DefaultOutputFormatter implements OutputFormatter {
     }
 
     /**
-     * Removes all unnecessarry elements and formats the selected text nodes
+     * Removes all unnecessary elements and formats the selected text nodes
      *
      * @param topNode the top most node to format
-     *
      * @return a formatted string with all HTML removed
      */
     public String getFormattedText(Element topNode) {
@@ -73,14 +72,13 @@ public class DefaultOutputFormatter implements OutputFormatter {
 
         removeParagraphsWithFewWords();
 
+        // noinspection deprecation
         return getFormattedText();
     }
 
     /**
-     * Depricated use {@link #getFormattedText(Element)} takes an element and turns the P tags into \n\n // todo move this to an output formatter object instead
-     * of inline here
-     *
-     * @return
+     * Deprecated use {@link #getFormattedText(Element)} takes an element and turns the P tags into \n\n // todo move this to an output
+     * formatter object instead of inline here
      */
     @Deprecated
     public String getFormattedText() {
@@ -103,7 +101,6 @@ public class DefaultOutputFormatter implements OutputFormatter {
      * cleans up and converts any nodes that should be considered text into text
      */
     private void convertLinksToText() {
-        ;// Log.d(this.getClass().getSimpleName(), "Turning links to text");
         Elements links = topNode.getElementsByTag("a");
         for (Element item : links) {
             if (item.getElementsByTag("img").size() == 0) {
@@ -127,8 +124,8 @@ public class DefaultOutputFormatter implements OutputFormatter {
     }
 
     /**
-     * replace common tags with just text so we don't have any crazy formatting issues so replace <br>, <i>, <strong>, etc.... with whatever text is inside
-     * them
+     * replace common tags with just text so we don't have any crazy formatting issues so replace <br>
+     * , <i>, <strong>, etc.... with whatever text is inside them
      */
     private void replaceTagsWithText() {
 
@@ -152,22 +149,20 @@ public class DefaultOutputFormatter implements OutputFormatter {
     }
 
     /**
-     * remove paragraphs that have less than x number of words, would indicate that it's some sort of link
+     * Remove paragraphs that have less than x number of words, would indicate that it's some sort of link
      */
     private void removeParagraphsWithFewWords() {
-        ;// Log.d(this.getClass().getSimpleName(), "removeParagraphsWithFewWords starting...");
-
         Elements allNodes = this.topNode.getAllElements();
         for (Element el : allNodes) {
             try {
                 // get stop words that appear in each node
                 WordStats stopWords = StopWords.getStopWordCount(el.text());
 
-                if (stopWords.getStopWordCount() < 5 && el.getElementsByTag("object").size() == 0 && el.getElementsByTag("embed").size() == 0) {
+                if (stopWords.getStopWordCount() < 5 && el.getElementsByTag("object").size() == 0
+                        && el.getElementsByTag("embed").size() == 0) {
                     el.remove();
                 }
-            } catch (IllegalArgumentException e) {
-                ;// Log.e(this.getClass().getSimpleName(), "Error while removing small paragraphs.. ", e);
+            } catch (IllegalArgumentException ignored) {
             }
         }
     }

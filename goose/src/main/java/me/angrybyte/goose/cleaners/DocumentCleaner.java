@@ -18,6 +18,6 @@ import org.jsoup.nodes.Document;
  */
 public interface DocumentCleaner {
 
-    public Document clean(Document doc);
+    Document clean(Document doc);
 
 }

@@ -18,6 +18,7 @@ import org.jsoup.nodes.Element;
  */
 public interface OutputFormatter {
 
+    @SuppressWarnings("unused")
     Element getFormattedElement(Element topNode);
 
     String getFormattedText();

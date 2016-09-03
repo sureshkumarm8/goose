@@ -18,8 +18,18 @@
 package me.angrybyte.goose.apache;
 
 /**
- * <p>Operations on char primitives and Character objects.</p> <p/> <p>This class tries to handle <code>null</code> input gracefully. An exception will not be
- * thrown for a <code>null</code> input. Each method documents its behaviour in more detail.</p> <p/> <p>#ThreadSafe#</p>
+ * <p>
+ * Operations on char primitives and Character objects.
+ * </p>
+ * <p/>
+ * <p>
+ * This class tries to handle <code>null</code> input gracefully. An exception will not be thrown for a <code>null</code> input. Each method
+ * documents its behaviour in more detail.
+ * </p>
+ * <p/>
+ * <p>
+ * #ThreadSafe#
+ * </p>
  *
  * @author Apache Software Foundation
  * @version $Id: CharUtils.java 1056988 2011-01-09 17:58:53Z niallp $
@@ -27,22 +37,14 @@ package me.angrybyte.goose.apache;
  */
 public class CharUtils {
 
-    private static final String CHAR_STRING = "\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007" +
-            "\b\t\n\u000b\f\r\u000e\u000f" +
-            "\u0010\u0011\u0012\u0013\u0014\u0015\u0016\u0017" +
-            "\u0018\u0019\u001a\u001b\u001c\u001d\u001e\u001f" +
-            "\u0020\u0021\"\u0023\u0024\u0025\u0026\u0027" +
-            "\u0028\u0029\u002a\u002b\u002c\u002d\u002e\u002f" +
-            "\u0030\u0031\u0032\u0033\u0034\u0035\u0036\u0037" +
-            "\u0038\u0039\u003a\u003b\u003c\u003d\u003e\u003f" +
-            "\u0040\u0041\u0042\u0043\u0044\u0045\u0046\u0047" +
-            "\u0048\u0049\u004a\u004b\u004c\u004d\u004e\u004f" +
-            "\u0050\u0051\u0052\u0053\u0054\u0055\u0056\u0057" +
-            "\u0058\u0059\u005a\u005b\\\u005d\u005e\u005f" +
-            "\u0060\u0061\u0062\u0063\u0064\u0065\u0066\u0067" +
-            "\u0068\u0069\u006a\u006b\u006c\u006d\u006e\u006f" +
-            "\u0070\u0071\u0072\u0073\u0074\u0075\u0076\u0077" +
-            "\u0078\u0079\u007a\u007b\u007c\u007d\u007e\u007f";
+    private static final String CHAR_STRING = "\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007" + "\b\t\n\u000b\f\r\u000e\u000f"
+            + "\u0010\u0011\u0012\u0013\u0014\u0015\u0016\u0017" + "\u0018\u0019\u001a\u001b\u001c\u001d\u001e\u001f"
+            + "\u0020\u0021\"\u0023\u0024\u0025\u0026\u0027" + "\u0028\u0029\u002a\u002b\u002c\u002d\u002e\u002f"
+            + "\u0030\u0031\u0032\u0033\u0034\u0035\u0036\u0037" + "\u0038\u0039\u003a\u003b\u003c\u003d\u003e\u003f"
+            + "\u0040\u0041\u0042\u0043\u0044\u0045\u0046\u0047" + "\u0048\u0049\u004a\u004b\u004c\u004d\u004e\u004f"
+            + "\u0050\u0051\u0052\u0053\u0054\u0055\u0056\u0057" + "\u0058\u0059\u005a\u005b\\\u005d\u005e\u005f"
+            + "\u0060\u0061\u0062\u0063\u0064\u0065\u0066\u0067" + "\u0068\u0069\u006a\u006b\u006c\u006d\u006e\u006f"
+            + "\u0070\u0071\u0072\u0073\u0074\u0075\u0076\u0077" + "\u0078\u0079\u007a\u007b\u007c\u007d\u007e\u007f";
 
     private static final String[] CHAR_STRING_ARRAY = new String[128];
     private static final Character[] CHAR_ARRAY = new Character[128];
@@ -50,7 +52,8 @@ public class CharUtils {
     /**
      * <code>\u000a</code> linefeed LF ('\n').
      *
-     * @see <a href="http://java.sun.com/docs/books/jls/third_edition/html/lexical.html#101089">JLF: Escape Sequences for Character and String Literals</a>
+     * @see <a href="http://java.sun.com/docs/books/jls/third_edition/html/lexical.html#101089">JLF: Escape Sequences for Character and
+     *      String Literals</a>
      * @since 2.2
      */
     public static final char LF = '\n';
@@ -58,7 +61,8 @@ public class CharUtils {
     /**
      * <code>\u000d</code> carriage return CR ('\r').
      *
-     * @see <a href="http://java.sun.com/docs/books/jls/third_edition/html/lexical.html#101089">JLF: Escape Sequences for Character and String Literals</a>
+     * @see <a href="http://java.sun.com/docs/books/jls/third_edition/html/lexical.html#101089">JLF: Escape Sequences for Character and
+     *      String Literals</a>
      * @since 2.2
      */
     public static final char CR = '\r';
@@ -71,8 +75,14 @@ public class CharUtils {
     }
 
     /**
-     * <p><code>CharUtils</code> instances should NOT be constructed in standard programming. Instead, the class should be used as
-     * <code>CharUtils.toString('c');</code>.</p> <p/> <p>This constructor is public to permit tools that require a JavaBean instance to operate.</p>
+     * <p>
+     * <code>CharUtils</code> instances should NOT be constructed in standard programming. Instead, the class should be used as
+     * <code>CharUtils.toString('c');</code>.
+     * </p>
+     * <p/>
+     * <p>
+     * This constructor is public to permit tools that require a JavaBean instance to operate.
+     * </p>
      */
     public CharUtils() {
         super();
@@ -81,16 +91,21 @@ public class CharUtils {
     //-----------------------------------------------------------------------
 
     /**
-     * <p>Converts the character to a Character.</p> <p/> <p>For ASCII 7 bit characters, this uses a cache that will return the same Character object each
-     * time.</p>
+     * <p>
+     * Converts the character to a Character.
+     * </p>
      * <p/>
+     * <p>
+     * For ASCII 7 bit characters, this uses a cache that will return the same Character object each time.
+     * </p>
+     * <p/>
+     * 
      * <pre>
      *   CharUtils.toCharacterObject(' ')  = ' '
      *   CharUtils.toCharacterObject('A')  = 'A'
      * </pre>
      *
      * @param ch the character to convert
-     *
      * @return a Character of the specified character
      */
     public static Character toCharacterObject(char ch) {
@@ -101,9 +116,15 @@ public class CharUtils {
     }
 
     /**
-     * <p>Converts the String to a Character using the first character, returning null for empty Strings.</p> <p/> <p>For ASCII 7 bit characters, this uses a
-     * cache that will return the same Character object each time.</p>
+     * <p>
+     * Converts the String to a Character using the first character, returning null for empty Strings.
+     * </p>
      * <p/>
+     * <p>
+     * For ASCII 7 bit characters, this uses a cache that will return the same Character object each time.
+     * </p>
+     * <p/>
+     * 
      * <pre>
      *   CharUtils.toCharacterObject(null) = null
      *   CharUtils.toCharacterObject("")   = null
@@ -112,7 +133,6 @@ public class CharUtils {
      * </pre>
      *
      * @param str the character to convert
-     *
      * @return the Character value of the first letter of the String
      */
     public static Character toCharacterObject(String str) {
@@ -125,8 +145,11 @@ public class CharUtils {
     //-----------------------------------------------------------------------
 
     /**
-     * <p>Converts the Character to a char throwing an exception for <code>null</code>.</p>
+     * <p>
+     * Converts the Character to a char throwing an exception for <code>null</code>.
+     * </p>
      * <p/>
+     * 
      * <pre>
      *   CharUtils.toChar(null) = IllegalArgumentException
      *   CharUtils.toChar(' ')  = ' '
@@ -134,9 +157,7 @@ public class CharUtils {
      * </pre>
      *
      * @param ch the character to convert
-     *
      * @return the char value of the Character
-     *
      * @throws IllegalArgumentException if the Character is null
      */
     public static char toChar(Character ch) {
@@ -147,8 +168,11 @@ public class CharUtils {
     }
 
     /**
-     * <p>Converts the Character to a char handling <code>null</code>.</p>
+     * <p>
+     * Converts the Character to a char handling <code>null</code>.
+     * </p>
      * <p/>
+     * 
      * <pre>
      *   CharUtils.toChar(null, 'X') = 'X'
      *   CharUtils.toChar(' ', 'X')  = ' '
@@ -156,8 +180,7 @@ public class CharUtils {
      * </pre>
      *
      * @param ch the character to convert
-     * @param defaultValue the value to use if the  Character is null
-     *
+     * @param defaultValue the value to use if the Character is null
      * @return the char value of the Character or the default if null
      */
     public static char toChar(Character ch, char defaultValue) {
@@ -170,8 +193,11 @@ public class CharUtils {
     //-----------------------------------------------------------------------
 
     /**
-     * <p>Converts the String to a char using the first character, throwing an exception on empty Strings.</p>
+     * <p>
+     * Converts the String to a char using the first character, throwing an exception on empty Strings.
+     * </p>
      * <p/>
+     * 
      * <pre>
      *   CharUtils.toChar(null) = IllegalArgumentException
      *   CharUtils.toChar("")   = IllegalArgumentException
@@ -180,9 +206,7 @@ public class CharUtils {
      * </pre>
      *
      * @param str the character to convert
-     *
      * @return the char value of the first letter of the String
-     *
      * @throws IllegalArgumentException if the String is empty
      */
     public static char toChar(String str) {
@@ -193,8 +217,11 @@ public class CharUtils {
     }
 
     /**
-     * <p>Converts the String to a char using the first character, defaulting the value on empty Strings.</p>
+     * <p>
+     * Converts the String to a char using the first character, defaulting the value on empty Strings.
+     * </p>
      * <p/>
+     * 
      * <pre>
      *   CharUtils.toChar(null, 'X') = 'X'
      *   CharUtils.toChar("", 'X')   = 'X'
@@ -203,8 +230,7 @@ public class CharUtils {
      * </pre>
      *
      * @param str the character to convert
-     * @param defaultValue the value to use if the  Character is null
-     *
+     * @param defaultValue the value to use if the Character is null
      * @return the char value of the first letter of the String or the default if null
      */
     public static char toChar(String str, char defaultValue) {
@@ -217,18 +243,22 @@ public class CharUtils {
     //-----------------------------------------------------------------------
 
     /**
-     * <p>Converts the character to the Integer it represents, throwing an exception if the character is not numeric.</p> <p/> <p>This method coverts the char
-     * '1' to the int 1 and so on.</p>
+     * <p>
+     * Converts the character to the Integer it represents, throwing an exception if the character is not numeric.
+     * </p>
      * <p/>
+     * <p>
+     * This method coverts the char '1' to the int 1 and so on.
+     * </p>
+     * <p/>
+     * 
      * <pre>
      *   CharUtils.toIntValue('3')  = 3
      *   CharUtils.toIntValue('A')  = IllegalArgumentException
      * </pre>
      *
      * @param ch the character to convert
-     *
      * @return the int value of the character
-     *
      * @throws IllegalArgumentException if the character is not ASCII numeric
      */
     public static int toIntValue(char ch) {
@@ -239,9 +269,15 @@ public class CharUtils {
     }
 
     /**
-     * <p>Converts the character to the Integer it represents, throwing an exception if the character is not numeric.</p> <p/> <p>This method coverts the char
-     * '1' to the int 1 and so on.</p>
+     * <p>
+     * Converts the character to the Integer it represents, throwing an exception if the character is not numeric.
+     * </p>
      * <p/>
+     * <p>
+     * This method coverts the char '1' to the int 1 and so on.
+     * </p>
+     * <p/>
+     * 
      * <pre>
      *   CharUtils.toIntValue('3', -1)  = 3
      *   CharUtils.toIntValue('A', -1)  = -1
@@ -249,7 +285,6 @@ public class CharUtils {
      *
      * @param ch the character to convert
      * @param defaultValue the default value to use if the character is not numeric
-     *
      * @return the int value of the character
      */
     public static int toIntValue(char ch, int defaultValue) {
@@ -260,9 +295,15 @@ public class CharUtils {
     }
 
     /**
-     * <p>Converts the character to the Integer it represents, throwing an exception if the character is not numeric.</p> <p/> <p>This method coverts the char
-     * '1' to the int 1 and so on.</p>
+     * <p>
+     * Converts the character to the Integer it represents, throwing an exception if the character is not numeric.
+     * </p>
      * <p/>
+     * <p>
+     * This method coverts the char '1' to the int 1 and so on.
+     * </p>
+     * <p/>
+     * 
      * <pre>
      *   CharUtils.toIntValue(null) = IllegalArgumentException
      *   CharUtils.toIntValue('3')  = 3
@@ -270,9 +311,7 @@ public class CharUtils {
      * </pre>
      *
      * @param ch the character to convert, not null
-     *
      * @return the int value of the character
-     *
      * @throws IllegalArgumentException if the Character is not ASCII numeric or is null
      */
     public static int toIntValue(Character ch) {
@@ -283,9 +322,15 @@ public class CharUtils {
     }
 
     /**
-     * <p>Converts the character to the Integer it represents, throwing an exception if the character is not numeric.</p> <p/> <p>This method coverts the char
-     * '1' to the int 1 and so on.</p>
+     * <p>
+     * Converts the character to the Integer it represents, throwing an exception if the character is not numeric.
+     * </p>
      * <p/>
+     * <p>
+     * This method coverts the char '1' to the int 1 and so on.
+     * </p>
+     * <p/>
+     * 
      * <pre>
      *   CharUtils.toIntValue(null, -1) = -1
      *   CharUtils.toIntValue('3', -1)  = 3
@@ -294,7 +339,6 @@ public class CharUtils {
      *
      * @param ch the character to convert
      * @param defaultValue the default value to use if the character is not numeric
-     *
      * @return the int value of the character
      */
     public static int toIntValue(Character ch, int defaultValue) {
@@ -307,29 +351,46 @@ public class CharUtils {
     //-----------------------------------------------------------------------
 
     /**
-     * <p>Converts the character to a String that contains the one character.</p> <p/> <p>For ASCII 7 bit characters, this uses a cache that will return the
-     * same String object each time.</p>
+     * <p>
+     * Converts the character to a String that contains the one character.
+     * </p>
      * <p/>
+     * <p>
+     * For ASCII 7 bit characters, this uses a cache that will return the same String object each time.
+     * </p>
+     * <p/>
+     * 
      * <pre>
      *   CharUtils.toString(' ')  = " "
      *   CharUtils.toString('A')  = "A"
      * </pre>
      *
      * @param ch the character to convert
-     *
      * @return a String containing the one specified character
      */
     public static String toString(char ch) {
         if (ch < 128) {
             return CHAR_STRING_ARRAY[ch];
         }
-        return new String(new char[] {ch});
+        return new String(new char[] {
+            ch
+        });
     }
 
     /**
-     * <p>Converts the character to a String that contains the one character.</p> <p/> <p>For ASCII 7 bit characters, this uses a cache that will return the
-     * same String object each time.</p> <p/> <p>If <code>null</code> is passed in, <code>null</code> will be returned.</p>
+     * <p>
+     * Converts the character to a String that contains the one character.
+     * </p>
      * <p/>
+     * <p>
+     * For ASCII 7 bit characters, this uses a cache that will return the same String object each time.
+     * </p>
+     * <p/>
+     * <p>
+     * If <code>null</code> is passed in, <code>null</code> will be returned.
+     * </p>
+     * <p/>
+     * 
      * <pre>
      *   CharUtils.toString(null) = null
      *   CharUtils.toString(' ')  = " "
@@ -337,7 +398,6 @@ public class CharUtils {
      * </pre>
      *
      * @param ch the character to convert
-     *
      * @return a String containing the one specified character
      */
     public static String toString(Character ch) {
@@ -350,15 +410,21 @@ public class CharUtils {
     //--------------------------------------------------------------------------
 
     /**
-     * <p>Converts the string to the unicode format '\u0020'.</p> <p/> <p>This format is the Java source code format.</p>
+     * <p>
+     * Converts the string to the unicode format '\u0020'.
+     * </p>
      * <p/>
+     * <p>
+     * This format is the Java source code format.
+     * </p>
+     * <p/>
+     * 
      * <pre>
      *   CharUtils.unicodeEscaped(' ') = "\u0020"
      *   CharUtils.unicodeEscaped('A') = "\u0041"
      * </pre>
      *
      * @param ch the character to convert
-     *
      * @return the escaped unicode string
      */
     public static String unicodeEscaped(char ch) {
@@ -373,9 +439,19 @@ public class CharUtils {
     }
 
     /**
-     * <p>Converts the string to the unicode format '\u0020'.</p> <p/> <p>This format is the Java source code format.</p> <p/> <p>If <code>null</code> is passed
-     * in, <code>null</code> will be returned.</p>
+     * <p>
+     * Converts the string to the unicode format '\u0020'.
+     * </p>
      * <p/>
+     * <p>
+     * This format is the Java source code format.
+     * </p>
+     * <p/>
+     * <p>
+     * If <code>null</code> is passed in, <code>null</code> will be returned.
+     * </p>
+     * <p/>
+     * 
      * <pre>
      *   CharUtils.unicodeEscaped(null) = null
      *   CharUtils.unicodeEscaped(' ')  = "\u0020"
@@ -383,7 +459,6 @@ public class CharUtils {
      * </pre>
      *
      * @param ch the character to convert, may be null
-     *
      * @return the escaped unicode string, null if null input
      */
     public static String unicodeEscaped(Character ch) {
@@ -396,8 +471,11 @@ public class CharUtils {
     //--------------------------------------------------------------------------
 
     /**
-     * <p>Checks whether the character is ASCII 7 bit.</p>
+     * <p>
+     * Checks whether the character is ASCII 7 bit.
+     * </p>
      * <p/>
+     * 
      * <pre>
      *   CharUtils.isAscii('a')  = true
      *   CharUtils.isAscii('A')  = true
@@ -408,7 +486,6 @@ public class CharUtils {
      * </pre>
      *
      * @param ch the character to check
-     *
      * @return true if less than 128
      */
     public static boolean isAscii(char ch) {
@@ -416,8 +493,11 @@ public class CharUtils {
     }
 
     /**
-     * <p>Checks whether the character is ASCII 7 bit printable.</p>
+     * <p>
+     * Checks whether the character is ASCII 7 bit printable.
+     * </p>
      * <p/>
+     * 
      * <pre>
      *   CharUtils.isAsciiPrintable('a')  = true
      *   CharUtils.isAsciiPrintable('A')  = true
@@ -428,7 +508,6 @@ public class CharUtils {
      * </pre>
      *
      * @param ch the character to check
-     *
      * @return true if between 32 and 126 inclusive
      */
     public static boolean isAsciiPrintable(char ch) {
@@ -436,8 +515,11 @@ public class CharUtils {
     }
 
     /**
-     * <p>Checks whether the character is ASCII 7 bit control.</p>
+     * <p>
+     * Checks whether the character is ASCII 7 bit control.
+     * </p>
      * <p/>
+     * 
      * <pre>
      *   CharUtils.isAsciiControl('a')  = false
      *   CharUtils.isAsciiControl('A')  = false
@@ -448,7 +530,6 @@ public class CharUtils {
      * </pre>
      *
      * @param ch the character to check
-     *
      * @return true if less than 32 or equals 127
      */
     public static boolean isAsciiControl(char ch) {
@@ -456,8 +537,11 @@ public class CharUtils {
     }
 
     /**
-     * <p>Checks whether the character is ASCII 7 bit alphabetic.</p>
+     * <p>
+     * Checks whether the character is ASCII 7 bit alphabetic.
+     * </p>
      * <p/>
+     * 
      * <pre>
      *   CharUtils.isAsciiAlpha('a')  = true
      *   CharUtils.isAsciiAlpha('A')  = true
@@ -468,7 +552,6 @@ public class CharUtils {
      * </pre>
      *
      * @param ch the character to check
-     *
      * @return true if between 65 and 90 or 97 and 122 inclusive
      */
     public static boolean isAsciiAlpha(char ch) {
@@ -476,8 +559,11 @@ public class CharUtils {
     }
 
     /**
-     * <p>Checks whether the character is ASCII 7 bit alphabetic upper case.</p>
+     * <p>
+     * Checks whether the character is ASCII 7 bit alphabetic upper case.
+     * </p>
      * <p/>
+     * 
      * <pre>
      *   CharUtils.isAsciiAlphaUpper('a')  = false
      *   CharUtils.isAsciiAlphaUpper('A')  = true
@@ -488,7 +574,6 @@ public class CharUtils {
      * </pre>
      *
      * @param ch the character to check
-     *
      * @return true if between 65 and 90 inclusive
      */
     public static boolean isAsciiAlphaUpper(char ch) {
@@ -496,8 +581,11 @@ public class CharUtils {
     }
 
     /**
-     * <p>Checks whether the character is ASCII 7 bit alphabetic lower case.</p>
+     * <p>
+     * Checks whether the character is ASCII 7 bit alphabetic lower case.
+     * </p>
      * <p/>
+     * 
      * <pre>
      *   CharUtils.isAsciiAlphaLower('a')  = true
      *   CharUtils.isAsciiAlphaLower('A')  = false
@@ -508,7 +596,6 @@ public class CharUtils {
      * </pre>
      *
      * @param ch the character to check
-     *
      * @return true if between 97 and 122 inclusive
      */
     public static boolean isAsciiAlphaLower(char ch) {
@@ -516,8 +603,11 @@ public class CharUtils {
     }
 
     /**
-     * <p>Checks whether the character is ASCII 7 bit numeric.</p>
+     * <p>
+     * Checks whether the character is ASCII 7 bit numeric.
+     * </p>
      * <p/>
+     * 
      * <pre>
      *   CharUtils.isAsciiNumeric('a')  = false
      *   CharUtils.isAsciiNumeric('A')  = false
@@ -528,7 +618,6 @@ public class CharUtils {
      * </pre>
      *
      * @param ch the character to check
-     *
      * @return true if between 48 and 57 inclusive
      */
     public static boolean isAsciiNumeric(char ch) {
@@ -536,8 +625,11 @@ public class CharUtils {
     }
 
     /**
-     * <p>Checks whether the character is ASCII 7 bit numeric.</p>
+     * <p>
+     * Checks whether the character is ASCII 7 bit numeric.
+     * </p>
      * <p/>
+     * 
      * <pre>
      *   CharUtils.isAsciiAlphanumeric('a')  = true
      *   CharUtils.isAsciiAlphanumeric('A')  = true
@@ -548,7 +640,6 @@ public class CharUtils {
      * </pre>
      *
      * @param ch the character to check
-     *
      * @return true if between 48 and 57 or 65 and 90 or 97 and 122 inclusive
      */
     public static boolean isAsciiAlphanumeric(char ch) {
@@ -558,10 +649,10 @@ public class CharUtils {
     // ----------------- Following code copied from Apache Harmony (Character class)
 
     /**
-     * Indicates whether {@code ch} is a high- (or leading-) surrogate code unit that is used for representing supplementary characters in UTF-16 encoding.
+     * Indicates whether {@code ch} is a high- (or leading-) surrogate code unit that is used for representing supplementary characters in
+     * UTF-16 encoding.
      *
      * @param ch the character to test.
-     *
      * @return {@code true} if {@code ch} is a high-surrogate code unit; {@code false} otherwise.
      */
     static boolean isHighSurrogate(char ch) {

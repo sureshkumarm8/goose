@@ -1,4 +1,6 @@
+
 package me.angrybyte.goose.apache;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
@@ -25,20 +27,39 @@ import java.util.List;
 /**
  * Builds a string from constituent parts providing a more flexible and powerful API than StringBuffer.
  * <p/>
- * The main differences from StringBuffer/StringBuilder are: <ul> <li>Not synchronized</li> <li>Not final</li> <li>Subclasses have direct access to character
- * array</li> <li>Additional methods <ul> <li>appendWithSeparators - adds an array of values, with a separator</li> <li>appendPadding - adds a length padding
- * characters</li> <li>appendFixedLength - adds a fixed width field to the builder</li> <li>toCharArray/getChars - simpler ways to get a range of the character
- * array</li> <li>delete - delete char or string</li> <li>replace - search and replace for a char or string</li> <li>leftString/rightString/midString -
- * substring without exceptions</li> <li>contains - whether the builder contains a char or string</li> <li>size/clear/isEmpty - collections style API
- * methods</li> </ul> </li> </ul> <li>Views <ul> <li>asTokenizer - uses the internal buffer as the source of a StrTokenizer</li> <li>asReader - uses the
- * internal buffer as the source of a Reader</li> <li>asWriter - allows a Writer to write directly to the internal buffer</li> </ul> </li> </ul>
+ * The main differences from StringBuffer/StringBuilder are:
+ * <ul>
+ * <li>Not synchronized</li>
+ * <li>Not final</li>
+ * <li>Subclasses have direct access to character array</li>
+ * <li>Additional methods
+ * <ul>
+ * <li>appendWithSeparators - adds an array of values, with a separator</li>
+ * <li>appendPadding - adds a length padding characters</li>
+ * <li>appendFixedLength - adds a fixed width field to the builder</li>
+ * <li>toCharArray/getChars - simpler ways to get a range of the character array</li>
+ * <li>delete - delete char or string</li>
+ * <li>replace - search and replace for a char or string</li>
+ * <li>leftString/rightString/midString - substring without exceptions</li>
+ * <li>contains - whether the builder contains a char or string</li>
+ * <li>size/clear/isEmpty - collections style API methods</li>
+ * </ul>
+ * </li>
+ * </ul>
+ * <li>Views
+ * <ul>
+ * <li>asTokenizer - uses the internal buffer as the source of a StrTokenizer</li>
+ * <li>asReader - uses the internal buffer as the source of a Reader</li>
+ * <li>asWriter - allows a Writer to write directly to the internal buffer</li>
+ * </ul>
+ * </li> </ul>
  * <p/>
- * The aim has been to provide an API that mimics very closely what StringBuffer provides, but with additional methods. It should be noted that some edge cases,
- * with invalid indices or null input, have been altered - see individual methods. The biggest of these changes is that by default, null will not output the
- * text 'null'. This can be controlled by a property, {@link #setNullText(String)}.
+ * The aim has been to provide an API that mimics very closely what StringBuffer provides, but with additional methods. It should be noted
+ * that some edge cases, with invalid indices or null input, have been altered - see individual methods. The biggest of these changes is
+ * that by default, null will not output the text 'null'. This can be controlled by a property, {@link #setNullText(String)}.
  * <p/>
- * Prior to 3.0, this class implemented Cloneable but did not implement the clone method so could not be used. From 3.0 onwards it no longer implements the
- * interface.
+ * Prior to 3.0, this class implemented Cloneable but did not implement the clone method so could not be used. From 3.0 onwards it no longer
+ * implements the interface.
  *
  * @author Apache Software Foundation
  * @version $Id: StrBuilder.java 1057349 2011-01-10 20:40:49Z niallp $
@@ -127,7 +148,6 @@ public class StrBuilder implements Cloneable {
      * Sets the text to be appended when a new line is added.
      *
      * @param newLine the new line text, null means use system default
-     *
      * @return this, to enable chaining
      */
     public StrBuilder setNewLineText(String newLine) {
@@ -150,7 +170,6 @@ public class StrBuilder implements Cloneable {
      * Sets the text to be appended when null is added.
      *
      * @param nullText the null text, null means no append
-     *
      * @return this, to enable chaining
      */
     public StrBuilder setNullText(String nullText) {
@@ -176,9 +195,7 @@ public class StrBuilder implements Cloneable {
      * Updates the length of the builder by either dropping the last characters or adding filler of unicode zero.
      *
      * @param length the length to set to, must be zero or positive
-     *
      * @return this, to enable chaining
-     *
      * @throws IndexOutOfBoundsException if the length is negative
      */
     public StrBuilder setLength(int length) {
@@ -214,7 +231,6 @@ public class StrBuilder implements Cloneable {
      * Checks the capacity and ensures that it is at least the size specified.
      *
      * @param capacity the capacity to ensure
-     *
      * @return this, to enable chaining
      */
     public StrBuilder ensureCapacity(int capacity) {
@@ -267,7 +283,8 @@ public class StrBuilder implements Cloneable {
     /**
      * Clears the string builder (convenience Collections API style method).
      * <p/>
-     * This method does not reduce the size of the internal character buffer. To do that, call <code>clear()</code> followed by {@link #minimizeCapacity()}.
+     * This method does not reduce the size of the internal character buffer. To do that, call <code>clear()</code> followed by
+     * {@link #minimizeCapacity()}.
      * <p/>
      * This method is the same as {@link #setLength(int)} called with zero and is provided to match the API of Collections.
      *
@@ -284,9 +301,7 @@ public class StrBuilder implements Cloneable {
      * Gets the character at the specified index.
      *
      * @param index the index to retrieve, must be valid
-     *
      * @return the character at the index
-     *
      * @throws IndexOutOfBoundsException if the index is invalid
      * @see #setCharAt(int, char)
      * @see #deleteCharAt(int)
@@ -303,9 +318,7 @@ public class StrBuilder implements Cloneable {
      *
      * @param index the index to set
      * @param ch the new character
-     *
      * @return this, to enable chaining
-     *
      * @throws IndexOutOfBoundsException if the index is invalid
      * @see #charAt(int)
      * @see #deleteCharAt(int)
@@ -322,9 +335,7 @@ public class StrBuilder implements Cloneable {
      * Deletes the character at the specified index.
      *
      * @param index the index to delete
-     *
      * @return this, to enable chaining
-     *
      * @throws IndexOutOfBoundsException if the index is invalid
      * @see #charAt(int)
      * @see #setCharAt(int, char)
@@ -358,9 +369,7 @@ public class StrBuilder implements Cloneable {
      *
      * @param startIndex the start index, inclusive, must be valid
      * @param endIndex the end index, exclusive, must be valid except that if too large it is treated as end of string
-     *
      * @return a new array that holds part of the contents of the builder
-     *
      * @throws IndexOutOfBoundsException if startIndex is invalid, or if endIndex is invalid (but endIndex greater than size is valid)
      */
     public char[] toCharArray(int startIndex, int endIndex) {
@@ -378,7 +387,6 @@ public class StrBuilder implements Cloneable {
      * Copies the character array into the specified array.
      *
      * @param destination the destination array, null will cause an array to be created
-     *
      * @return the input array, unless that was null or too small
      */
     public char[] getChars(char[] destination) {
@@ -397,7 +405,6 @@ public class StrBuilder implements Cloneable {
      * @param endIndex last index, exclusive, must be valid
      * @param destination the destination array, must not be null or too small
      * @param destinationIndex the index to start copying in destination
-     *
      * @throws NullPointerException if the array is null
      * @throws IndexOutOfBoundsException if any index is invalid
      */
@@ -419,8 +426,8 @@ public class StrBuilder implements Cloneable {
     /**
      * Appends the new line string to this string builder.
      * <p/>
-     * The new line string can be altered using {@link #setNewLineText(String)}. This might be used to force the output to always use Unix line endings even
-     * when on Windows.
+     * The new line string can be altered using {@link #setNewLineText(String)}. This might be used to force the output to always use Unix
+     * line endings even when on Windows.
      *
      * @return this, to enable chaining
      */
@@ -448,7 +455,6 @@ public class StrBuilder implements Cloneable {
      * Appends an object to this string builder. Appending null will call {@link #appendNull()}.
      *
      * @param obj the object to append
-     *
      * @return this, to enable chaining
      */
     public StrBuilder append(Object obj) {
@@ -462,7 +468,6 @@ public class StrBuilder implements Cloneable {
      * Appends a string to this string builder. Appending null will call {@link #appendNull()}.
      *
      * @param str the string to append
-     *
      * @return this, to enable chaining
      */
     public StrBuilder append(String str) {
@@ -485,7 +490,6 @@ public class StrBuilder implements Cloneable {
      * @param str the string to append
      * @param startIndex the start index, inclusive, must be valid
      * @param length the length to append, must be valid
-     *
      * @return this, to enable chaining
      */
     public StrBuilder append(String str, int startIndex, int length) {
@@ -511,7 +515,6 @@ public class StrBuilder implements Cloneable {
      * Appends a string buffer to this string builder. Appending null will call {@link #appendNull()}.
      *
      * @param str the string buffer to append
-     *
      * @return this, to enable chaining
      */
     public StrBuilder append(StringBuffer str) {
@@ -534,7 +537,6 @@ public class StrBuilder implements Cloneable {
      * @param str the string to append
      * @param startIndex the start index, inclusive, must be valid
      * @param length the length to append, must be valid
-     *
      * @return this, to enable chaining
      */
     public StrBuilder append(StringBuffer str, int startIndex, int length) {
@@ -560,7 +562,6 @@ public class StrBuilder implements Cloneable {
      * Appends another string builder to this string builder. Appending null will call {@link #appendNull()}.
      *
      * @param str the string builder to append
-     *
      * @return this, to enable chaining
      */
     public StrBuilder append(StrBuilder str) {
@@ -583,7 +584,6 @@ public class StrBuilder implements Cloneable {
      * @param str the string to append
      * @param startIndex the start index, inclusive, must be valid
      * @param length the length to append, must be valid
-     *
      * @return this, to enable chaining
      */
     public StrBuilder append(StrBuilder str, int startIndex, int length) {
@@ -609,7 +609,6 @@ public class StrBuilder implements Cloneable {
      * Appends a char array to the string builder. Appending null will call {@link #appendNull()}.
      *
      * @param chars the char array to append
-     *
      * @return this, to enable chaining
      */
     public StrBuilder append(char[] chars) {
@@ -632,7 +631,6 @@ public class StrBuilder implements Cloneable {
      * @param chars the char array to append
      * @param startIndex the start index, inclusive, must be valid
      * @param length the length to append, must be valid
-     *
      * @return this, to enable chaining
      */
     public StrBuilder append(char[] chars, int startIndex, int length) {
@@ -658,7 +656,6 @@ public class StrBuilder implements Cloneable {
      * Appends a boolean value to the string builder.
      *
      * @param value the value to append
-     *
      * @return this, to enable chaining
      */
     public StrBuilder append(boolean value) {
@@ -683,7 +680,6 @@ public class StrBuilder implements Cloneable {
      * Appends a char value to the string builder.
      *
      * @param ch the value to append
-     *
      * @return this, to enable chaining
      */
     public StrBuilder append(char ch) {
@@ -697,7 +693,6 @@ public class StrBuilder implements Cloneable {
      * Appends an int value to the string builder using <code>String.valueOf</code>.
      *
      * @param value the value to append
-     *
      * @return this, to enable chaining
      */
     public StrBuilder append(int value) {
@@ -708,7 +703,6 @@ public class StrBuilder implements Cloneable {
      * Appends a long value to the string builder using <code>String.valueOf</code>.
      *
      * @param value the value to append
-     *
      * @return this, to enable chaining
      */
     public StrBuilder append(long value) {
@@ -719,7 +713,6 @@ public class StrBuilder implements Cloneable {
      * Appends a float value to the string builder using <code>String.valueOf</code>.
      *
      * @param value the value to append
-     *
      * @return this, to enable chaining
      */
     public StrBuilder append(float value) {
@@ -730,7 +723,6 @@ public class StrBuilder implements Cloneable {
      * Appends a double value to the string builder using <code>String.valueOf</code>.
      *
      * @param value the value to append
-     *
      * @return this, to enable chaining
      */
     public StrBuilder append(double value) {
@@ -743,9 +735,7 @@ public class StrBuilder implements Cloneable {
      * Appends an object followed by a new line to this string builder. Appending null will call {@link #appendNull()}.
      *
      * @param obj the object to append
-     *
      * @return this, to enable chaining
-     *
      * @since 2.3
      */
     public StrBuilder appendln(Object obj) {
@@ -756,9 +746,7 @@ public class StrBuilder implements Cloneable {
      * Appends a string followed by a new line to this string builder. Appending null will call {@link #appendNull()}.
      *
      * @param str the string to append
-     *
      * @return this, to enable chaining
-     *
      * @since 2.3
      */
     public StrBuilder appendln(String str) {
@@ -771,9 +759,7 @@ public class StrBuilder implements Cloneable {
      * @param str the string to append
      * @param startIndex the start index, inclusive, must be valid
      * @param length the length to append, must be valid
-     *
      * @return this, to enable chaining
-     *
      * @since 2.3
      */
     public StrBuilder appendln(String str, int startIndex, int length) {
@@ -784,9 +770,7 @@ public class StrBuilder implements Cloneable {
      * Appends a string buffer followed by a new line to this string builder. Appending null will call {@link #appendNull()}.
      *
      * @param str the string buffer to append
-     *
      * @return this, to enable chaining
-     *
      * @since 2.3
      */
     public StrBuilder appendln(StringBuffer str) {
@@ -799,9 +783,7 @@ public class StrBuilder implements Cloneable {
      * @param str the string to append
      * @param startIndex the start index, inclusive, must be valid
      * @param length the length to append, must be valid
-     *
      * @return this, to enable chaining
-     *
      * @since 2.3
      */
     public StrBuilder appendln(StringBuffer str, int startIndex, int length) {
@@ -812,9 +794,7 @@ public class StrBuilder implements Cloneable {
      * Appends another string builder followed by a new line to this string builder. Appending null will call {@link #appendNull()}.
      *
      * @param str the string builder to append
-     *
      * @return this, to enable chaining
-     *
      * @since 2.3
      */
     public StrBuilder appendln(StrBuilder str) {
@@ -827,9 +807,7 @@ public class StrBuilder implements Cloneable {
      * @param str the string to append
      * @param startIndex the start index, inclusive, must be valid
      * @param length the length to append, must be valid
-     *
      * @return this, to enable chaining
-     *
      * @since 2.3
      */
     public StrBuilder appendln(StrBuilder str, int startIndex, int length) {
@@ -840,9 +818,7 @@ public class StrBuilder implements Cloneable {
      * Appends a char array followed by a new line to the string builder. Appending null will call {@link #appendNull()}.
      *
      * @param chars the char array to append
-     *
      * @return this, to enable chaining
-     *
      * @since 2.3
      */
     public StrBuilder appendln(char[] chars) {
@@ -855,9 +831,7 @@ public class StrBuilder implements Cloneable {
      * @param chars the char array to append
      * @param startIndex the start index, inclusive, must be valid
      * @param length the length to append, must be valid
-     *
      * @return this, to enable chaining
-     *
      * @since 2.3
      */
     public StrBuilder appendln(char[] chars, int startIndex, int length) {
@@ -868,9 +842,7 @@ public class StrBuilder implements Cloneable {
      * Appends a boolean value followed by a new line to the string builder.
      *
      * @param value the value to append
-     *
      * @return this, to enable chaining
-     *
      * @since 2.3
      */
     public StrBuilder appendln(boolean value) {
@@ -881,9 +853,7 @@ public class StrBuilder implements Cloneable {
      * Appends a char value followed by a new line to the string builder.
      *
      * @param ch the value to append
-     *
      * @return this, to enable chaining
-     *
      * @since 2.3
      */
     public StrBuilder appendln(char ch) {
@@ -894,9 +864,7 @@ public class StrBuilder implements Cloneable {
      * Appends an int value followed by a new line to the string builder using <code>String.valueOf</code>.
      *
      * @param value the value to append
-     *
      * @return this, to enable chaining
-     *
      * @since 2.3
      */
     public StrBuilder appendln(int value) {
@@ -907,9 +875,7 @@ public class StrBuilder implements Cloneable {
      * Appends a long value followed by a new line to the string builder using <code>String.valueOf</code>.
      *
      * @param value the value to append
-     *
      * @return this, to enable chaining
-     *
      * @since 2.3
      */
     public StrBuilder appendln(long value) {
@@ -920,9 +886,7 @@ public class StrBuilder implements Cloneable {
      * Appends a float value followed by a new line to the string builder using <code>String.valueOf</code>.
      *
      * @param value the value to append
-     *
      * @return this, to enable chaining
-     *
      * @since 2.3
      */
     public StrBuilder appendln(float value) {
@@ -933,9 +897,7 @@ public class StrBuilder implements Cloneable {
      * Appends a double value followed by a new line to the string builder using <code>String.valueOf</code>.
      *
      * @param value the value to append
-     *
      * @return this, to enable chaining
-     *
      * @since 2.3
      */
     public StrBuilder appendln(double value) {
@@ -945,13 +907,11 @@ public class StrBuilder implements Cloneable {
     //-----------------------------------------------------------------------
 
     /**
-     * Appends each item in an array to the builder without any separators. Appending a null array will have no effect. Each object is appended using {@link
-     * #append(Object)}.
+     * Appends each item in an array to the builder without any separators. Appending a null array will have no effect. Each object is
+     * appended using {@link #append(Object)}.
      *
      * @param array the array to append
-     *
      * @return this, to enable chaining
-     *
      * @since 2.3
      */
     public StrBuilder appendAll(Object[] array) {
@@ -964,13 +924,11 @@ public class StrBuilder implements Cloneable {
     }
 
     /**
-     * Appends each item in a collection to the builder without any separators. Appending a null collection will have no effect. Each object is appended using
-     * {@link #append(Object)}.
+     * Appends each item in a collection to the builder without any separators. Appending a null collection will have no effect. Each object
+     * is appended using {@link #append(Object)}.
      *
      * @param coll the collection to append
-     *
      * @return this, to enable chaining
-     *
      * @since 2.3
      */
     public StrBuilder appendAll(Collection coll) {
@@ -984,13 +942,11 @@ public class StrBuilder implements Cloneable {
     }
 
     /**
-     * Appends each item in an iterator to the builder without any separators. Appending a null iterator will have no effect. Each object is appended using
-     * {@link #append(Object)}.
+     * Appends each item in an iterator to the builder without any separators. Appending a null iterator will have no effect. Each object is
+     * appended using {@link #append(Object)}.
      *
      * @param it the iterator to append
-     *
      * @return this, to enable chaining
-     *
      * @since 2.3
      */
     public StrBuilder appendAll(Iterator it) {
@@ -1005,12 +961,11 @@ public class StrBuilder implements Cloneable {
     //-----------------------------------------------------------------------
 
     /**
-     * Appends an array placing separators between each value, but not before the first or after the last. Appending a null array will have no effect. Each
-     * object is appended using {@link #append(Object)}.
+     * Appends an array placing separators between each value, but not before the first or after the last. Appending a null array will have
+     * no effect. Each object is appended using {@link #append(Object)}.
      *
      * @param array the array to append
      * @param separator the separator to use, null means no separator
-     *
      * @return this, to enable chaining
      */
     public StrBuilder appendWithSeparators(Object[] array, String separator) {
@@ -1026,12 +981,11 @@ public class StrBuilder implements Cloneable {
     }
 
     /**
-     * Appends a collection placing separators between each value, but not before the first or after the last. Appending a null collection will have no effect.
-     * Each object is appended using {@link #append(Object)}.
+     * Appends a collection placing separators between each value, but not before the first or after the last. Appending a null collection
+     * will have no effect. Each object is appended using {@link #append(Object)}.
      *
      * @param coll the collection to append
      * @param separator the separator to use, null means no separator
-     *
      * @return this, to enable chaining
      */
     public StrBuilder appendWithSeparators(Collection coll, String separator) {
@@ -1049,12 +1003,11 @@ public class StrBuilder implements Cloneable {
     }
 
     /**
-     * Appends an iterator placing separators between each value, but not before the first or after the last. Appending a null iterator will have no effect.
-     * Each object is appended using {@link #append(Object)}.
+     * Appends an iterator placing separators between each value, but not before the first or after the last. Appending a null iterator will
+     * have no effect. Each object is appended using {@link #append(Object)}.
      *
      * @param it the iterator to append
      * @param separator the separator to use, null means no separator
-     *
      * @return this, to enable chaining
      */
     public StrBuilder appendWithSeparators(Iterator it, String separator) {
@@ -1073,22 +1026,22 @@ public class StrBuilder implements Cloneable {
     //-----------------------------------------------------------------------
 
     /**
-     * Appends a separator if the builder is currently non-empty. Appending a null separator will have no effect. The separator is appended using {@link
-     * #append(String)}.
+     * Appends a separator if the builder is currently non-empty. Appending a null separator will have no effect. The separator is appended
+     * using {@link #append(String)}.
      * <p/>
      * This method is useful for adding a separator each time around the loop except the first.
+     * 
      * <pre>
-     * for (Iterator it = list.iterator(); it.hasNext(); ) {
-     *   appendSeparator(",");
-     *   append(it.next());
+     * for (Iterator it = list.iterator(); it.hasNext();) {
+     *     appendSeparator(&quot;,&quot;);
+     *     append(it.next());
      * }
      * </pre>
+     * 
      * Note that for this simple example, you should use {@link #appendWithSeparators(Collection, String)}.
      *
      * @param separator the separator to use, null means no separator
-     *
      * @return this, to enable chaining
-     *
      * @since 2.3
      */
     public StrBuilder appendSeparator(String separator) {
@@ -1096,12 +1049,13 @@ public class StrBuilder implements Cloneable {
     }
 
     /**
-     * Appends one of both separators to the StrBuilder. If the builder is currently empty it will append the defaultIfEmpty-separator Otherwise it will append
-     * the standard-separator
+     * Appends one of both separators to the StrBuilder. If the builder is currently empty it will append the defaultIfEmpty-separator
+     * Otherwise it will append the standard-separator
      * <p/>
      * Appending a null separator will have no effect. The separator is appended using {@link #append(String)}.
      * <p/>
      * This method is for example useful for constructing queries
+     * 
      * <pre>
      * StrBuilder whereClause = new StrBuilder();
      * if(searchCommand.getPriority() != null) {
@@ -1117,9 +1071,7 @@ public class StrBuilder implements Cloneable {
      *
      * @param standard the separator if builder is not empty, null means no separator
      * @param defaultIfEmpty the separator if builder is empty, null means no separator
-     *
      * @return this, to enable chaining
-     *
      * @since 2.5
      */
     public StrBuilder appendSeparator(String standard, String defaultIfEmpty) {
@@ -1134,18 +1086,18 @@ public class StrBuilder implements Cloneable {
      * Appends a separator if the builder is currently non-empty. The separator is appended using {@link #append(char)}.
      * <p/>
      * This method is useful for adding a separator each time around the loop except the first.
+     * 
      * <pre>
-     * for (Iterator it = list.iterator(); it.hasNext(); ) {
-     *   appendSeparator(',');
-     *   append(it.next());
+     * for (Iterator it = list.iterator(); it.hasNext();) {
+     *     appendSeparator(',');
+     *     append(it.next());
      * }
      * </pre>
+     * 
      * Note that for this simple example, you should use {@link #appendWithSeparators(Collection, String)}.
      *
      * @param separator the separator to use
-     *
      * @return this, to enable chaining
-     *
      * @since 2.3
      */
     public StrBuilder appendSeparator(char separator) {
@@ -1156,16 +1108,14 @@ public class StrBuilder implements Cloneable {
     }
 
     /**
-     * Append one of both separators to the builder If the builder is currently empty it will append the defaultIfEmpty-separator Otherwise it will append the
-     * standard-separator
+     * Append one of both separators to the builder If the builder is currently empty it will append the defaultIfEmpty-separator Otherwise
+     * it will append the standard-separator
      * <p/>
      * The separator is appended using {@link #append(char)}.
      *
      * @param standard the separator if builder is not empty
      * @param defaultIfEmpty the separator if builder is empty
-     *
      * @return this, to enable chaining
-     *
      * @since 2.5
      */
     public StrBuilder appendSeparator(char standard, char defaultIfEmpty) {
@@ -1178,23 +1128,23 @@ public class StrBuilder implements Cloneable {
     }
 
     /**
-     * Appends a separator to the builder if the loop index is greater than zero. Appending a null separator will have no effect. The separator is appended
-     * using {@link #append(String)}.
+     * Appends a separator to the builder if the loop index is greater than zero. Appending a null separator will have no effect. The
+     * separator is appended using {@link #append(String)}.
      * <p/>
      * This method is useful for adding a separator each time around the loop except the first.
+     * 
      * <pre>
-     * for (int i = 0; i < list.size(); i++) {
-     *   appendSeparator(",", i);
-     *   append(list.get(i));
+     * for (int i = 0; i &lt; list.size(); i++) {
+     *     appendSeparator(&quot;,&quot;, i);
+     *     append(list.get(i));
      * }
      * </pre>
+     * 
      * Note that for this simple example, you should use {@link #appendWithSeparators(Collection, String)}.
      *
      * @param separator the separator to use, null means no separator
      * @param loopIndex the loop index
-     *
      * @return this, to enable chaining
-     *
      * @since 2.3
      */
     public StrBuilder appendSeparator(String separator, int loopIndex) {
@@ -1208,19 +1158,19 @@ public class StrBuilder implements Cloneable {
      * Appends a separator to the builder if the loop index is greater than zero. The separator is appended using {@link #append(char)}.
      * <p/>
      * This method is useful for adding a separator each time around the loop except the first.
+     * 
      * <pre>
-     * for (int i = 0; i < list.size(); i++) {
-     *   appendSeparator(",", i);
-     *   append(list.get(i));
+     * for (int i = 0; i &lt; list.size(); i++) {
+     *     appendSeparator(&quot;,&quot;, i);
+     *     append(list.get(i));
      * }
      * </pre>
+     * 
      * Note that for this simple example, you should use {@link #appendWithSeparators(Collection, String)}.
      *
      * @param separator the separator to use
      * @param loopIndex the loop index
-     *
      * @return this, to enable chaining
-     *
      * @since 2.3
      */
     public StrBuilder appendSeparator(char separator, int loopIndex) {
@@ -1237,7 +1187,6 @@ public class StrBuilder implements Cloneable {
      *
      * @param length the length to append, negative means no append
      * @param padChar the character to append
-     *
      * @return this, to enable chaining
      */
     public StrBuilder appendPadding(int length, char padChar) {
@@ -1253,13 +1202,12 @@ public class StrBuilder implements Cloneable {
     //-----------------------------------------------------------------------
 
     /**
-     * Appends an object to the builder padding on the left to a fixed width. The <code>toString</code> of the object is used. If the object is larger than the
-     * length, the left hand side is lost. If the object is null, the null text value is used.
+     * Appends an object to the builder padding on the left to a fixed width. The <code>toString</code> of the object is used. If the object
+     * is larger than the length, the left hand side is lost. If the object is null, the null text value is used.
      *
      * @param obj the object to append, null uses null text
      * @param width the fixed field width, zero or negative has no effect
      * @param padChar the pad character to use
-     *
      * @return this, to enable chaining
      */
     public StrBuilder appendFixedWidthPadLeft(Object obj, int width, char padChar) {
@@ -1285,13 +1233,12 @@ public class StrBuilder implements Cloneable {
     }
 
     /**
-     * Appends an object to the builder padding on the left to a fixed width. The <code>String.valueOf</code> of the <code>int</code> value is used. If the
-     * formatted value is larger than the length, the left hand side is lost.
+     * Appends an object to the builder padding on the left to a fixed width. The <code>String.valueOf</code> of the <code>int</code> value
+     * is used. If the formatted value is larger than the length, the left hand side is lost.
      *
      * @param value the value to append
      * @param width the fixed field width, zero or negative has no effect
      * @param padChar the pad character to use
-     *
      * @return this, to enable chaining
      */
     public StrBuilder appendFixedWidthPadLeft(int value, int width, char padChar) {
@@ -1299,13 +1246,12 @@ public class StrBuilder implements Cloneable {
     }
 
     /**
-     * Appends an object to the builder padding on the right to a fixed length. The <code>toString</code> of the object is used. If the object is larger than
-     * the length, the right hand side is lost. If the object is null, null text value is used.
+     * Appends an object to the builder padding on the right to a fixed length. The <code>toString</code> of the object is used. If the
+     * object is larger than the length, the right hand side is lost. If the object is null, null text value is used.
      *
      * @param obj the object to append, null uses null text
      * @param width the fixed field width, zero or negative has no effect
      * @param padChar the pad character to use
-     *
      * @return this, to enable chaining
      */
     public StrBuilder appendFixedWidthPadRight(Object obj, int width, char padChar) {
@@ -1331,13 +1277,12 @@ public class StrBuilder implements Cloneable {
     }
 
     /**
-     * Appends an object to the builder padding on the right to a fixed length. The <code>String.valueOf</code> of the <code>int</code> value is used. If the
-     * object is larger than the length, the right hand side is lost.
+     * Appends an object to the builder padding on the right to a fixed length. The <code>String.valueOf</code> of the <code>int</code>
+     * value is used. If the object is larger than the length, the right hand side is lost.
      *
      * @param value the value to append
      * @param width the fixed field width, zero or negative has no effect
      * @param padChar the pad character to use
-     *
      * @return this, to enable chaining
      */
     public StrBuilder appendFixedWidthPadRight(int value, int width, char padChar) {
@@ -1351,9 +1296,7 @@ public class StrBuilder implements Cloneable {
      *
      * @param index the index to add at, must be valid
      * @param obj the object to insert
-     *
      * @return this, to enable chaining
-     *
      * @throws IndexOutOfBoundsException if the index is invalid
      */
     public StrBuilder insert(int index, Object obj) {
@@ -1368,9 +1311,7 @@ public class StrBuilder implements Cloneable {
      *
      * @param index the index to add at, must be valid
      * @param str the string to insert
-     *
      * @return this, to enable chaining
-     *
      * @throws IndexOutOfBoundsException if the index is invalid
      */
     public StrBuilder insert(int index, String str) {
@@ -1394,9 +1335,7 @@ public class StrBuilder implements Cloneable {
      *
      * @param index the index to add at, must be valid
      * @param chars the char array to insert
-     *
      * @return this, to enable chaining
-     *
      * @throws IndexOutOfBoundsException if the index is invalid
      */
     public StrBuilder insert(int index, char chars[]) {
@@ -1421,9 +1360,7 @@ public class StrBuilder implements Cloneable {
      * @param chars the char array to insert
      * @param offset the offset into the character array to start at, must be valid
      * @param length the length of the character array part to copy, must be positive
-     *
      * @return this, to enable chaining
-     *
      * @throws IndexOutOfBoundsException if any index is invalid
      */
     public StrBuilder insert(int index, char chars[], int offset, int length) {
@@ -1451,9 +1388,7 @@ public class StrBuilder implements Cloneable {
      *
      * @param index the index to add at, must be valid
      * @param value the value to insert
-     *
      * @return this, to enable chaining
-     *
      * @throws IndexOutOfBoundsException if the index is invalid
      */
     public StrBuilder insert(int index, boolean value) {
@@ -1484,9 +1419,7 @@ public class StrBuilder implements Cloneable {
      *
      * @param index the index to add at, must be valid
      * @param value the value to insert
-     *
      * @return this, to enable chaining
-     *
      * @throws IndexOutOfBoundsException if the index is invalid
      */
     public StrBuilder insert(int index, char value) {
@@ -1503,9 +1436,7 @@ public class StrBuilder implements Cloneable {
      *
      * @param index the index to add at, must be valid
      * @param value the value to insert
-     *
      * @return this, to enable chaining
-     *
      * @throws IndexOutOfBoundsException if the index is invalid
      */
     public StrBuilder insert(int index, int value) {
@@ -1517,9 +1448,7 @@ public class StrBuilder implements Cloneable {
      *
      * @param index the index to add at, must be valid
      * @param value the value to insert
-     *
      * @return this, to enable chaining
-     *
      * @throws IndexOutOfBoundsException if the index is invalid
      */
     public StrBuilder insert(int index, long value) {
@@ -1531,9 +1460,7 @@ public class StrBuilder implements Cloneable {
      *
      * @param index the index to add at, must be valid
      * @param value the value to insert
-     *
      * @return this, to enable chaining
-     *
      * @throws IndexOutOfBoundsException if the index is invalid
      */
     public StrBuilder insert(int index, float value) {
@@ -1545,9 +1472,7 @@ public class StrBuilder implements Cloneable {
      *
      * @param index the index to add at, must be valid
      * @param value the value to insert
-     *
      * @return this, to enable chaining
-     *
      * @throws IndexOutOfBoundsException if the index is invalid
      */
     public StrBuilder insert(int index, double value) {
@@ -1562,7 +1487,6 @@ public class StrBuilder implements Cloneable {
      * @param startIndex the start index, must be valid
      * @param endIndex the end index (exclusive), must be valid
      * @param len the length, must be valid
-     *
      * @throws IndexOutOfBoundsException if any index is invalid
      */
     private void deleteImpl(int startIndex, int endIndex, int len) {
@@ -1575,9 +1499,7 @@ public class StrBuilder implements Cloneable {
      *
      * @param startIndex the start index, inclusive, must be valid
      * @param endIndex the end index, exclusive, must be valid except that if too large it is treated as end of string
-     *
      * @return this, to enable chaining
-     *
      * @throws IndexOutOfBoundsException if the index is invalid
      */
     public StrBuilder delete(int startIndex, int endIndex) {
@@ -1595,7 +1517,6 @@ public class StrBuilder implements Cloneable {
      * Deletes the character wherever it occurs in the builder.
      *
      * @param ch the character to delete
-     *
      * @return this, to enable chaining
      */
     public StrBuilder deleteAll(char ch) {
@@ -1619,7 +1540,6 @@ public class StrBuilder implements Cloneable {
      * Deletes the character wherever it occurs in the builder.
      *
      * @param ch the character to delete
-     *
      * @return this, to enable chaining
      */
     public StrBuilder deleteFirst(char ch) {
@@ -1638,7 +1558,6 @@ public class StrBuilder implements Cloneable {
      * Deletes the string wherever it occurs in the builder.
      *
      * @param str the string to delete, null causes no action
-     *
      * @return this, to enable chaining
      */
     public StrBuilder deleteAll(String str) {
@@ -1657,7 +1576,6 @@ public class StrBuilder implements Cloneable {
      * Deletes the string wherever it occurs in the builder.
      *
      * @param str the string to delete, null causes no action
-     *
      * @return this, to enable chaining
      */
     public StrBuilder deleteFirst(String str) {
@@ -1676,11 +1594,10 @@ public class StrBuilder implements Cloneable {
     /**
      * Deletes all parts of the builder that the matcher matches.
      * <p/>
-     * Matchers can be used to perform advanced deletion behaviour. For example you could write a matcher to delete all occurances where the character 'a' is
-     * followed by a number.
+     * Matchers can be used to perform advanced deletion behaviour. For example you could write a matcher to delete all occurances where the
+     * character 'a' is followed by a number.
      *
      * @param matcher the matcher to use to find the deletion, null causes no action
-     *
      * @return this, to enable chaining
      */
     public StrBuilder deleteAll(StrMatcher matcher) {
@@ -1690,11 +1607,10 @@ public class StrBuilder implements Cloneable {
     /**
      * Deletes the first match within the builder using the specified matcher.
      * <p/>
-     * Matchers can be used to perform advanced deletion behaviour. For example you could write a matcher to delete where the character 'a' is followed by a
-     * number.
+     * Matchers can be used to perform advanced deletion behaviour. For example you could write a matcher to delete where the character 'a'
+     * is followed by a number.
      *
      * @param matcher the matcher to use to find the deletion, null causes no action
-     *
      * @return this, to enable chaining
      */
     public StrBuilder deleteFirst(StrMatcher matcher) {
@@ -1711,7 +1627,6 @@ public class StrBuilder implements Cloneable {
      * @param removeLen the length to remove (endIndex - startIndex), must be valid
      * @param insertStr the string to replace with, null means delete range
      * @param insertLen the length of the insert string, must be valid
-     *
      * @throws IndexOutOfBoundsException if any index is invalid
      */
     private void replaceImpl(int startIndex, int endIndex, int removeLen, String insertStr, int insertLen) {
@@ -1727,14 +1642,13 @@ public class StrBuilder implements Cloneable {
     }
 
     /**
-     * Replaces a portion of the string builder with another string. The length of the inserted string does not have to match the removed length.
+     * Replaces a portion of the string builder with another string. The length of the inserted string does not have to match the removed
+     * length.
      *
      * @param startIndex the start index, inclusive, must be valid
      * @param endIndex the end index, exclusive, must be valid except that if too large it is treated as end of string
      * @param replaceStr the string to replace with, null means delete range
-     *
      * @return this, to enable chaining
-     *
      * @throws IndexOutOfBoundsException if the index is invalid
      */
     public StrBuilder replace(int startIndex, int endIndex, String replaceStr) {
@@ -1751,7 +1665,6 @@ public class StrBuilder implements Cloneable {
      *
      * @param search the search character
      * @param replace the replace character
-     *
      * @return this, to enable chaining
      */
     public StrBuilder replaceAll(char search, char replace) {
@@ -1770,7 +1683,6 @@ public class StrBuilder implements Cloneable {
      *
      * @param search the search character
      * @param replace the replace character
-     *
      * @return this, to enable chaining
      */
     public StrBuilder replaceFirst(char search, char replace) {
@@ -1792,7 +1704,6 @@ public class StrBuilder implements Cloneable {
      *
      * @param searchStr the search string, null causes no action to occur
      * @param replaceStr the replace string, null is equivalent to an empty string
-     *
      * @return this, to enable chaining
      */
     public StrBuilder replaceAll(String searchStr, String replaceStr) {
@@ -1813,7 +1724,6 @@ public class StrBuilder implements Cloneable {
      *
      * @param searchStr the search string, null causes no action to occur
      * @param replaceStr the replace string, null is equivalent to an empty string
-     *
      * @return this, to enable chaining
      */
     public StrBuilder replaceFirst(String searchStr, String replaceStr) {
@@ -1833,12 +1743,11 @@ public class StrBuilder implements Cloneable {
     /**
      * Replaces all matches within the builder with the replace string.
      * <p/>
-     * Matchers can be used to perform advanced replace behaviour. For example you could write a matcher to replace all occurances where the character 'a' is
-     * followed by a number.
+     * Matchers can be used to perform advanced replace behaviour. For example you could write a matcher to replace all occurances where the
+     * character 'a' is followed by a number.
      *
      * @param matcher the matcher to use to find the deletion, null causes no action
      * @param replaceStr the replace string, null is equivalent to an empty string
-     *
      * @return this, to enable chaining
      */
     public StrBuilder replaceAll(StrMatcher matcher, String replaceStr) {
@@ -1848,12 +1757,11 @@ public class StrBuilder implements Cloneable {
     /**
      * Replaces the first match within the builder with the replace string.
      * <p/>
-     * Matchers can be used to perform advanced replace behaviour. For example you could write a matcher to replace where the character 'a' is followed by a
-     * number.
+     * Matchers can be used to perform advanced replace behaviour. For example you could write a matcher to replace where the character 'a'
+     * is followed by a number.
      *
      * @param matcher the matcher to use to find the deletion, null causes no action
      * @param replaceStr the replace string, null is equivalent to an empty string
-     *
      * @return this, to enable chaining
      */
     public StrBuilder replaceFirst(StrMatcher matcher, String replaceStr) {
@@ -1865,17 +1773,15 @@ public class StrBuilder implements Cloneable {
     /**
      * Advanced search and replaces within the builder using a matcher.
      * <p/>
-     * Matchers can be used to perform advanced behaviour. For example you could write a matcher to delete all occurances where the character 'a' is followed by
-     * a number.
+     * Matchers can be used to perform advanced behaviour. For example you could write a matcher to delete all occurances where the
+     * character 'a' is followed by a number.
      *
      * @param matcher the matcher to use to find the deletion, null causes no action
      * @param replaceStr the string to replace the match with, null is a delete
      * @param startIndex the start index, inclusive, must be valid
      * @param endIndex the end index, exclusive, must be valid except that if too large it is treated as end of string
      * @param replaceCount the number of times to replace, -1 for replace all
-     *
      * @return this, to enable chaining
-     *
      * @throws IndexOutOfBoundsException if start index is invalid
      */
     public StrBuilder replace(StrMatcher matcher, String replaceStr, int startIndex, int endIndex, int replaceCount) {
@@ -1886,17 +1792,15 @@ public class StrBuilder implements Cloneable {
     /**
      * Replaces within the builder using a matcher.
      * <p/>
-     * Matchers can be used to perform advanced behaviour. For example you could write a matcher to delete all occurances where the character 'a' is followed by
-     * a number.
+     * Matchers can be used to perform advanced behaviour. For example you could write a matcher to delete all occurances where the
+     * character 'a' is followed by a number.
      *
      * @param matcher the matcher to use to find the deletion, null causes no action
      * @param replaceStr the string to replace the match with, null is a delete
      * @param from the start index, must be valid
      * @param to the end index (exclusive), must be valid
      * @param replaceCount the number of times to replace, -1 for replace all
-     *
      * @return this, to enable chaining
-     *
      * @throws IndexOutOfBoundsException if any index is invalid
      */
     private StrBuilder replaceImpl(StrMatcher matcher, String replaceStr, int from, int to, int replaceCount) {
@@ -1978,7 +1882,6 @@ public class StrBuilder implements Cloneable {
      * Note that this method handles null input quietly, unlike String.
      *
      * @param str the string to search for, null returns false
-     *
      * @return true if the builder starts with the string
      */
     public boolean startsWith(String str) {
@@ -2006,7 +1909,6 @@ public class StrBuilder implements Cloneable {
      * Note that this method handles null input quietly, unlike String.
      *
      * @param str the string to search for, null returns false
-     *
      * @return true if the builder ends with the string
      */
     public boolean endsWith(String str) {
@@ -2035,9 +1937,7 @@ public class StrBuilder implements Cloneable {
      * Extracts a portion of this string builder as a string.
      *
      * @param start the start index, inclusive, must be valid
-     *
      * @return the new string
-     *
      * @throws IndexOutOfBoundsException if the index is invalid
      */
     public String substring(int start) {
@@ -2047,14 +1947,12 @@ public class StrBuilder implements Cloneable {
     /**
      * Extracts a portion of this string builder as a string.
      * <p/>
-     * Note: This method treats an endIndex greater than the length of the builder as equal to the length of the builder, and continues without error, unlike
-     * StringBuffer or String.
+     * Note: This method treats an endIndex greater than the length of the builder as equal to the length of the builder, and continues
+     * without error, unlike StringBuffer or String.
      *
      * @param startIndex the start index, inclusive, must be valid
      * @param endIndex the end index, exclusive, must be valid except that if too large it is treated as end of string
-     *
      * @return the new string
-     *
      * @throws IndexOutOfBoundsException if the index is invalid
      */
     public String substring(int startIndex, int endIndex) {
@@ -2065,11 +1963,10 @@ public class StrBuilder implements Cloneable {
     /**
      * Extracts the leftmost characters from the string builder without throwing an exception.
      * <p/>
-     * This method extracts the left <code>length</code> characters from the builder. If this many characters are not available, the whole builder is returned.
-     * Thus the returned string may be shorter than the length requested.
+     * This method extracts the left <code>length</code> characters from the builder. If this many characters are not available, the whole
+     * builder is returned. Thus the returned string may be shorter than the length requested.
      *
      * @param length the number of characters to extract, negative returns empty string
-     *
      * @return the new string
      */
     public String leftString(int length) {
@@ -2085,11 +1982,10 @@ public class StrBuilder implements Cloneable {
     /**
      * Extracts the rightmost characters from the string builder without throwing an exception.
      * <p/>
-     * This method extracts the right <code>length</code> characters from the builder. If this many characters are not available, the whole builder is returned.
-     * Thus the returned string may be shorter than the length requested.
+     * This method extracts the right <code>length</code> characters from the builder. If this many characters are not available, the whole
+     * builder is returned. Thus the returned string may be shorter than the length requested.
      *
      * @param length the number of characters to extract, negative returns empty string
-     *
      * @return the new string
      */
     public String rightString(int length) {
@@ -2105,13 +2001,13 @@ public class StrBuilder implements Cloneable {
     /**
      * Extracts some characters from the middle of the string builder without throwing an exception.
      * <p/>
-     * This method extracts <code>length</code> characters from the builder at the specified index. If the index is negative it is treated as zero. If the index
-     * is greater than the builder size, it is treated as the builder size. If the length is negative, the empty string is returned. If insufficient characters
-     * are available in the builder, as much as possible is returned. Thus the returned string may be shorter than the length requested.
+     * This method extracts <code>length</code> characters from the builder at the specified index. If the index is negative it is treated
+     * as zero. If the index is greater than the builder size, it is treated as the builder size. If the length is negative, the empty
+     * string is returned. If insufficient characters are available in the builder, as much as possible is returned. Thus the returned
+     * string may be shorter than the length requested.
      *
      * @param index the index to start at, negative means zero
      * @param length the number of characters to extract, negative returns empty string
-     *
      * @return the new string
      */
     public String midString(int index, int length) {
@@ -2134,7 +2030,6 @@ public class StrBuilder implements Cloneable {
      * Checks if the string builder contains the specified char.
      *
      * @param ch the character to find
-     *
      * @return true if the builder contains the character
      */
     public boolean contains(char ch) {
@@ -2151,7 +2046,6 @@ public class StrBuilder implements Cloneable {
      * Checks if the string builder contains the specified string.
      *
      * @param str the string to find
-     *
      * @return true if the builder contains the string
      */
     public boolean contains(String str) {
@@ -2161,11 +2055,10 @@ public class StrBuilder implements Cloneable {
     /**
      * Checks if the string builder contains a string matched using the specified matcher.
      * <p/>
-     * Matchers can be used to perform advanced searching behaviour. For example you could write a matcher to search for the character 'a' followed by a
-     * number.
+     * Matchers can be used to perform advanced searching behaviour. For example you could write a matcher to search for the character 'a'
+     * followed by a number.
      *
      * @param matcher the matcher to use, null returns -1
-     *
      * @return true if the matcher finds a match in the builder
      */
     public boolean contains(StrMatcher matcher) {
@@ -2178,7 +2071,6 @@ public class StrBuilder implements Cloneable {
      * Searches the string builder to find the first reference to the specified char.
      *
      * @param ch the character to find
-     *
      * @return the first index of the character, or -1 if not found
      */
     public int indexOf(char ch) {
@@ -2190,7 +2082,6 @@ public class StrBuilder implements Cloneable {
      *
      * @param ch the character to find
      * @param startIndex the index to start at, invalid index rounded to edge
-     *
      * @return the first index of the character, or -1 if not found
      */
     public int indexOf(char ch, int startIndex) {
@@ -2213,7 +2104,6 @@ public class StrBuilder implements Cloneable {
      * Note that a null input string will return -1, whereas the JDK throws an exception.
      *
      * @param str the string to find, null returns -1
-     *
      * @return the first index of the string, or -1 if not found
      */
     public int indexOf(String str) {
@@ -2227,7 +2117,6 @@ public class StrBuilder implements Cloneable {
      *
      * @param str the string to find, null returns -1
      * @param startIndex the index to start at, invalid index rounded to edge
-     *
      * @return the first index of the string, or -1 if not found
      */
     public int indexOf(String str, int startIndex) {
@@ -2247,8 +2136,7 @@ public class StrBuilder implements Cloneable {
         }
         char[] thisBuf = buffer;
         int len = size - strLen + 1;
-        outer:
-        for (int i = startIndex; i < len; i++) {
+        outer: for (int i = startIndex; i < len; i++) {
             for (int j = 0; j < strLen; j++) {
                 if (str.charAt(j) != thisBuf[i + j]) {
                     continue outer;
@@ -2262,10 +2150,10 @@ public class StrBuilder implements Cloneable {
     /**
      * Searches the string builder using the matcher to find the first match.
      * <p/>
-     * Matchers can be used to perform advanced searching behaviour. For example you could write a matcher to find the character 'a' followed by a number.
+     * Matchers can be used to perform advanced searching behaviour. For example you could write a matcher to find the character 'a'
+     * followed by a number.
      *
      * @param matcher the matcher to use, null returns -1
-     *
      * @return the first index matched, or -1 if not found
      */
     public int indexOf(StrMatcher matcher) {
@@ -2275,11 +2163,11 @@ public class StrBuilder implements Cloneable {
     /**
      * Searches the string builder using the matcher to find the first match searching from the given index.
      * <p/>
-     * Matchers can be used to perform advanced searching behaviour. For example you could write a matcher to find the character 'a' followed by a number.
+     * Matchers can be used to perform advanced searching behaviour. For example you could write a matcher to find the character 'a'
+     * followed by a number.
      *
      * @param matcher the matcher to use, null returns -1
      * @param startIndex the index to start at, invalid index rounded to edge
-     *
      * @return the first index matched, or -1 if not found
      */
     public int indexOf(StrMatcher matcher, int startIndex) {
@@ -2303,7 +2191,6 @@ public class StrBuilder implements Cloneable {
      * Searches the string builder to find the last reference to the specified char.
      *
      * @param ch the character to find
-     *
      * @return the last index of the character, or -1 if not found
      */
     public int lastIndexOf(char ch) {
@@ -2315,7 +2202,6 @@ public class StrBuilder implements Cloneable {
      *
      * @param ch the character to find
      * @param startIndex the index to start at, invalid index rounded to edge
-     *
      * @return the last index of the character, or -1 if not found
      */
     public int lastIndexOf(char ch, int startIndex) {
@@ -2337,7 +2223,6 @@ public class StrBuilder implements Cloneable {
      * Note that a null input string will return -1, whereas the JDK throws an exception.
      *
      * @param str the string to find, null returns -1
-     *
      * @return the last index of the string, or -1 if not found
      */
     public int lastIndexOf(String str) {
@@ -2351,7 +2236,6 @@ public class StrBuilder implements Cloneable {
      *
      * @param str the string to find, null returns -1
      * @param startIndex the index to start at, invalid index rounded to edge
-     *
      * @return the last index of the string, or -1 if not found
      */
     public int lastIndexOf(String str, int startIndex) {
@@ -2365,8 +2249,7 @@ public class StrBuilder implements Cloneable {
                 return lastIndexOf(str.charAt(0), startIndex);
             }
 
-            outer:
-            for (int i = startIndex - strLen + 1; i >= 0; i--) {
+            outer: for (int i = startIndex - strLen + 1; i >= 0; i--) {
                 for (int j = 0; j < strLen; j++) {
                     if (str.charAt(j) != buffer[i + j]) {
                         continue outer;
@@ -2384,10 +2267,10 @@ public class StrBuilder implements Cloneable {
     /**
      * Searches the string builder using the matcher to find the last match.
      * <p/>
-     * Matchers can be used to perform advanced searching behaviour. For example you could write a matcher to find the character 'a' followed by a number.
+     * Matchers can be used to perform advanced searching behaviour. For example you could write a matcher to find the character 'a'
+     * followed by a number.
      *
      * @param matcher the matcher to use, null returns -1
-     *
      * @return the last index matched, or -1 if not found
      */
     public int lastIndexOf(StrMatcher matcher) {
@@ -2397,11 +2280,11 @@ public class StrBuilder implements Cloneable {
     /**
      * Searches the string builder using the matcher to find the last match searching from the given index.
      * <p/>
-     * Matchers can be used to perform advanced searching behaviour. For example you could write a matcher to find the character 'a' followed by a number.
+     * Matchers can be used to perform advanced searching behaviour. For example you could write a matcher to find the character 'a'
+     * followed by a number.
      *
      * @param matcher the matcher to use, null returns -1
      * @param startIndex the index to start at, invalid index rounded to edge
-     *
      * @return the last index matched, or -1 if not found
      */
     public int lastIndexOf(StrMatcher matcher, int startIndex) {
@@ -2424,26 +2307,29 @@ public class StrBuilder implements Cloneable {
     /**
      * Creates a tokenizer that can tokenize the contents of this builder.
      * <p/>
-     * This method allows the contents of this builder to be tokenized. The tokenizer will be setup by default to tokenize on space, tab, newline and formfeed
-     * (as per StringTokenizer). These values can be changed on the tokenizer class, before retrieving the tokens.
+     * This method allows the contents of this builder to be tokenized. The tokenizer will be setup by default to tokenize on space, tab,
+     * newline and formfeed (as per StringTokenizer). These values can be changed on the tokenizer class, before retrieving the tokens.
      * <p/>
-     * The returned tokenizer is linked to this builder. You may intermix calls to the buider and tokenizer within certain limits, however there is no
-     * synchronization. Once the tokenizer has been used once, it must be {@link StrTokenizer#reset() reset} to pickup the latest changes in the builder. For
-     * example:
+     * The returned tokenizer is linked to this builder. You may intermix calls to the buider and tokenizer within certain limits, however
+     * there is no synchronization. Once the tokenizer has been used once, it must be {@link StrTokenizer#reset() reset} to pickup the
+     * latest changes in the builder. For example:
+     * 
      * <pre>
      * StrBuilder b = new StrBuilder();
-     * b.append("a b ");
+     * b.append(&quot;a b &quot;);
      * StrTokenizer t = b.asTokenizer();
-     * String[] tokens1 = t.getTokenArray();  // returns a,b
-     * b.append("c d ");
-     * String[] tokens2 = t.getTokenArray();  // returns a,b (c and d ignored)
-     * t.reset();              // reset causes builder changes to be picked up
-     * String[] tokens3 = t.getTokenArray();  // returns a,b,c,d
+     * String[] tokens1 = t.getTokenArray(); // returns a,b
+     * b.append(&quot;c d &quot;);
+     * String[] tokens2 = t.getTokenArray(); // returns a,b (c and d ignored)
+     * t.reset(); // reset causes builder changes to be picked up
+     * String[] tokens3 = t.getTokenArray(); // returns a,b,c,d
      * </pre>
-     * In addition to simply intermixing appends and tokenization, you can also call the set methods on the tokenizer to alter how it tokenizes. Just remember
-     * to call reset when you want to pickup builder changes.
+     * 
+     * In addition to simply intermixing appends and tokenization, you can also call the set methods on the tokenizer to alter how it
+     * tokenizes. Just remember to call reset when you want to pickup builder changes.
      * <p/>
-     * Calling {@link StrTokenizer#reset(String)} or {@link StrTokenizer#reset(char[])} with a non-null value will break the link with the builder.
+     * Calling {@link StrTokenizer#reset(String)} or {@link StrTokenizer#reset(char[])} with a non-null value will break the link with the
+     * builder.
      *
      * @return a tokenizer that is linked to this builder
      */
@@ -2460,9 +2346,9 @@ public class StrBuilder implements Cloneable {
      * <p/>
      * To use, simply create a <code>StrBuilder</code>, populate it with data, call <code>asReader</code>, and then read away.
      * <p/>
-     * The internal character array is shared between the builder and the reader. This allows you to append to the builder after creating the reader, and the
-     * changes will be picked up. Note however, that no synchronization occurs, so you must perform all operations with the builder and the reader in one
-     * thread.
+     * The internal character array is shared between the builder and the reader. This allows you to append to the builder after creating
+     * the reader, and the changes will be picked up. Note however, that no synchronization occurs, so you must perform all operations with
+     * the builder and the reader in one thread.
      * <p/>
      * The returned reader supports marking, and ignores the flush method.
      *
@@ -2479,12 +2365,12 @@ public class StrBuilder implements Cloneable {
      * <p/>
      * This method allows you to populate the contents of the builder using any standard method that takes a Writer.
      * <p/>
-     * To use, simply create a <code>StrBuilder</code>, call <code>asWriter</code>, and populate away. The data is available at any time using the methods of
-     * the <code>StrBuilder</code>.
+     * To use, simply create a <code>StrBuilder</code>, call <code>asWriter</code>, and populate away. The data is available at any time
+     * using the methods of the <code>StrBuilder</code>.
      * <p/>
-     * The internal character array is shared between the builder and the writer. This allows you to intermix calls that append to the builder and write using
-     * the writer and the changes will be occur correctly. Note however, that no synchronization occurs, so you must perform all operations with the builder and
-     * the writer in one thread.
+     * The internal character array is shared between the builder and the writer. This allows you to intermix calls that append to the
+     * builder and write using the writer and the changes will be occur correctly. Note however, that no synchronization occurs, so you must
+     * perform all operations with the builder and the writer in one thread.
      * <p/>
      * The returned writer ignores the close and flush methods.
      *
@@ -2495,34 +2381,34 @@ public class StrBuilder implements Cloneable {
     }
 
     //-----------------------------------------------------------------------
-//    /**
-//     * Gets a String version of the string builder by calling the internal
-//     * constructor of String by reflection.
-//     * <p>
-//     * WARNING: You must not use the StrBuilder after calling this method
-//     * as the buffer is now shared with the String object. To ensure this,
-//     * the internal character array is set to null, so you will get
-//     * NullPointerExceptions on all method calls.
-//     *
-//     * @return the builder as a String
-//     */
-//    public String toSharedString() {
-//        try {
-//            Constructor con = String.class.getDeclaredConstructor(
-//                new Class[] {int.class, int.class, char[].class});
-//            con.setAccessible(true);
-//            char[] buffer = buf;
-//            buf = null;
-//            size = -1;
-//            nullText = null;
-//            return (String) con.newInstance(
-//                new Object[] {new Integer(0), new Integer(size), buffer});
-//
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//            throw new UnsupportedOperationException("StrBuilder.toSharedString is unsupported: " + ex.getMessage());
-//        }
-//    }
+    //    /**
+    //     * Gets a String version of the string builder by calling the internal
+    //     * constructor of String by reflection.
+    //     * <p>
+    //     * WARNING: You must not use the StrBuilder after calling this method
+    //     * as the buffer is now shared with the String object. To ensure this,
+    //     * the internal character array is set to null, so you will get
+    //     * NullPointerExceptions on all method calls.
+    //     *
+    //     * @return the builder as a String
+    //     */
+    //    public String toSharedString() {
+    //        try {
+    //            Constructor con = String.class.getDeclaredConstructor(
+    //                new Class[] {int.class, int.class, char[].class});
+    //            con.setAccessible(true);
+    //            char[] buffer = buf;
+    //            buf = null;
+    //            size = -1;
+    //            nullText = null;
+    //            return (String) con.newInstance(
+    //                new Object[] {new Integer(0), new Integer(size), buffer});
+    //
+    //        } catch (Exception ex) {
+    //            ex.printStackTrace();
+    //            throw new UnsupportedOperationException("StrBuilder.toSharedString is unsupported: " + ex.getMessage());
+    //        }
+    //    }
 
     //-----------------------------------------------------------------------
 
@@ -2530,7 +2416,6 @@ public class StrBuilder implements Cloneable {
      * Checks the contents of this builder against another to see if they contain the same character content ignoring case.
      *
      * @param other the object to check, null returns false
-     *
      * @return true if the builders contain the same characters in the same order
      */
     public boolean equalsIgnoreCase(StrBuilder other) {
@@ -2556,7 +2441,6 @@ public class StrBuilder implements Cloneable {
      * Checks the contents of this builder against another to see if they contain the same character content.
      *
      * @param other the object to check, null returns false
-     *
      * @return true if the builders contain the same characters in the same order
      */
     public boolean equals(StrBuilder other) {
@@ -2580,7 +2464,6 @@ public class StrBuilder implements Cloneable {
      * Checks the contents of this builder against another to see if they contain the same character content.
      *
      * @param obj the object to check, null returns false
-     *
      * @return true if the builders contain the same characters in the same order
      */
     public boolean equals(Object obj) {
@@ -2630,7 +2513,6 @@ public class StrBuilder implements Cloneable {
      * Clone this object.
      *
      * @return a clone of this object
-     *
      * @throws CloneNotSupportedException if clone is not supported
      * @since 2.6
      */
@@ -2648,9 +2530,7 @@ public class StrBuilder implements Cloneable {
      *
      * @param startIndex the start index, inclusive, must be valid
      * @param endIndex the end index, exclusive, must be valid except that if too large it is treated as end of string
-     *
      * @return the new string
-     *
      * @throws IndexOutOfBoundsException if the index is invalid
      */
     protected int validateRange(int startIndex, int endIndex) {
@@ -2670,7 +2550,6 @@ public class StrBuilder implements Cloneable {
      * Validates parameters defining a single index in the builder.
      *
      * @param index the index, must be valid
-     *
      * @throws IndexOutOfBoundsException if the index is invalid
      */
     protected void validateIndex(int index) {
@@ -2761,8 +2640,7 @@ public class StrBuilder implements Cloneable {
          * {@inheritDoc}
          */
         public int read(char b[], int off, int len) {
-            if (off < 0 || len < 0 || off > b.length ||
-                    (off + len) > b.length || (off + len) < 0) {
+            if (off < 0 || len < 0 || off > b.length || (off + len) > b.length || (off + len) < 0) {
                 throw new IndexOutOfBoundsException();
             }
             if (len == 0) {

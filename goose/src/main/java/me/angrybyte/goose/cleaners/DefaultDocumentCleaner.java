@@ -25,18 +25,16 @@ import me.angrybyte.goose.texthelpers.ReplaceSequence;
 import me.angrybyte.goose.texthelpers.string;
 
 /**
- * User: Jim Plush Date: 12/18/10 This class is used to pre clean documents(webpages) We go through 3 phases of parsing a website cleaning -> extraction ->
- * output formatter This is the cleaning phase that will try to remove comments, known ad junk, social networking divs other things that are known to not be
- * content related.
+ * User: Jim Plush Date: 12/18/10 This class is used to pre clean documents(webpages) We go through 3 phases of parsing a website cleaning
+ * -> extraction -> output formatter This is the cleaning phase that will try to remove comments, known ad junk, social networking divs
+ * other things that are known to not be content related.
  */
 
 public class DefaultDocumentCleaner implements DocumentCleaner {
 
-    private static final String TAG = DefaultDocumentCleaner.class.getSimpleName();
-
-    /**
-     * this regex is used to remove undesirable nodes from our doc indicate that something maybe isn't content but more of a comment, footer or some other
-     * undesirable node
+    /*
+     * This regex is used to remove undesirable nodes from our doc indicate that something maybe isn't content but more of a comment, footer
+     * or some other undesirable node
      */
     private static final String regExRemoveNodes;
     private static final String queryNaughtyIDs;
@@ -56,16 +54,13 @@ public class DefaultDocumentCleaner implements DocumentCleaner {
     private static final Pattern twitterPattern = Pattern.compile("[^-]twitter");
 
     static {
-
-        StringBuilder sb = new StringBuilder();
         // create negative elements
-        sb.append("^side$|combx|retweet|menucontainer|navbar|comment|PopularQuestions|contact|foot|footer|Footer|footnote|cnn_strycaptiontxt|links|meta$" +
-                "|scroll|shoutbox|sponsor");
-        sb.append("|tags|socialnetworking|socialNetworking|cnnStryHghLght|cnn_stryspcvbx|^inset$|pagetools|post-attributes|welcome_form|contentTools2" +
-                "|the_answers");
-        sb.append("|communitypromo|subscribe|vcard|articleheadings|date|print|popup|author-dropdown|tools|socialtools|byline|konafilter|KonaFilter" +
-                "|breadcrumbs|^fn$|wp-caption-text");
-        regExRemoveNodes = sb.toString();
+        regExRemoveNodes = ("^side$|combx|retweet|menucontainer|navbar|comment|PopularQuestions|contact|foot|footer|Footer|footnote|cnn_strycaptiontxt|links|meta$"
+                + "|scroll|shoutbox|sponsor")
+                + "|tags|socialnetworking|socialNetworking|cnnStryHghLght|cnn_stryspcvbx|^inset$|pagetools|post-attributes|welcome_form|contentTools2"
+                + "|the_answers"
+                + "|communitypromo|subscribe|vcard|articleheadings|date|print|popup|author-dropdown|tools|socialtools|byline|konafilter|KonaFilter"
+                + "|breadcrumbs|^fn$|wp-caption-text";
         queryNaughtyIDs = "[id~=(" + regExRemoveNodes + ")]";
         queryNaughtyClasses = "[class~=(" + regExRemoveNodes + ")]";
         queryNaughtyNames = "[name~=(" + regExRemoveNodes + ")]";
@@ -74,7 +69,6 @@ public class DefaultDocumentCleaner implements DocumentCleaner {
     }
 
     public Document clean(Document doc) {
-        ;// Log.d(TAG, "Starting cleaning phase with DefaultDocumentCleaner");
         Document docToClean = doc;
         docToClean = cleanEmTags(docToClean);
         docToClean = removeDropCaps(docToClean);
@@ -96,13 +90,9 @@ public class DefaultDocumentCleaner implements DocumentCleaner {
     }
 
     private Document convertDivsToParagraphs(Document doc, String domType) {
-        ;// Log.d(TAG, "Starting to replace bad divs...");
-        int badDivs = 0;
-        int convertedTextNodes = 0;
         Elements divs = doc.getElementsByTag(domType);
-
         for (Element div : divs) {
-            try {
+            try { // this try catches a NPE, so it will just continue when it happens
                 Matcher divToPElementsMatcher = divToPElementsPattern.matcher(div.html().toLowerCase());
                 if (!divToPElementsMatcher.find()) {
                     Document newDoc = new Document(doc.baseUri());
@@ -110,89 +100,69 @@ public class DefaultDocumentCleaner implements DocumentCleaner {
 
                     newNode.append(div.html());
                     div.replaceWith(newNode);
-                    badDivs++;
-
                 } else {
                     // Try to convert any div with just text inside it to a paragraph so it can be counted as text, otherwise it would be ignored
                     // example <div>This is some text in a div</div> should be <div><p>this is some text in a div</p></div>
-                    //db(div.childNodes().size() + " childnodes");
+                    // db(div.childNodes().size() + " childnodes");
 
-                    //create a master text node to hold all the child node texts so that  links that were replaced with text notes
-                    //don't become their own paragraphs
+                    // create a master text node to hold all the child node texts so that  links that were replaced with text notes
+                    // don't become their own paragraphs
 
                     StringBuilder replacementText = new StringBuilder();
-
-                    ArrayList<Node> nodesToRemove = new ArrayList<Node>();
-
-                    //cleanTags(div);
+                    ArrayList<Node> nodesToRemove = new ArrayList<>();
 
                     for (Node kid : div.childNodes()) {
-
                         if (kid.nodeName().equals("#text")) {
-
                             TextNode txtNode = (TextNode) kid;
                             String text = txtNode.attr("text");
-                            if (string.isNullOrEmpty(text)) continue;
+                            if (string.isNullOrEmpty(text)) {
+                                continue;
+                            }
 
                             //clean up text from tabs and newlines
                             text = tabsAndNewLinesReplcesments.replaceAll(text);
 
                             if (text.length() > 1) {
-
                                 // check for siblings that might be links that we want to include in our new node
                                 Node previousSib = kid.previousSibling();
 
                                 if (previousSib != null) {
                                     if (previousSib.nodeName().equals("a")) {
                                         replacementText.append(previousSib.outerHtml());
-                                        ;// Log.d(TAG, "SIBLING NODENAME ADDITION: " + previousSib.nodeName() + " TEXT: " + previousSib.outerHtml());
+                                        // Log.d(TAG, "SIBLING NODENAME ADDITION: " + previousSib.nodeName() + " TEXT: " + previousSib.outerHtml());
                                     }
                                 }
-
                                 replacementText.append(text);
                                 nodesToRemove.add(kid);
-
-                                convertedTextNodes++;
                             }
-
                         }
-
                     }
 
                     // replace div's text with the new master replacement text node that containts the sum of all the little text nodes
-                    //div.appendChild(replacementTextNode);
+                    // div.appendChild(replacementTextNode);
 
                     Document newDoc = new Document(doc.baseUri());
                     Element newPara = newDoc.createElement("p");
                     newPara.html(replacementText.toString());
-
                     div.childNode(0).before(newPara.outerHtml());
-
-                    newDoc = null;
 
                     for (Node n : nodesToRemove) {
                         n.remove();
                     }
-
                 }
-            } catch (NullPointerException e) {
-                ;// Log.e(TAG, e.toString());
+            } catch (Exception ignored) {
             }
-
         }
 
         return doc;
     }
 
     private Document removeScriptsAndStyles(Document doc) {
-        ;// Log.d(TAG, "Starting to remove script tags");
         Elements scripts = doc.getElementsByTag("script");
         for (Element item : scripts) {
             item.remove();
         }
-        ;// Log.d(TAG, "Removed: " + scripts.size() + " script tags");
 
-        ;// Log.d(TAG, "Removing Style Tags");
         Elements styles = doc.getElementsByTag("style");
         for (Element style : styles) {
             style.remove();
@@ -202,11 +172,10 @@ public class DefaultDocumentCleaner implements DocumentCleaner {
     }
 
     /**
-     * replaces <em> tags with textnodes
+     * Replaces <em> tags with text nodes
      */
     private Document cleanEmTags(Document doc) {
         Elements ems = doc.getElementsByTag("em");
-        ;// Log.d(TAG, "Cleaning " + ems.size() + " EM tags");
         for (Element node : ems) {
             // replace the node with a div node
             Elements images = node.getElementsByTag("img");
@@ -224,7 +193,6 @@ public class DefaultDocumentCleaner implements DocumentCleaner {
      */
     private Document removeDropCaps(Document doc) {
         Elements items = doc.select("span[class~=(dropcap|drop_cap)]");
-        ;// Log.d(TAG, "Cleaning " + items.size() + " dropcap tags");
         for (Element item : items) {
             TextNode tn = new TextNode(item.text(), doc.baseUri());
             item.replaceWith(tn);
@@ -237,28 +205,30 @@ public class DefaultDocumentCleaner implements DocumentCleaner {
         Elements children = doc.body().children();
 
         Elements naughtyList = children.select(queryNaughtyIDs);
-        ;// Log.d(TAG, naughtyList.size() + " naughty ID elements found");
         for (Element node : naughtyList) {
-            ;// Log.d(TAG, "Cleaning: Removing node with id: " + node.id());
             removeNode(node);
         }
-        Elements naughtyList2 = children.select(queryNaughtyIDs);
-        ;// Log.d(TAG, naughtyList2.size() + " naughty ID elements found after removal");
+
+        // MM remove this?
+        // Elements naughtyList2 = children.select(queryNaughtyIDs);
+        // for (Element node : naughtyList2) {
+        //     removeNode(node);
+        // }
 
         Elements naughtyList3 = children.select(queryNaughtyClasses);
-        ;// Log.d(TAG, naughtyList3.size() + " naughty CLASS elements found");
         for (Element node : naughtyList3) {
-            ;// Log.d(TAG, "clean: Removing node with class: " + node.className());
             removeNode(node);
         }
-        Elements naughtyList4 = children.select(queryNaughtyClasses);
-        ;// Log.d(TAG, naughtyList4.size() + " naughty CLASS elements found after removal");
+
+        // MM remove this?
+        // Elements naughtyList4 = children.select(queryNaughtyClasses);
+        // for (Element node : naughtyList4) {
+        //     removeNode(node);
+        // }
 
         // star magazine puts shit on name tags instead of class or id
         Elements naughtyList5 = children.select(queryNaughtyNames);
-        ;// Log.d(TAG, naughtyList5.size() + " naughty Name elements found");
         for (Element node : naughtyList5) {
-            ;// Log.d(TAG, "clean: Removing node with class: " + node.attr("class") + " id: " + node.id() + " name: " + node.attr("name"));
             removeNode(node);
         }
 
@@ -266,12 +236,13 @@ public class DefaultDocumentCleaner implements DocumentCleaner {
     }
 
     /**
-     * Apparently jsoup expects the node's parent to not be null and throws if it is. Let's be safe.
+     * Apparently jSoup expects the node's parent to not be null and throws if it is. Let's be safe.
      *
      * @param node the node to remove from the doc
      */
     private void removeNode(Element node) {
-        if (node == null || node.parent() == null) return;
+        if (node == null || node.parent() == null)
+            return;
         node.remove();
     }
 
@@ -281,19 +252,19 @@ public class DefaultDocumentCleaner implements DocumentCleaner {
     private Document removeNodesViaRegEx(Document doc, Pattern pattern) {
         try {
             Elements naughtyList = doc.getElementsByAttributeValueMatching("id", pattern);
-            ;// Log.d(TAG, "regExRemoveNodes: " + naughtyList.size() + " ID elements found against pattern: " + pattern);
+            // Log.d(TAG, "regExRemoveNodes: " + naughtyList.size() + " ID elements found against pattern: " + pattern);
             for (Element node : naughtyList) {
                 removeNode(node);
             }
 
             Elements naughtyList3 = doc.getElementsByAttributeValueMatching("class", pattern);
-            ;// Log.d(TAG, "regExRemoveNodes: " + naughtyList3.size() + " CLASS elements found against pattern: " + pattern);
+            // Log.d(TAG, "regExRemoveNodes: " + naughtyList3.size() + " CLASS elements found against pattern: " + pattern);
             for (Element node : naughtyList3) {
                 removeNode(node);
             }
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
-            ;// Log.e(TAG, e.toString());
+            // Log.e(TAG, e.toString());
         }
         return doc;
     }

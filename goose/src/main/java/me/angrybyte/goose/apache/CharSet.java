@@ -25,7 +25,17 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * <p>A set of characters.</p> <p/> <p>Instances are immutable, but instances of subclasses may not be.</p> <p/> <p>#ThreadSafe#</p>
+ * <p>
+ * A set of characters.
+ * </p>
+ * <p/>
+ * <p>
+ * Instances are immutable, but instances of subclasses may not be.
+ * </p>
+ * <p/>
+ * <p>
+ * #ThreadSafe#
+ * </p>
  *
  * @version $Id: CharSet.java 1090427 2011-04-08 20:17:10Z bayard $
  * @since 1.0
@@ -99,21 +109,51 @@ public class CharSet implements Serializable {
     //-----------------------------------------------------------------------
 
     /**
-     * <p>Factory method to create a new CharSet using a special syntax.</p> <p/> <ul> <li>{@code null} or empty string ("") - set containing no characters</li>
-     * <li>Single character, such as "a" - set containing just that character</li> <li>Multi character, such as "a-e" - set containing characters from one
-     * character to the other</li> <li>Negated, such as "^a" or "^a-e" - set containing all characters except those defined</li> <li>Combinations, such as
-     * "abe-g" - set containing all the characters from the individual sets</li> </ul> <p/> <p>The matching order is:</p> <ol> <li>Negated multi character
-     * range, such as "^a-e" <li>Ordinary multi character range, such as "a-e" <li>Negated single character, such as "^a" <li>Ordinary single character, such as
-     * "a" </ol> <p>Matching works left to right. Once a match is found the search starts again from the next character.</p> <p/> <p>If the same range is
-     * defined twice using the same syntax, only one range will be kept. Thus, "a-ca-c" creates only one range of "a-c".</p> <p/> <p>If the start and end of a
-     * range are in the wrong order, they are reversed. Thus "a-e" is the same as "e-a". As a result, "a-ee-a" would create only one range, as the "a-e" and
-     * "e-a" are the same.</p> <p/> <p>The set of characters represented is the union of the specified ranges.</p> <p/> <p>All CharSet objects returned by this
-     * method will be immutable.</p>
+     * <p>
+     * Factory method to create a new CharSet using a special syntax.
+     * </p>
+     * <p/>
+     * <ul>
+     * <li>{@code null} or empty string ("") - set containing no characters</li>
+     * <li>Single character, such as "a" - set containing just that character</li>
+     * <li>Multi character, such as "a-e" - set containing characters from one character to the other</li>
+     * <li>Negated, such as "^a" or "^a-e" - set containing all characters except those defined</li>
+     * <li>Combinations, such as "abe-g" - set containing all the characters from the individual sets</li>
+     * </ul>
+     * <p/>
+     * <p>
+     * The matching order is:
+     * </p>
+     * <ol>
+     * <li>Negated multi character range, such as "^a-e"
+     * <li>Ordinary multi character range, such as "a-e"
+     * <li>Negated single character, such as "^a"
+     * <li>Ordinary single character, such as "a"
+     * </ol>
+     * <p>
+     * Matching works left to right. Once a match is found the search starts again from the next character.
+     * </p>
+     * <p/>
+     * <p>
+     * If the same range is defined twice using the same syntax, only one range will be kept. Thus, "a-ca-c" creates only one range of
+     * "a-c".
+     * </p>
+     * <p/>
+     * <p>
+     * If the start and end of a range are in the wrong order, they are reversed. Thus "a-e" is the same as "e-a". As a result, "a-ee-a"
+     * would create only one range, as the "a-e" and "e-a" are the same.
+     * </p>
+     * <p/>
+     * <p>
+     * The set of characters represented is the union of the specified ranges.
+     * </p>
+     * <p/>
+     * <p>
+     * All CharSet objects returned by this method will be immutable.
+     * </p>
      *
      * @param setStrs Strings to merge into the set, may be null
-     *
      * @return a CharSet instance
-     *
      * @since 2.4
      */
     public static CharSet getInstance(String... setStrs) {
@@ -132,10 +172,11 @@ public class CharSet implements Serializable {
     //-----------------------------------------------------------------------
 
     /**
-     * <p>Constructs a new CharSet using the set syntax. Each string is merged in with the set.</p>
+     * <p>
+     * Constructs a new CharSet using the set syntax. Each string is merged in with the set.
+     * </p>
      *
      * @param set Strings to merge into the initial set
-     *
      * @throws NullPointerException if set is {@code null}
      */
     protected CharSet(String... set) {
@@ -149,7 +190,9 @@ public class CharSet implements Serializable {
     //-----------------------------------------------------------------------
 
     /**
-     * <p>Add a set definition string to the {@code CharSet}.</p>
+     * <p>
+     * Add a set definition string to the {@code CharSet}.
+     * </p>
      *
      * @param str set definition string
      */
@@ -185,25 +228,27 @@ public class CharSet implements Serializable {
     //-----------------------------------------------------------------------
 
     /**
-     * <p>Gets the internal set as an array of CharRange objects.</p>
+     * <p>
+     * Gets the internal set as an array of CharRange objects.
+     * </p>
      *
      * @return an array of immutable CharRange objects
-     *
      * @since 2.0
      */
-// NOTE: This is no longer public as CharRange is no longer a public class.
-//       It may be replaced when CharSet moves to Range.
-    /*public*/ CharRange[] getCharRanges() {
+    // NOTE: This is no longer public as CharRange is no longer a public class.
+    //       It may be replaced when CharSet moves to Range.
+    /*public*/CharRange[] getCharRanges() {
         return set.toArray(new CharRange[set.size()]);
     }
 
     //-----------------------------------------------------------------------
 
     /**
-     * <p>Does the {@code CharSet} contain the specified character {@code ch}.</p>
+     * <p>
+     * Does the {@code CharSet} contain the specified character {@code ch}.
+     * </p>
      *
      * @param ch the character to check for
-     *
      * @return {@code true} if the set contains the characters
      */
     public boolean contains(char ch) {
@@ -219,13 +264,16 @@ public class CharSet implements Serializable {
     //-----------------------------------------------------------------------
 
     /**
-     * <p>Compares two {@code CharSet} objects, returning true if they represent exactly the same set of characters defined in the same way.</p> <p/> <p>The two
-     * sets {@code abc} and {@code a-c} are <i>not</i> equal according to this method.</p>
+     * <p>
+     * Compares two {@code CharSet} objects, returning true if they represent exactly the same set of characters defined in the same way.
+     * </p>
+     * <p/>
+     * <p>
+     * The two sets {@code abc} and {@code a-c} are <i>not</i> equal according to this method.
+     * </p>
      *
      * @param obj the object to compare to
-     *
      * @return true if equal
-     *
      * @since 2.0
      */
     @Override
@@ -241,10 +289,11 @@ public class CharSet implements Serializable {
     }
 
     /**
-     * <p>Gets a hash code compatible with the equals method.</p>
+     * <p>
+     * Gets a hash code compatible with the equals method.
+     * </p>
      *
      * @return a suitable hash code
-     *
      * @since 2.0
      */
     @Override
@@ -253,7 +302,9 @@ public class CharSet implements Serializable {
     }
 
     /**
-     * <p>Gets a string representation of the set.</p>
+     * <p>
+     * Gets a string representation of the set.
+     * </p>
      *
      * @return string representation of the set
      */

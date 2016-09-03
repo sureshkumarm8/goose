@@ -1,4 +1,6 @@
+
 package me.angrybyte.goose.apache;
+
 /*
  * Copyright 2002-2005 The Apache Software Foundation.
  *
@@ -16,8 +18,14 @@ package me.angrybyte.goose.apache;
  */
 
 /**
- * <p>Operations on boolean primitives and Boolean objects.</p> <p/> <p>This class tries to handle <code>null</code> input gracefully. An exception will not be
- * thrown for a <code>null</code> input. Each method documents its behaviour in more detail.</p>
+ * <p>
+ * Operations on boolean primitives and Boolean objects.
+ * </p>
+ * <p/>
+ * <p>
+ * This class tries to handle <code>null</code> input gracefully. An exception will not be thrown for a <code>null</code> input. Each method
+ * documents its behaviour in more detail.
+ * </p>
  *
  * @author Stephen Colebourne
  * @author Matthew Hawthorne
@@ -28,9 +36,14 @@ package me.angrybyte.goose.apache;
 public class BooleanUtils {
 
     /**
-     * <p><code>BooleanUtils</code> instances should NOT be constructed in standard programming. Instead, the class should be used as
-     * <code>BooleanUtils.toBooleanObject(true);</code>.</p> <p/> <p>This constructor is public to permit tools that require a JavaBean instance to
-     * operate.</p>
+     * <p>
+     * <code>BooleanUtils</code> instances should NOT be constructed in standard programming. Instead, the class should be used as
+     * <code>BooleanUtils.toBooleanObject(true);</code>.
+     * </p>
+     * <p/>
+     * <p>
+     * This constructor is public to permit tools that require a JavaBean instance to operate.
+     * </p>
      */
     public BooleanUtils() {
     }
@@ -39,16 +52,22 @@ public class BooleanUtils {
     //--------------------------------------------------------------------------
 
     /**
-     * <p>Negates the specified boolean.</p> <p/> <p>If <code>null</code> is passed in, <code>null</code> will be returned.</p>
+     * <p>
+     * Negates the specified boolean.
+     * </p>
      * <p/>
+     * <p>
+     * If <code>null</code> is passed in, <code>null</code> will be returned.
+     * </p>
+     * <p/>
+     * 
      * <pre>
-     *   BooleanUtils.negate(Boolean.TRUE)  = Boolean.FALSE;
-     *   BooleanUtils.negate(Boolean.FALSE) = Boolean.TRUE;
-     *   BooleanUtils.negate(null)          = null;
+     * BooleanUtils.negate(Boolean.TRUE) = Boolean.FALSE;
+     * BooleanUtils.negate(Boolean.FALSE) = Boolean.TRUE;
+     * BooleanUtils.negate(null) = null;
      * </pre>
      *
      * @param bool the Boolean to negate, may be null
-     *
      * @return the negated Boolean, or <code>null</code> if <code>null</code> input
      */
     public static Boolean negate(Boolean bool) {
@@ -62,8 +81,11 @@ public class BooleanUtils {
     //-----------------------------------------------------------------------
 
     /**
-     * <p>Is a Boolean value <code>true</code>, handling <code>null</code>.</p>
+     * <p>
+     * Is a Boolean value <code>true</code>, handling <code>null</code>.
+     * </p>
      * <p/>
+     * 
      * <pre>
      *   BooleanUtils.isTrue(Boolean.TRUE)  = true
      *   BooleanUtils.isTrue(Boolean.FALSE) = false
@@ -71,9 +93,7 @@ public class BooleanUtils {
      * </pre>
      *
      * @param bool the boolean to convert
-     *
      * @return <code>true</code> only if the input is non-null and true
-     *
      * @since 2.1
      */
     public static boolean isTrue(Boolean bool) {
@@ -84,8 +104,11 @@ public class BooleanUtils {
     }
 
     /**
-     * <p>Is a Boolean value <code>false</code>, handling <code>null</code>.</p>
+     * <p>
+     * Is a Boolean value <code>false</code>, handling <code>null</code>.
+     * </p>
      * <p/>
+     * 
      * <pre>
      *   BooleanUtils.isFalse(Boolean.TRUE)  = false
      *   BooleanUtils.isFalse(Boolean.FALSE) = true
@@ -93,9 +116,7 @@ public class BooleanUtils {
      * </pre>
      *
      * @param bool the boolean to convert
-     *
      * @return <code>true</code> only if the input is non-null and false
-     *
      * @since 2.1
      */
     public static boolean isFalse(Boolean bool) {
@@ -106,16 +127,21 @@ public class BooleanUtils {
     }
 
     /**
-     * <p>Boolean factory that avoids creating new Boolean objecs all the time.</p> <p/> <p>This method was added to JDK1.4 but is available here for earlier
-     * JDKs.</p>
+     * <p>
+     * Boolean factory that avoids creating new Boolean objecs all the time.
+     * </p>
      * <p/>
+     * <p>
+     * This method was added to JDK1.4 but is available here for earlier JDKs.
+     * </p>
+     * <p/>
+     * 
      * <pre>
      *   BooleanUtils.toBooleanObject(false) = Boolean.FALSE
      *   BooleanUtils.toBooleanObject(true)  = Boolean.TRUE
      * </pre>
      *
      * @param bool the boolean to convert
-     *
      * @return Boolean.TRUE or Boolean.FALSE as appropriate
      */
     public static Boolean toBooleanObject(boolean bool) {
@@ -123,8 +149,11 @@ public class BooleanUtils {
     }
 
     /**
-     * <p>Converts a Boolean to a boolean handling <code>null</code> by returning <code>false</code>.</p>
+     * <p>
+     * Converts a Boolean to a boolean handling <code>null</code> by returning <code>false</code>.
+     * </p>
      * <p/>
+     * 
      * <pre>
      *   BooleanUtils.toBoolean(Boolean.TRUE)  = true
      *   BooleanUtils.toBoolean(Boolean.FALSE) = false
@@ -132,7 +161,6 @@ public class BooleanUtils {
      * </pre>
      *
      * @param bool the boolean to convert
-     *
      * @return <code>true</code> or <code>false</code>, <code>null</code> returns <code>false</code>
      */
     public static boolean toBoolean(Boolean bool) {
@@ -143,8 +171,11 @@ public class BooleanUtils {
     }
 
     /**
-     * <p>Converts a Boolean to a boolean handling <code>null</code>.</p>
+     * <p>
+     * Converts a Boolean to a boolean handling <code>null</code>.
+     * </p>
      * <p/>
+     * 
      * <pre>
      *   BooleanUtils.toBooleanDefaultIfNull(Boolean.TRUE, false) = true
      *   BooleanUtils.toBooleanDefaultIfNull(Boolean.FALSE, true) = false
@@ -153,7 +184,6 @@ public class BooleanUtils {
      *
      * @param bool the boolean to convert
      * @param valueIfNull the boolean value to return if <code>null</code>
-     *
      * @return <code>true</code> or <code>false</code>
      */
     public static boolean toBooleanDefaultIfNull(Boolean bool, boolean valueIfNull) {
@@ -167,8 +197,11 @@ public class BooleanUtils {
     //-----------------------------------------------------------------------
 
     /**
-     * <p>Converts an int to a boolean using the convention that <code>zero</code> is <code>false</code>.</p>
+     * <p>
+     * Converts an int to a boolean using the convention that <code>zero</code> is <code>false</code>.
+     * </p>
      * <p/>
+     * 
      * <pre>
      *   BooleanUtils.toBoolean(0) = false
      *   BooleanUtils.toBoolean(1) = true
@@ -176,7 +209,6 @@ public class BooleanUtils {
      * </pre>
      *
      * @param value the int to convert
-     *
      * @return <code>true</code> if non-zero, <code>false</code> if zero
      */
     public static boolean toBoolean(int value) {
@@ -184,8 +216,11 @@ public class BooleanUtils {
     }
 
     /**
-     * <p>Converts an int to a Boolean using the convention that <code>zero</code> is <code>false</code>.</p>
+     * <p>
+     * Converts an int to a Boolean using the convention that <code>zero</code> is <code>false</code>.
+     * </p>
      * <p/>
+     * 
      * <pre>
      *   BooleanUtils.toBoolean(0) = Boolean.FALSE
      *   BooleanUtils.toBoolean(1) = Boolean.TRUE
@@ -193,7 +228,6 @@ public class BooleanUtils {
      * </pre>
      *
      * @param value the int to convert
-     *
      * @return Boolean.TRUE if non-zero, Boolean.FALSE if zero, <code>null</code> if <code>null</code>
      */
     public static Boolean toBooleanObject(int value) {
@@ -201,9 +235,15 @@ public class BooleanUtils {
     }
 
     /**
-     * <p>Converts an Integer to a Boolean using the convention that <code>zero</code> is <code>false</code>.</p> <p/> <p><code>null</code> will be converted to
-     * <code>null</code>.</p>
+     * <p>
+     * Converts an Integer to a Boolean using the convention that <code>zero</code> is <code>false</code>.
+     * </p>
      * <p/>
+     * <p>
+     * <code>null</code> will be converted to <code>null</code>.
+     * </p>
+     * <p/>
+     * 
      * <pre>
      *   BooleanUtils.toBoolean(new Integer(0))    = Boolean.FALSE
      *   BooleanUtils.toBoolean(new Integer(1))    = Boolean.TRUE
@@ -211,7 +251,6 @@ public class BooleanUtils {
      * </pre>
      *
      * @param value the Integer to convert
-     *
      * @return Boolean.TRUE if non-zero, Boolean.FALSE if zero, <code>null</code> if <code>null</code> input
      */
     public static Boolean toBooleanObject(Integer value) {
@@ -222,8 +261,11 @@ public class BooleanUtils {
     }
 
     /**
-     * <p>Converts an int to a boolean specifying the conversion values.</p>
+     * <p>
+     * Converts an int to a boolean specifying the conversion values.
+     * </p>
      * <p/>
+     * 
      * <pre>
      *   BooleanUtils.toBoolean(0, 1, 0) = false
      *   BooleanUtils.toBoolean(1, 1, 0) = true
@@ -234,9 +276,7 @@ public class BooleanUtils {
      * @param value the Integer to convert
      * @param trueValue the value to match for <code>true</code>
      * @param falseValue the value to match for <code>false</code>
-     *
      * @return <code>true</code> or <code>false</code>
-     *
      * @throws IllegalArgumentException if no match
      */
     public static boolean toBoolean(int value, int trueValue, int falseValue) {
@@ -250,8 +290,11 @@ public class BooleanUtils {
     }
 
     /**
-     * <p>Converts an Integer to a boolean specifying the conversion values.</p>
+     * <p>
+     * Converts an Integer to a boolean specifying the conversion values.
+     * </p>
      * <p/>
+     * 
      * <pre>
      *   BooleanUtils.toBoolean(new Integer(0), new Integer(1), new Integer(0)) = false
      *   BooleanUtils.toBoolean(new Integer(1), new Integer(1), new Integer(0)) = true
@@ -263,9 +306,7 @@ public class BooleanUtils {
      * @param value the Integer to convert
      * @param trueValue the value to match for <code>true</code>, may be <code>null</code>
      * @param falseValue the value to match for <code>false</code>, may be <code>null</code>
-     *
      * @return <code>true</code> or <code>false</code>
-     *
      * @throws IllegalArgumentException if no match
      */
     public static boolean toBoolean(Integer value, Integer trueValue, Integer falseValue) {
@@ -285,8 +326,11 @@ public class BooleanUtils {
     }
 
     /**
-     * <p>Converts an int to a Boolean specifying the conversion values.</p>
+     * <p>
+     * Converts an int to a Boolean specifying the conversion values.
+     * </p>
      * <p/>
+     * 
      * <pre>
      *   BooleanUtils.toBooleanObject(0, 0, 2, 3) = Boolean.TRUE
      *   BooleanUtils.toBooleanObject(2, 1, 2, 3) = Boolean.FALSE
@@ -297,9 +341,7 @@ public class BooleanUtils {
      * @param trueValue the value to match for <code>true</code>
      * @param falseValue the value to match for <code>false</code>
      * @param nullValue the value to to match for <code>null</code>
-     *
      * @return Boolean.TRUE, Boolean.FALSE, or <code>null</code>
-     *
      * @throws IllegalArgumentException if no match
      */
     public static Boolean toBooleanObject(int value, int trueValue, int falseValue, int nullValue) {
@@ -315,8 +357,11 @@ public class BooleanUtils {
     }
 
     /**
-     * <p>Converts an Integer to a Boolean specifying the conversion values.</p>
+     * <p>
+     * Converts an Integer to a Boolean specifying the conversion values.
+     * </p>
      * <p/>
+     * 
      * <pre>
      *   BooleanUtils.toBooleanObject(new Integer(0), new Integer(0), new Integer(2), new Integer(3)) = Boolean.TRUE
      *   BooleanUtils.toBooleanObject(new Integer(2), new Integer(1), new Integer(2), new Integer(3)) = Boolean.FALSE
@@ -327,9 +372,7 @@ public class BooleanUtils {
      * @param trueValue the value to match for <code>true</code>, may be <code>null</code>
      * @param falseValue the value to match for <code>false</code>, may be <code>null</code>
      * @param nullValue the value to to match for <code>null</code>, may be <code>null</code>
-     *
      * @return Boolean.TRUE, Boolean.FALSE, or <code>null</code>
-     *
      * @throws IllegalArgumentException if no match
      */
     public static Boolean toBooleanObject(Integer value, Integer trueValue, Integer falseValue, Integer nullValue) {
@@ -356,15 +399,17 @@ public class BooleanUtils {
     //-----------------------------------------------------------------------
 
     /**
-     * <p>Converts a boolean to an int using the convention that <code>zero</code> is <code>false</code>.</p>
+     * <p>
+     * Converts a boolean to an int using the convention that <code>zero</code> is <code>false</code>.
+     * </p>
      * <p/>
+     * 
      * <pre>
      *   BooleanUtils.toInteger(true)  = 1
      *   BooleanUtils.toInteger(false) = 0
      * </pre>
      *
      * @param bool the boolean to convert
-     *
      * @return one if <code>true</code>, zero if <code>false</code>
      */
     public static int toInteger(boolean bool) {
@@ -372,15 +417,17 @@ public class BooleanUtils {
     }
 
     /**
-     * <p>Converts a boolean to an Integer using the convention that <code>zero</code> is <code>false</code>.</p>
+     * <p>
+     * Converts a boolean to an Integer using the convention that <code>zero</code> is <code>false</code>.
+     * </p>
      * <p/>
+     * 
      * <pre>
      *   BooleanUtils.toIntegerObject(true)  = new Integer(1)
      *   BooleanUtils.toIntegerObject(false) = new Integer(0)
      * </pre>
      *
      * @param bool the boolean to convert
-     *
      * @return one if <code>true</code>, zero if <code>false</code>
      */
     public static Integer toIntegerObject(boolean bool) {
@@ -388,16 +435,21 @@ public class BooleanUtils {
     }
 
     /**
-     * <p>Converts a Boolean to a Integer using the convention that <code>zero</code> is <code>false</code>.</p> <p/> <p><code>null</code> will be converted to
-     * <code>null</code>.</p>
+     * <p>
+     * Converts a Boolean to a Integer using the convention that <code>zero</code> is <code>false</code>.
+     * </p>
      * <p/>
+     * <p>
+     * <code>null</code> will be converted to <code>null</code>.
+     * </p>
+     * <p/>
+     * 
      * <pre>
      *   BooleanUtils.toIntegerObject(Boolean.TRUE)  = new Integer(1)
      *   BooleanUtils.toIntegerObject(Boolean.FALSE) = new Integer(0)
      * </pre>
      *
      * @param bool the Boolean to convert
-     *
      * @return one if Boolean.TRUE, zero if Boolean.FALSE, <code>null</code> if <code>null</code>
      */
     public static Integer toIntegerObject(Boolean bool) {
@@ -408,8 +460,11 @@ public class BooleanUtils {
     }
 
     /**
-     * <p>Converts a boolean to an int specifying the conversion values.</p>
+     * <p>
+     * Converts a boolean to an int specifying the conversion values.
+     * </p>
      * <p/>
+     * 
      * <pre>
      *   BooleanUtils.toInteger(true, 1, 0)  = 1
      *   BooleanUtils.toInteger(false, 1, 0) = 0
@@ -418,7 +473,6 @@ public class BooleanUtils {
      * @param bool the to convert
      * @param trueValue the value to return if <code>true</code>
      * @param falseValue the value to return if <code>false</code>
-     *
      * @return the appropriate value
      */
     public static int toInteger(boolean bool, int trueValue, int falseValue) {
@@ -426,8 +480,11 @@ public class BooleanUtils {
     }
 
     /**
-     * <p>Converts a Boolean to an int specifying the conversion values.</p>
+     * <p>
+     * Converts a Boolean to an int specifying the conversion values.
+     * </p>
      * <p/>
+     * 
      * <pre>
      *   BooleanUtils.toInteger(Boolean.TRUE, 1, 0, 2)  = 1
      *   BooleanUtils.toInteger(Boolean.FALSE, 1, 0, 2) = 0
@@ -438,7 +495,6 @@ public class BooleanUtils {
      * @param trueValue the value to return if <code>true</code>
      * @param falseValue the value to return if <code>false</code>
      * @param nullValue the value to return if <code>null</code>
-     *
      * @return the appropriate value
      */
     public static int toInteger(Boolean bool, int trueValue, int falseValue, int nullValue) {
@@ -449,8 +505,11 @@ public class BooleanUtils {
     }
 
     /**
-     * <p>Converts a boolean to an Integer specifying the conversion values.</p>
+     * <p>
+     * Converts a boolean to an Integer specifying the conversion values.
+     * </p>
      * <p/>
+     * 
      * <pre>
      *   BooleanUtils.toIntegerObject(true, new Integer(1), new Integer(0))  = new Integer(1)
      *   BooleanUtils.toIntegerObject(false, new Integer(1), new Integer(0)) = new Integer(0)
@@ -459,7 +518,6 @@ public class BooleanUtils {
      * @param bool the to convert
      * @param trueValue the value to return if <code>true</code>, may be <code>null</code>
      * @param falseValue the value to return if <code>false</code>, may be <code>null</code>
-     *
      * @return the appropriate value
      */
     public static Integer toIntegerObject(boolean bool, Integer trueValue, Integer falseValue) {
@@ -467,8 +525,11 @@ public class BooleanUtils {
     }
 
     /**
-     * <p>Converts a Boolean to an Integer specifying the conversion values.</p>
+     * <p>
+     * Converts a Boolean to an Integer specifying the conversion values.
+     * </p>
      * <p/>
+     * 
      * <pre>
      *   BooleanUtils.toIntegerObject(Boolean.TRUE, new Integer(1), new Integer(0), new Integer(2))  = new Integer(1)
      *   BooleanUtils.toIntegerObject(Boolean.FALSE, new Integer(1), new Integer(0), new Integer(2)) = new Integer(0)
@@ -479,7 +540,6 @@ public class BooleanUtils {
      * @param trueValue the value to return if <code>true</code>, may be <code>null</code>
      * @param falseValue the value to return if <code>false</code>, may be <code>null</code>
      * @param nullValue the value to return if <code>null</code>, may be <code>null</code>
-     *
      * @return the appropriate value
      */
     public static Integer toIntegerObject(Boolean bool, Integer trueValue, Integer falseValue, Integer nullValue) {
@@ -493,10 +553,16 @@ public class BooleanUtils {
     //-----------------------------------------------------------------------
 
     /**
-     * <p>Converts a String to a Boolean.</p> <p/> <p><code>'true'</code>, <code>'on'</code> or <code>'yes'</code> (case insensitive) will return
-     * <code>true</code>. <code>'false'</code>, <code>'off'</code> or <code>'no'</code> (case insensitive) will return <code>false</code>. Otherwise,
-     * <code>null</code> is returned.</p>
+     * <p>
+     * Converts a String to a Boolean.
+     * </p>
      * <p/>
+     * <p>
+     * <code>'true'</code>, <code>'on'</code> or <code>'yes'</code> (case insensitive) will return <code>true</code>. <code>'false'</code>,
+     * <code>'off'</code> or <code>'no'</code> (case insensitive) will return <code>false</code>. Otherwise, <code>null</code> is returned.
+     * </p>
+     * <p/>
+     * 
      * <pre>
      *   BooleanUtils.toBooleanObject(null)    = null
      *   BooleanUtils.toBooleanObject("true")  = Boolean.TRUE
@@ -509,7 +575,6 @@ public class BooleanUtils {
      * </pre>
      *
      * @param str the String to check
-     *
      * @return the Boolean value of the string, <code>null</code> if no match or <code>null</code> input
      */
     public static Boolean toBooleanObject(String str) {
@@ -531,8 +596,11 @@ public class BooleanUtils {
     }
 
     /**
-     * <p>Converts a String to a Boolean throwing an exception if no match.</p>
+     * <p>
+     * Converts a String to a Boolean throwing an exception if no match.
+     * </p>
      * <p/>
+     * 
      * <pre>
      *   BooleanUtils.toBooleanObject("true", "true", "false", "null")  = Boolean.TRUE
      *   BooleanUtils.toBooleanObject("false", "true", "false", "null") = Boolean.FALSE
@@ -543,7 +611,6 @@ public class BooleanUtils {
      * @param trueString the String to match for <code>true</code> (case sensitive), may be <code>null</code>
      * @param falseString the String to match for <code>false</code> (case sensitive), may be <code>null</code>
      * @param nullString the String to match for <code>null</code> (case sensitive), may be <code>null</code>
-     *
      * @return the Boolean value of the string, <code>null</code> if no match or <code>null</code> input
      */
     public static Boolean toBooleanObject(String str, String trueString, String falseString, String nullString) {
@@ -570,11 +637,20 @@ public class BooleanUtils {
     //-----------------------------------------------------------------------
 
     /**
-     * <p>Converts a String to a boolean (optimised for performance).</p> <p/> <p><code>'true'</code>, <code>'on'</code> or <code>'yes'</code> (case
-     * insensitive) will return <code>true</code>. Otherwise, <code>false</code> is returned.</p>
+     * <p>
+     * Converts a String to a boolean (optimised for performance).
+     * </p>
      * <p/>
-     * <p>This method performs 4 times faster (JDK1.4) than <code>Boolean.valueOf(String)</code>. However, this method accepts 'on' and 'yes' as true values.
+     * <p>
+     * <code>'true'</code>, <code>'on'</code> or <code>'yes'</code> (case insensitive) will return <code>true</code>. Otherwise,
+     * <code>false</code> is returned.
+     * </p>
      * <p/>
+     * <p>
+     * This method performs 4 times faster (JDK1.4) than <code>Boolean.valueOf(String)</code>. However, this method accepts 'on' and 'yes'
+     * as true values.
+     * <p/>
+     * 
      * <pre>
      *   BooleanUtils.toBoolean(null)    = false
      *   BooleanUtils.toBoolean("true")  = true
@@ -587,7 +663,6 @@ public class BooleanUtils {
      * </pre>
      *
      * @param str the String to check
-     *
      * @return the boolean value of the string, <code>false</code> if no match
      */
     public static boolean toBoolean(String str) {
@@ -621,34 +696,39 @@ public class BooleanUtils {
             case 4: {
                 char ch = str.charAt(0);
                 if (ch == 't') {
-                    return (str.charAt(1) == 'r' || str.charAt(1) == 'R') &&
-                            (str.charAt(2) == 'u' || str.charAt(2) == 'U') &&
-                            (str.charAt(3) == 'e' || str.charAt(3) == 'E');
+                    return (str.charAt(1) == 'r' || str.charAt(1) == 'R') && (str.charAt(2) == 'u' || str.charAt(2) == 'U')
+                            && (str.charAt(3) == 'e' || str.charAt(3) == 'E');
                 }
                 if (ch == 'T') {
-                    return (str.charAt(1) == 'R' || str.charAt(1) == 'r') &&
-                            (str.charAt(2) == 'U' || str.charAt(2) == 'u') &&
-                            (str.charAt(3) == 'E' || str.charAt(3) == 'e');
+                    return (str.charAt(1) == 'R' || str.charAt(1) == 'r') && (str.charAt(2) == 'U' || str.charAt(2) == 'u')
+                            && (str.charAt(3) == 'E' || str.charAt(3) == 'e');
                 }
             }
         }
         return false;
     }
 
-//    public static void main(String[] args) {
-//        long start = System.currentTimeMillis();
-//        boolean flag = true;
-//        int count = 0;
-//        for (int i = 0; i < 100000000; i++) {
-//            flag = toBoolean("YES");
-//        }
-//        long end = System.currentTimeMillis();
-//        System.out.println((end - start) + " " + flag + " " + count);
-//    }
+    //    public static void main(String[] args) {
+    //        long start = System.currentTimeMillis();
+    //        boolean flag = true;
+    //        int count = 0;
+    //        for (int i = 0; i < 100000000; i++) {
+    //            flag = toBoolean("YES");
+    //        }
+    //        long end = System.currentTimeMillis();
+    //        System.out.println((end - start) + " " + flag + " " + count);
+    //    }
 
     /**
-     * <p>Converts a String to a Boolean throwing an exception if no match found.</p> <p/> <p>null is returned if there is no match.</p>
+     * <p>
+     * Converts a String to a Boolean throwing an exception if no match found.
+     * </p>
      * <p/>
+     * <p>
+     * null is returned if there is no match.
+     * </p>
+     * <p/>
+     * 
      * <pre>
      *   BooleanUtils.toBoolean("true", "true", "false")  = true
      *   BooleanUtils.toBoolean("false", "true", "false") = false
@@ -657,9 +737,7 @@ public class BooleanUtils {
      * @param str the String to check
      * @param trueString the String to match for <code>true</code> (case sensitive), may be <code>null</code>
      * @param falseString the String to match for <code>false</code> (case sensitive), may be <code>null</code>
-     *
      * @return the boolean value of the string
-     *
      * @throws IllegalArgumentException if the String doesn't match
      */
     public static boolean toBoolean(String str, String trueString, String falseString) {
@@ -682,8 +760,11 @@ public class BooleanUtils {
     //-----------------------------------------------------------------------
 
     /**
-     * <p>Converts a Boolean to a String returning <code>'true'</code>, <code>'false'</code>, or <code>null</code>.</p>
+     * <p>
+     * Converts a Boolean to a String returning <code>'true'</code>, <code>'false'</code>, or <code>null</code>.
+     * </p>
      * <p/>
+     * 
      * <pre>
      *   BooleanUtils.toStringTrueFalse(Boolean.TRUE)  = "true"
      *   BooleanUtils.toStringTrueFalse(Boolean.FALSE) = "false"
@@ -691,7 +772,6 @@ public class BooleanUtils {
      * </pre>
      *
      * @param bool the Boolean to check
-     *
      * @return <code>'true'</code>, <code>'false'</code>, or <code>null</code>
      */
     public static String toStringTrueFalse(Boolean bool) {
@@ -699,8 +779,11 @@ public class BooleanUtils {
     }
 
     /**
-     * <p>Converts a Boolean to a String returning <code>'on'</code>, <code>'off'</code>, or <code>null</code>.</p>
+     * <p>
+     * Converts a Boolean to a String returning <code>'on'</code>, <code>'off'</code>, or <code>null</code>.
+     * </p>
      * <p/>
+     * 
      * <pre>
      *   BooleanUtils.toStringOnOff(Boolean.TRUE)  = "on"
      *   BooleanUtils.toStringOnOff(Boolean.FALSE) = "off"
@@ -708,7 +791,6 @@ public class BooleanUtils {
      * </pre>
      *
      * @param bool the Boolean to check
-     *
      * @return <code>'on'</code>, <code>'off'</code>, or <code>null</code>
      */
     public static String toStringOnOff(Boolean bool) {
@@ -716,8 +798,11 @@ public class BooleanUtils {
     }
 
     /**
-     * <p>Converts a Boolean to a String returning <code>'yes'</code>, <code>'no'</code>, or <code>null</code>.</p>
+     * <p>
+     * Converts a Boolean to a String returning <code>'yes'</code>, <code>'no'</code>, or <code>null</code>.
+     * </p>
      * <p/>
+     * 
      * <pre>
      *   BooleanUtils.toStringYesNo(Boolean.TRUE)  = "yes"
      *   BooleanUtils.toStringYesNo(Boolean.FALSE) = "no"
@@ -725,7 +810,6 @@ public class BooleanUtils {
      * </pre>
      *
      * @param bool the Boolean to check
-     *
      * @return <code>'yes'</code>, <code>'no'</code>, or <code>null</code>
      */
     public static String toStringYesNo(Boolean bool) {
@@ -733,8 +817,11 @@ public class BooleanUtils {
     }
 
     /**
-     * <p>Converts a Boolean to a String returning one of the input Strings.</p>
+     * <p>
+     * Converts a Boolean to a String returning one of the input Strings.
+     * </p>
      * <p/>
+     * 
      * <pre>
      *   BooleanUtils.toString(Boolean.TRUE, "true", "false", null)   = "true"
      *   BooleanUtils.toString(Boolean.FALSE, "true", "false", null)  = "false"
@@ -745,7 +832,6 @@ public class BooleanUtils {
      * @param trueString the String to return if <code>true</code>, may be <code>null</code>
      * @param falseString the String to return if <code>false</code>, may be <code>null</code>
      * @param nullString the String to return if <code>null</code>, may be <code>null</code>
-     *
      * @return one of the three input Strings
      */
     public static String toString(Boolean bool, String trueString, String falseString, String nullString) {
@@ -759,15 +845,17 @@ public class BooleanUtils {
     //-----------------------------------------------------------------------
 
     /**
-     * <p>Converts a boolean to a String returning <code>'true'</code> or <code>'false'</code>.</p>
+     * <p>
+     * Converts a boolean to a String returning <code>'true'</code> or <code>'false'</code>.
+     * </p>
      * <p/>
+     * 
      * <pre>
      *   BooleanUtils.toStringTrueFalse(true)   = "true"
      *   BooleanUtils.toStringTrueFalse(false)  = "false"
      * </pre>
      *
      * @param bool the Boolean to check
-     *
      * @return <code>'true'</code>, <code>'false'</code>, or <code>null</code>
      */
     public static String toStringTrueFalse(boolean bool) {
@@ -775,15 +863,17 @@ public class BooleanUtils {
     }
 
     /**
-     * <p>Converts a boolean to a String returning <code>'on'</code> or <code>'off'</code>.</p>
+     * <p>
+     * Converts a boolean to a String returning <code>'on'</code> or <code>'off'</code>.
+     * </p>
      * <p/>
+     * 
      * <pre>
      *   BooleanUtils.toStringOnOff(true)   = "on"
      *   BooleanUtils.toStringOnOff(false)  = "off"
      * </pre>
      *
      * @param bool the Boolean to check
-     *
      * @return <code>'on'</code>, <code>'off'</code>, or <code>null</code>
      */
     public static String toStringOnOff(boolean bool) {
@@ -791,15 +881,17 @@ public class BooleanUtils {
     }
 
     /**
-     * <p>Converts a boolean to a String returning <code>'yes'</code> or <code>'no'</code>.</p>
+     * <p>
+     * Converts a boolean to a String returning <code>'yes'</code> or <code>'no'</code>.
+     * </p>
      * <p/>
+     * 
      * <pre>
      *   BooleanUtils.toStringYesNo(true)   = "yes"
      *   BooleanUtils.toStringYesNo(false)  = "no"
      * </pre>
      *
      * @param bool the Boolean to check
-     *
      * @return <code>'yes'</code>, <code>'no'</code>, or <code>null</code>
      */
     public static String toStringYesNo(boolean bool) {
@@ -807,8 +899,11 @@ public class BooleanUtils {
     }
 
     /**
-     * <p>Converts a boolean to a String returning one of the input Strings.</p>
+     * <p>
+     * Converts a boolean to a String returning one of the input Strings.
+     * </p>
      * <p/>
+     * 
      * <pre>
      *   BooleanUtils.toString(true, "true", "false")   = "true"
      *   BooleanUtils.toString(false, "true", "false")  = "false"
@@ -817,7 +912,6 @@ public class BooleanUtils {
      * @param bool the Boolean to check
      * @param trueString the String to return if <code>true</code>, may be <code>null</code>
      * @param falseString the String to return if <code>false</code>, may be <code>null</code>
-     *
      * @return one of the two input Strings
      */
     public static String toString(boolean bool, String trueString, String falseString) {
@@ -828,8 +922,11 @@ public class BooleanUtils {
     // ----------------------------------------------------------------------
 
     /**
-     * <p>Performs an xor on a set of booleans.</p>
+     * <p>
+     * Performs an xor on a set of booleans.
+     * </p>
      * <p/>
+     * 
      * <pre>
      *   BooleanUtils.xor(new boolean[] { true, true })   = false
      *   BooleanUtils.xor(new boolean[] { false, false }) = false
@@ -837,9 +934,7 @@ public class BooleanUtils {
      * </pre>
      *
      * @param array an array of <code>boolean<code>s
-     *
      * @return <code>true</code> if the xor is successful.
-     *
      * @throws IllegalArgumentException if <code>array</code> is <code>null</code>
      * @throws IllegalArgumentException if <code>array</code> is empty.
      */
@@ -870,8 +965,11 @@ public class BooleanUtils {
     }
 
     /**
-     * <p>Performs an xor on an array of Booleans.</p>
+     * <p>
+     * Performs an xor on an array of Booleans.
+     * </p>
      * <p/>
+     * 
      * <pre>
      *   BooleanUtils.xor(new Boolean[] { Boolean.TRUE, Boolean.TRUE })   = Boolean.FALSE
      *   BooleanUtils.xor(new Boolean[] { Boolean.FALSE, Boolean.FALSE }) = Boolean.FALSE
@@ -879,9 +977,7 @@ public class BooleanUtils {
      * </pre>
      *
      * @param array an array of <code>Boolean<code>s
-     *
      * @return <code>true</code> if the xor is successful.
-     *
      * @throws IllegalArgumentException if <code>array</code> is <code>null</code>
      * @throws IllegalArgumentException if <code>array</code> is empty.
      * @throws IllegalArgumentException if <code>array</code> contains a <code>null</code>

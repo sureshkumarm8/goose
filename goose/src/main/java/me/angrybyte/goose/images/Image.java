@@ -19,27 +19,27 @@ import org.jsoup.nodes.Element;
 public class Image {
 
     /**
-     * holds the Element node of the image we think is top dog
+     * Holds the Element node of the image we think is top dog
      */
     private Element topImageNode;
 
     /**
-     * holds the src of the image
+     * Holds the src of the image
      */
     private String imageSrc;
 
     /**
-     * how confident are we in this image extraction? the most images generally the less confident
+     * How confident are we in this image extraction? the most images generally the less confident
      */
     private double confidenceScore = 0.0;
 
     /**
-     * what kind of image extraction was used for this? bestGuess, linkTag, openGraph tags?
+     * What kind of image extraction was used for this? bestGuess, linkTag, openGraph tags?
      */
     private String imageExtractionType = "";
 
     /**
-     * stores how many bytes this image is.
+     * Stores how many bytes this image is.
      */
     private int bytes;
 
@@ -51,6 +51,7 @@ public class Image {
         this.imageSrc = imageSrc;
     }
 
+    @SuppressWarnings("unused")
     public double getConfidenceScore() {
         return confidenceScore;
     }
@@ -59,6 +60,7 @@ public class Image {
         this.confidenceScore = confidenceScore;
     }
 
+    @SuppressWarnings("unused")
     public String getImageExtractionType() {
         return imageExtractionType;
     }
@@ -67,6 +69,7 @@ public class Image {
         this.imageExtractionType = imageExtractionType;
     }
 
+    @SuppressWarnings("unused")
     public int getBytes() {
         return bytes;
     }
@@ -75,6 +78,7 @@ public class Image {
         this.bytes = bytes;
     }
 
+    @SuppressWarnings("unused")
     public Element getTopImageNode() {
         return topImageNode;
     }

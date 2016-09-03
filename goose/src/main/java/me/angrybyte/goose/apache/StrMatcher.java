@@ -1,4 +1,6 @@
+
 package me.angrybyte.goose.apache;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
@@ -153,7 +155,6 @@ public abstract class StrMatcher {
      * Constructor that creates a matcher from a character.
      *
      * @param ch the character to match, must not be null
-     *
      * @return a new Matcher for the given char
      */
     public static StrMatcher charMatcher(char ch) {
@@ -164,7 +165,6 @@ public abstract class StrMatcher {
      * Constructor that creates a matcher from a set of characters.
      *
      * @param chars the characters to match, null or empty matches nothing
-     *
      * @return a new matcher for the given char[]
      */
     public static StrMatcher charSetMatcher(char[] chars) {
@@ -181,7 +181,6 @@ public abstract class StrMatcher {
      * Constructor that creates a matcher from a string representing a set of characters.
      *
      * @param chars the characters to match, null or empty matches nothing
-     *
      * @return a new Matcher for the given characters
      */
     public static StrMatcher charSetMatcher(String chars) {
@@ -198,7 +197,6 @@ public abstract class StrMatcher {
      * Constructor that creates a matcher from a string.
      *
      * @param str the string to match, null or empty matches nothing
-     *
      * @return a new Matcher for the given String
      */
     public static StrMatcher stringMatcher(String str) {
@@ -220,21 +218,23 @@ public abstract class StrMatcher {
     /**
      * Returns the number of matching characters, zero for no match.
      * <p/>
-     * This method is called to check for a match. The parameter <code>pos</code> represents the current position to be checked in the string
-     * <code>buffer</code> (a character array which must not be changed). The API guarantees that <code>pos</code> is a valid index for <code>buffer</code>.
+     * This method is called to check for a match. The parameter <code>pos</code> represents the current position to be checked in the
+     * string <code>buffer</code> (a character array which must not be changed). The API guarantees that <code>pos</code> is a valid index
+     * for <code>buffer</code>.
      * <p/>
-     * The character array may be larger than the active area to be matched. Only values in the buffer between the specifed indices may be accessed.
+     * The character array may be larger than the active area to be matched. Only values in the buffer between the specifed indices may be
+     * accessed.
      * <p/>
-     * The matching code may check one character or many. It may check characters preceeding <code>pos</code> as well as those after, so long as no checks
-     * exceed the bounds specified.
+     * The matching code may check one character or many. It may check characters preceeding <code>pos</code> as well as those after, so
+     * long as no checks exceed the bounds specified.
      * <p/>
-     * It must return zero for no match, or a positive number if a match was found. The number indicates the number of characters that matched.
+     * It must return zero for no match, or a positive number if a match was found. The number indicates the number of characters that
+     * matched.
      *
      * @param buffer the text content to match against, do not change
      * @param pos the starting position for the match, valid for buffer
      * @param bufferStart the first active index in the buffer, valid for buffer
      * @param bufferEnd the end index (exclusive) of the active buffer, valid for buffer
-     *
      * @return the number of matching characters, zero for no match
      */
     public abstract int isMatch(char[] buffer, int pos, int bufferStart, int bufferEnd);
@@ -242,18 +242,18 @@ public abstract class StrMatcher {
     /**
      * Returns the number of matching characters, zero for no match.
      * <p/>
-     * This method is called to check for a match. The parameter <code>pos</code> represents the current position to be checked in the string
-     * <code>buffer</code> (a character array which must not be changed). The API guarantees that <code>pos</code> is a valid index for <code>buffer</code>.
+     * This method is called to check for a match. The parameter <code>pos</code> represents the current position to be checked in the
+     * string <code>buffer</code> (a character array which must not be changed). The API guarantees that <code>pos</code> is a valid index
+     * for <code>buffer</code>.
      * <p/>
      * The matching code may check one character or many. It may check characters preceeding <code>pos</code> as well as those after.
      * <p/>
-     * It must return zero for no match, or a positive number if a match was found. The number indicates the number of characters that matched.
+     * It must return zero for no match, or a positive number if a match was found. The number indicates the number of characters that
+     * matched.
      *
      * @param buffer the text content to match against, do not change
      * @param pos the starting position for the match, valid for buffer
-     *
      * @return the number of matching characters, zero for no match
-     *
      * @since 2.4
      */
     public int isMatch(char[] buffer, int pos) {
@@ -279,7 +279,7 @@ public abstract class StrMatcher {
          */
         CharSetMatcher(char chars[]) {
             super();
-            this.chars = (char[]) chars.clone();
+            this.chars = chars.clone();
             Arrays.sort(this.chars);
         }
 
@@ -290,7 +290,6 @@ public abstract class StrMatcher {
          * @param pos the starting position for the match, valid for buffer
          * @param bufferStart the first active index in the buffer, valid for buffer
          * @param bufferEnd the end index of the active buffer, valid for buffer
-         *
          * @return the number of matching characters, zero for no match
          */
         public int isMatch(char[] buffer, int pos, int bufferStart, int bufferEnd) {
@@ -327,7 +326,6 @@ public abstract class StrMatcher {
          * @param pos the starting position for the match, valid for buffer
          * @param bufferStart the first active index in the buffer, valid for buffer
          * @param bufferEnd the end index of the active buffer, valid for buffer
-         *
          * @return the number of matching characters, zero for no match
          */
         public int isMatch(char[] buffer, int pos, int bufferStart, int bufferEnd) {
@@ -364,7 +362,6 @@ public abstract class StrMatcher {
          * @param pos the starting position for the match, valid for buffer
          * @param bufferStart the first active index in the buffer, valid for buffer
          * @param bufferEnd the end index of the active buffer, valid for buffer
-         *
          * @return the number of matching characters, zero for no match
          */
         public int isMatch(char[] buffer, int pos, int bufferStart, int bufferEnd) {
@@ -402,7 +399,6 @@ public abstract class StrMatcher {
          * @param pos the starting position for the match, valid for buffer
          * @param bufferStart the first active index in the buffer, valid for buffer
          * @param bufferEnd the end index of the active buffer, valid for buffer
-         *
          * @return the number of matching characters, zero for no match
          */
         public int isMatch(char[] buffer, int pos, int bufferStart, int bufferEnd) {
@@ -431,7 +427,6 @@ public abstract class StrMatcher {
          * @param pos the starting position for the match, valid for buffer
          * @param bufferStart the first active index in the buffer, valid for buffer
          * @param bufferEnd the end index of the active buffer, valid for buffer
-         *
          * @return the number of matching characters, zero for no match
          */
         public int isMatch(char[] buffer, int pos, int bufferStart, int bufferEnd) {

@@ -39,14 +39,15 @@ public class ImageSaver {
     /**
      * Stores an image to disk and returns the name of the file
      */
-    public static String storeTempImage(HttpClient httpClient, String linkHash, String imageSrc, String cacheDirectory, int minPicSize) throws Exception {
-        ;// Log.d(ImageSaver.class.getSimpleName(), "Starting to download image: " + imageSrc);
+    public static String storeTempImage(HttpClient httpClient, String linkHash, String imageSrc, String cacheDirectory, int minPicSize)
+            throws Exception {
         imageSrc = imageSrc.replace(" ", "%20");
 
         HttpGet getRequest = null;
         try {
             // download it
             HttpContext localContext = new BasicHttpContext();
+            //noinspection deprecation
             localContext.setAttribute(ClientContext.COOKIE_STORE, HtmlFetcher.emptyCookieStore);
             getRequest = new HttpGet(imageSrc);
             HttpResponse response = httpClient.execute(getRequest, localContext);
@@ -62,7 +63,7 @@ public class ImageSaver {
             try {
                 webType = ImageUtils.getFileExtensionSimple(entity.getContentType().getValue());
             } catch (Exception e) {
-                ;// Log.e(ImageSaver.class.getSimpleName(), e.getMessage());
+                // Log.e(ImageSaver.class.getSimpleName(), e.getMessage());
             }
             if (webType == null) {
                 webType = "";
@@ -91,7 +92,6 @@ public class ImageSaver {
                 // get mime type and store the image extension based on that
                 String mimeExtension = ImageUtils.getFileExtension(filePath);
                 if (TextUtils.isEmpty(mimeExtension)) {
-                    ;// Log.e(ImageSaver.class.getSimpleName(), "Cannot read file extension from " + filePath);
                     return null;
                 }
 
@@ -102,12 +102,10 @@ public class ImageSaver {
 
                 File newFile = new File(filePathRaw + mimeExtension);
                 if (!f.renameTo(newFile)) {
-                    ;// Log.e(ImageSaver.class.getSimpleName(), "Can't rename file");
+                    Log.e(ImageSaver.class.getName(), "Can't rename file");
                 }
                 return filePathRaw + mimeExtension;
             } else {
-                String message = "Cannot find entity for " + imageSrc;
-                ;// Log.e(ImageSaver.class.getSimpleName(), message);
                 throw new IllegalArgumentException();
             }
         } finally {
@@ -124,9 +122,6 @@ public class ImageSaver {
             } catch (Exception ignored) {
             }
         }
-    }
-
-    private static void raise(SecretGifException e) {
     }
 
 }

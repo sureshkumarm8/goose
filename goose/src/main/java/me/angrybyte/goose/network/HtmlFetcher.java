@@ -11,14 +11,11 @@
 
 package me.angrybyte.goose.network;
 
-import android.util.Log;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.UnsupportedEncodingException;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.URLConnection;
@@ -54,9 +51,8 @@ import cz.msebera.android.httpclient.util.EntityUtils;
 /**
  * Downloads an HTML object, nothing special.
  */
+@SuppressWarnings("deprecation")
 public class HtmlFetcher {
-
-    private static final String TAG = HtmlFetcher.class.getSimpleName();
 
     /**
      * Holds a reference to our override cookie store, we don't want to store cookies for head requests, only slows shit down
@@ -85,8 +81,8 @@ public class HtmlFetcher {
     public static String getHtml(String url) throws MaxBytesException, NotHtmlException {
         HttpGet httpget = null;
         String htmlResult = null;
-        HttpEntity entity = null;
-        InputStream instream = null;
+        InputStream inStream = null;
+        HttpEntity entity;
         try {
             HttpContext localContext = new BasicHttpContext();
             localContext.setAttribute(HttpClientContext.COOKIE_STORE, HtmlFetcher.emptyCookieStore);
@@ -97,63 +93,46 @@ public class HtmlFetcher {
             entity = response.getEntity();
 
             if (entity != null) {
-                instream = entity.getContent();
+                inStream = entity.getContent();
 
                 // set the encoding type if utf-8 or otherwise
                 String encodingType = "UTF-8";
                 try {
 
-                    //todo encoding detection could be improved
+                    // encoding detection could be improved
                     encodingType = EntityUtils.getContentCharSet(entity);
 
                     if (encodingType == null) {
                         encodingType = "UTF-8";
                     }
-                } catch (Exception e) {
-                    ;// Log.d(TAG, "Unable to get charset for: " + url);
-                    ;// Log.d(TAG, "Encoding Type is: " + encodingType);
+                } catch (Exception ignored) {
                 }
 
                 try {
-                    htmlResult = HtmlFetcher.convertStreamToString(instream, 15728640, encodingType).trim();
+                    String resultRaw = HtmlFetcher.convertStreamToString(inStream, 15728640, encodingType);
+                    if (resultRaw != null) {
+                        htmlResult = resultRaw.trim();
+                    }
                 } finally {
                     entity.consumeContent();
                 }
-
-            } else {
-                ;// Log.w(TAG, "Unable to fetch URL Properly: " + url);
             }
-
-        } catch (NullPointerException e) {
-            ;// Log.w(TAG, e.toString() + " " + e.getMessage());
-
         } catch (MaxBytesException e) {
-
-            ;// Log.w(TAG, "GRVBIGFAIL: " + url + " Reached max bytes size");
             throw e;
-        } catch (SocketException e) {
-            ;// Log.w(TAG, e.getMessage());
-
-        } catch (SocketTimeoutException e) {
-            ;// Log.w(TAG, e.toString());
+        } catch (NullPointerException | SocketException | SocketTimeoutException ignored) {
         } catch (Exception e) {
-            ;// Log.w(TAG, "FAILURE FOR LINK: " + url + " " + e.toString());
             return null;
         } finally {
-
-            if (instream != null) {
+            if (inStream != null) {
                 try {
-                    instream.close();
-                } catch (Exception e) {
-                    ;// Log.w(TAG, e.getMessage());
+                    inStream.close();
+                } catch (Exception ignored) {
                 }
             }
             if (httpget != null) {
                 try {
                     httpget.abort();
-                    entity = null;
-                } catch (Exception e) {
-
+                } catch (Exception ignored) {
                 }
             }
 
@@ -164,7 +143,7 @@ public class HtmlFetcher {
         }
 
         InputStream is;
-        String mimeType = null;
+        String mimeType;
         try {
             is = new ByteArrayInputStream(htmlResult.getBytes("UTF-8"));
 
@@ -172,14 +151,12 @@ public class HtmlFetcher {
 
             if (mimeType != null) {
 
-                if (mimeType.equals("text/html") == true || mimeType.equals("application/xml") == true) {
+                if (mimeType.equals("text/html") || mimeType.equals("application/xml")) {
                     return htmlResult;
                 } else {
-                    if (htmlResult.contains("<title>") == true && htmlResult.contains("<p>") == true) {
+                    if (htmlResult.contains("<title>") && htmlResult.contains("<p>")) {
                         return htmlResult;
                     }
-
-                    ;// Log.w(TAG, "GRVBIGFAIL: " + mimeType + " - " + url);
                     throw new NotHtmlException();
                 }
 
@@ -187,11 +164,7 @@ public class HtmlFetcher {
                 throw new NotHtmlException();
             }
 
-        } catch (UnsupportedEncodingException e) {
-            ;// Log.w(TAG, e.getMessage());
-
-        } catch (IOException e) {
-            ;// Log.w(TAG, e.getMessage());
+        } catch (IOException ignored) {
         }
 
         return htmlResult;
@@ -206,15 +179,13 @@ public class HtmlFetcher {
         HttpProtocolParams.setVersion(httpParams, HttpVersion.HTTP_1_1);
 
         /**
-         * we don't want anything to do with cookies at this time
+         * We don't want anything to do with cookies at this time
          */
         emptyCookieStore = new CookieStore() {
-
             public void addCookie(Cookie cookie) {
-
             }
 
-            ArrayList<Cookie> emptyList = new ArrayList<Cookie>();
+            ArrayList<Cookie> emptyList = new ArrayList<>();
 
             public List<Cookie> getCookies() {
                 return emptyList;
@@ -226,13 +197,13 @@ public class HtmlFetcher {
             }
 
             public void clear() {
-
             }
         };
 
         // set request params
         httpParams.setParameter("http.protocol.cookie-policy", CookiePolicy.BROWSER_COMPATIBILITY);
-        httpParams.setParameter("http.User-Agent", "Mozilla/5.0 (X11; U; Linux x86_64; de; rv:1.9.2.8) Gecko/20100723 Ubuntu/10.04 (lucid) Firefox/3.6.8");
+        httpParams.setParameter("http.User-Agent",
+                "Mozilla/5.0 (X11; U; Linux x86_64; de; rv:1.9.2.8) Gecko/20100723 Ubuntu/10.04 (lucid) Firefox/3.6.8");
         httpParams.setParameter("http.language.Accept-Language", "en-us");
         httpParams.setParameter("http.protocol.content-charset", "UTF-8");
         httpParams.setParameter("Accept", "application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5");
@@ -256,7 +227,6 @@ public class HtmlFetcher {
      * reads bytes off the string and returns a string
      *
      * @param maxBytes The max bytes that we want to read from the input stream
-     *
      * @return String
      */
     public static String convertStreamToString(InputStream is, int maxBytes, String encodingType) throws MaxBytesException {
@@ -275,24 +245,18 @@ public class HtmlFetcher {
 
                 int n = r.read(buf);
                 bytesRead += 2048;
-                if (n < 0) break;
+                if (n < 0)
+                    break;
                 s.append(buf, 0, n);
             }
 
             return s.toString();
-
-        } catch (SocketTimeoutException e) {
-            ;// Log.w(TAG, e.toString() + " " + e.getMessage());
-        } catch (UnsupportedEncodingException e) {
-            ;// Log.w(TAG, e.toString() + " Encoding: " + encodingType);
-
-        } catch (IOException e) {
-            ;// Log.w(TAG, e.toString() + " " + e.getMessage());
+        } catch (IOException ignored) {
         } finally {
             if (r != null) {
                 try {
                     r.close();
-                } catch (Exception e) {
+                } catch (Exception ignored) {
                 }
             }
         }

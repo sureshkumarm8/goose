@@ -1,4 +1,6 @@
+
 package me.angrybyte.goose.apache;
+
 /*
  * Copyright 2002-2005 The Apache Software Foundation.
  *
@@ -16,8 +18,14 @@ package me.angrybyte.goose.apache;
  */
 
 /**
- * <p>Operations on Strings that contain words.</p> <p/> <p>This class tries to handle <code>null</code> input gracefully. An exception will not be thrown for a
- * <code>null</code> input. Each method documents its behaviour in more detail.</p>
+ * <p>
+ * Operations on Strings that contain words.
+ * </p>
+ * <p/>
+ * <p>
+ * This class tries to handle <code>null</code> input gracefully. An exception will not be thrown for a <code>null</code> input. Each method
+ * documents its behaviour in more detail.
+ * </p>
  *
  * @author Apache Jakarta Velocity
  * @author Henri Yandell
@@ -30,93 +38,110 @@ package me.angrybyte.goose.apache;
 public class WordUtils {
 
     /**
-     * <p><code>WordUtils</code> instances should NOT be constructed in standard programming. Instead, the class should be used as <code>WordUtils.wrap("foo
-     * bar", 20);</code>.</p> <p/> <p>This constructor is public to permit tools that require a JavaBean instance to operate.</p>
+     * <p>
+     * <code>WordUtils</code> instances should NOT be constructed in standard programming. Instead, the class should be used as
+     * <code>WordUtils.wrap("foo
+     * bar", 20);</code>.
+     * </p>
+     * <p/>
+     * <p>
+     * This constructor is public to permit tools that require a JavaBean instance to operate.
+     * </p>
      */
     public WordUtils() {
     }
 
     // Wrapping
     //--------------------------------------------------------------------------
-//    /**
-//     * <p>Wraps a block of text to a specified line length using '\n' as
-//     * a newline.</p>
-//     *
-//     * <p>This method takes a block of text, which might have long lines in it
-//     * and wraps the long lines based on the supplied lineLength parameter.</p>
-//     *
-//     * <p>If a single word is longer than the line length (eg. a URL), it will
-//     * not be broken, and will display beyond the expected width.</p>
-//     *
-//     * <p>If there are tabs in inString, you are going to get results that are
-//     * a bit strange. Tabs are a single character but are displayed as 4 or 8
-//     * spaces. Remove the tabs.</p>
-//     *
-//     * @param str  text which is in need of word-wrapping, may be null
-//     * @param lineLength  the column to wrap the words at
-//     * @return the text with all the long lines word-wrapped
-//     *  <code>null</code> if null string input
-//     */
-//    public static String wrapText(String str, int lineLength) {
-//        return wrap(str, null, lineLength);
-//    }
+    //    /**
+    //     * <p>Wraps a block of text to a specified line length using '\n' as
+    //     * a newline.</p>
+    //     *
+    //     * <p>This method takes a block of text, which might have long lines in it
+    //     * and wraps the long lines based on the supplied lineLength parameter.</p>
+    //     *
+    //     * <p>If a single word is longer than the line length (eg. a URL), it will
+    //     * not be broken, and will display beyond the expected width.</p>
+    //     *
+    //     * <p>If there are tabs in inString, you are going to get results that are
+    //     * a bit strange. Tabs are a single character but are displayed as 4 or 8
+    //     * spaces. Remove the tabs.</p>
+    //     *
+    //     * @param str  text which is in need of word-wrapping, may be null
+    //     * @param lineLength  the column to wrap the words at
+    //     * @return the text with all the long lines word-wrapped
+    //     *  <code>null</code> if null string input
+    //     */
+    //    public static String wrapText(String str, int lineLength) {
+    //        return wrap(str, null, lineLength);
+    //    }
 
-//    /**
-//     * <p>Wraps a block of text to a specified line length.</p>
-//     *
-//     * <p>This method takes a block of text, which might have long lines in it
-//     * and wraps the long lines based on the supplied lineLength parameter.</p>
-//     *
-//     * <p>If a single word is longer than the wrapColumn (eg. a URL), it will
-//     * not be broken, and will display beyond the expected width.</p>
-//     *
-//     * <p>If there are tabs in inString, you are going to get results that are
-//     * a bit strange. Tabs are a single character but are displayed as 4 or 8
-//     * spaces. Remove the tabs.</p>
-//     *
-//     * @param str  text which is in need of word-wrapping, may be null
-//     * @param newLineChars  the characters that define a newline, null treated as \n
-//     * @param lineLength  the column to wrap the words at
-//     * @return the text with all the long lines word-wrapped
-//     *  <code>null</code> if null string input
-//     */
-//    public static String wrapText(String str, String newLineChars, int lineLength) {
-//        if (str == null) {
-//            return null;
-//        }
-//        if (newLineChars == null) {
-//            newLineChars = "\n";
-//        }
-//        StringTokenizer lineTokenizer = new StringTokenizer(str, newLineChars, true);
-//        StringBuffer stringBuffer = new StringBuffer();
-//
-//        while (lineTokenizer.hasMoreTokens()) {
-//            try {
-//                String nextLine = lineTokenizer.nextToken();
-//
-//                if (nextLine.length() > lineLength) {
-//                    // This line is long enough to be wrapped.
-//                    nextLine = wrapLine(nextLine, null, lineLength, false);
-//                }
-//
-//                stringBuffer.append(nextLine);
-//
-//            } catch (NoSuchElementException nsee) {
-//                // thrown by nextToken(), but I don't know why it would
-//                break;
-//            }
-//        }
-//
-//        return stringBuffer.toString();
-//    }
+    //    /**
+    //     * <p>Wraps a block of text to a specified line length.</p>
+    //     *
+    //     * <p>This method takes a block of text, which might have long lines in it
+    //     * and wraps the long lines based on the supplied lineLength parameter.</p>
+    //     *
+    //     * <p>If a single word is longer than the wrapColumn (eg. a URL), it will
+    //     * not be broken, and will display beyond the expected width.</p>
+    //     *
+    //     * <p>If there are tabs in inString, you are going to get results that are
+    //     * a bit strange. Tabs are a single character but are displayed as 4 or 8
+    //     * spaces. Remove the tabs.</p>
+    //     *
+    //     * @param str  text which is in need of word-wrapping, may be null
+    //     * @param newLineChars  the characters that define a newline, null treated as \n
+    //     * @param lineLength  the column to wrap the words at
+    //     * @return the text with all the long lines word-wrapped
+    //     *  <code>null</code> if null string input
+    //     */
+    //    public static String wrapText(String str, String newLineChars, int lineLength) {
+    //        if (str == null) {
+    //            return null;
+    //        }
+    //        if (newLineChars == null) {
+    //            newLineChars = "\n";
+    //        }
+    //        StringTokenizer lineTokenizer = new StringTokenizer(str, newLineChars, true);
+    //        StringBuffer stringBuffer = new StringBuffer();
+    //
+    //        while (lineTokenizer.hasMoreTokens()) {
+    //            try {
+    //                String nextLine = lineTokenizer.nextToken();
+    //
+    //                if (nextLine.length() > lineLength) {
+    //                    // This line is long enough to be wrapped.
+    //                    nextLine = wrapLine(nextLine, null, lineLength, false);
+    //                }
+    //
+    //                stringBuffer.append(nextLine);
+    //
+    //            } catch (NoSuchElementException nsee) {
+    //                // thrown by nextToken(), but I don't know why it would
+    //                break;
+    //            }
+    //        }
+    //
+    //        return stringBuffer.toString();
+    //    }
 
     // Wrapping
     //-----------------------------------------------------------------------
 
     /**
-     * <p>Wraps a single line of text, identifying words by <code>' '</code>.</p> <p/> <p>New lines will be separated by the system property line separator.
-     * Very long words, such as URLs will <i>not</i> be wrapped.</p> <p/> <p>Leading spaces on a new line are stripped. Trailing spaces are not stripped.</p>
+     * <p>
+     * Wraps a single line of text, identifying words by <code>' '</code>.
+     * </p>
      * <p/>
+     * <p>
+     * New lines will be separated by the system property line separator. Very long words, such as URLs will <i>not</i> be wrapped.
+     * </p>
+     * <p/>
+     * <p>
+     * Leading spaces on a new line are stripped. Trailing spaces are not stripped.
+     * </p>
+     * <p/>
+     * 
      * <pre>
      * WordUtils.wrap(null, *) = null
      * WordUtils.wrap("", *) = ""
@@ -124,7 +149,6 @@ public class WordUtils {
      *
      * @param str the String to be word wrapped, may be null
      * @param wrapLength the column to wrap the words at, less than 1 is treated as 1
-     *
      * @return a line with newlines inserted, <code>null</code> if null input
      */
     public static String wrap(String str, int wrapLength) {
@@ -132,9 +156,15 @@ public class WordUtils {
     }
 
     /**
-     * <p>Wraps a single line of text, identifying words by <code>' '</code>.</p> <p/> <p>Leading spaces on a new line are stripped. Trailing spaces are not
-     * stripped.</p>
+     * <p>
+     * Wraps a single line of text, identifying words by <code>' '</code>.
+     * </p>
      * <p/>
+     * <p>
+     * Leading spaces on a new line are stripped. Trailing spaces are not stripped.
+     * </p>
+     * <p/>
+     * 
      * <pre>
      * WordUtils.wrap(null, *, *, *) = null
      * WordUtils.wrap("", *, *, *) = ""
@@ -144,7 +174,6 @@ public class WordUtils {
      * @param wrapLength the column to wrap the words at, less than 1 is treated as 1
      * @param newLineStr the string to insert for a new line, <code>null</code> uses the system property line separator
      * @param wrapLongWords true if long words (such as URLs) should be wrapped
-     *
      * @return a line with newlines inserted, <code>null</code> if null input
      */
     public static String wrap(String str, int wrapLength, String newLineStr, boolean wrapLongWords) {
@@ -206,10 +235,17 @@ public class WordUtils {
     //-----------------------------------------------------------------------
 
     /**
-     * <p>Capitalizes all the whitespace separated words in a String. Only the first letter of each word is changed. To convert the rest of each word to
-     * lowercase at the same time, use {@link #capitalizeFully(String)}.</p> <p/> <p>Whitespace is defined by {@link Character#isWhitespace(char)}. A
-     * <code>null</code> input String returns <code>null</code>. Capitalization uses the unicode title case, normally equivalent to upper case.</p>
+     * <p>
+     * Capitalizes all the whitespace separated words in a String. Only the first letter of each word is changed. To convert the rest of
+     * each word to lowercase at the same time, use {@link #capitalizeFully(String)}.
+     * </p>
      * <p/>
+     * <p>
+     * Whitespace is defined by {@link Character#isWhitespace(char)}. A <code>null</code> input String returns <code>null</code>.
+     * Capitalization uses the unicode title case, normally equivalent to upper case.
+     * </p>
+     * <p/>
+     * 
      * <pre>
      * WordUtils.capitalize(null)        = null
      * WordUtils.capitalize("")          = ""
@@ -217,9 +253,7 @@ public class WordUtils {
      * </pre>
      *
      * @param str the String to capitalize, may be null
-     *
      * @return capitalized String, <code>null</code> if null String input
-     *
      * @see #uncapitalize(String)
      * @see #capitalizeFully(String)
      */
@@ -228,11 +262,22 @@ public class WordUtils {
     }
 
     /**
-     * <p>Capitalizes all the delimiter separated words in a String. Only the first letter of each word is changed. To convert the rest of each word to
-     * lowercase at the same time, use {@link #capitalizeFully(String, char[])}.</p> <p/> <p>The delimiters represent a set of characters understood to separate
-     * words. The first string character and the first non-delimiter character after a delimiter will be capitalized. </p> <p/> <p>A <code>null</code> input
-     * String returns <code>null</code>. Capitalization uses the unicode title case, normally equivalent to upper case.</p>
+     * <p>
+     * Capitalizes all the delimiter separated words in a String. Only the first letter of each word is changed. To convert the rest of each
+     * word to lowercase at the same time, use {@link #capitalizeFully(String, char[])}.
+     * </p>
      * <p/>
+     * <p>
+     * The delimiters represent a set of characters understood to separate words. The first string character and the first non-delimiter
+     * character after a delimiter will be capitalized.
+     * </p>
+     * <p/>
+     * <p>
+     * A <code>null</code> input String returns <code>null</code>. Capitalization uses the unicode title case, normally equivalent to upper
+     * case.
+     * </p>
+     * <p/>
+     * 
      * <pre>
      * WordUtils.capitalize(null, *)            = null
      * WordUtils.capitalize("", *)              = ""
@@ -243,9 +288,7 @@ public class WordUtils {
      *
      * @param str the String to capitalize, may be null
      * @param delimiters set of characters to determine capitalization, null means whitespace
-     *
      * @return capitalized String, <code>null</code> if null String input
-     *
      * @see #uncapitalize(String)
      * @see #capitalizeFully(String)
      * @since 2.1
@@ -292,10 +335,17 @@ public class WordUtils {
     }
 
     /**
-     * <p>Converts all the whitespace separated words in a String into capitalized words, that is each word is made up of a titlecase character and then a
-     * series of lowercase characters.  </p> <p/> <p>Whitespace is defined by {@link Character#isWhitespace(char)}. A <code>null</code> input String returns
-     * <code>null</code>. Capitalization uses the unicode title case, normally equivalent to upper case.</p>
+     * <p>
+     * Converts all the whitespace separated words in a String into capitalized words, that is each word is made up of a titlecase character
+     * and then a series of lowercase characters.
+     * </p>
      * <p/>
+     * <p>
+     * Whitespace is defined by {@link Character#isWhitespace(char)}. A <code>null</code> input String returns <code>null</code>.
+     * Capitalization uses the unicode title case, normally equivalent to upper case.
+     * </p>
+     * <p/>
+     * 
      * <pre>
      * WordUtils.capitalizeFully(null)        = null
      * WordUtils.capitalizeFully("")          = ""
@@ -303,7 +353,6 @@ public class WordUtils {
      * </pre>
      *
      * @param str the String to capitalize, may be null
-     *
      * @return capitalized String, <code>null</code> if null String input
      */
     public static String capitalizeFully(String str) {
@@ -311,11 +360,22 @@ public class WordUtils {
     }
 
     /**
-     * <p>Converts all the delimiter separated words in a String into capitalized words, that is each word is made up of a titlecase character and then a series
-     * of lowercase characters. </p> <p/> <p>The delimiters represent a set of characters understood to separate words. The first string character and the first
-     * non-delimiter character after a delimiter will be capitalized. </p> <p/> <p>A <code>null</code> input String returns <code>null</code>. Capitalization
-     * uses the unicode title case, normally equivalent to upper case.</p>
+     * <p>
+     * Converts all the delimiter separated words in a String into capitalized words, that is each word is made up of a titlecase character
+     * and then a series of lowercase characters.
+     * </p>
      * <p/>
+     * <p>
+     * The delimiters represent a set of characters understood to separate words. The first string character and the first non-delimiter
+     * character after a delimiter will be capitalized.
+     * </p>
+     * <p/>
+     * <p>
+     * A <code>null</code> input String returns <code>null</code>. Capitalization uses the unicode title case, normally equivalent to upper
+     * case.
+     * </p>
+     * <p/>
+     * 
      * <pre>
      * WordUtils.capitalizeFully(null, *)            = null
      * WordUtils.capitalizeFully("", *)              = ""
@@ -326,9 +386,7 @@ public class WordUtils {
      *
      * @param str the String to capitalize, may be null
      * @param delimiters set of characters to determine capitalization, null means whitespace
-     *
      * @return capitalized String, <code>null</code> if null String input
-     *
      * @since 2.1
      */
     public static String capitalizeFully(String str, char[] delimiters) {
@@ -340,9 +398,15 @@ public class WordUtils {
     }
 
     /**
-     * <p>Uncapitalizes all the whitespace separated words in a String. Only the first letter of each word is changed.</p> <p/> <p>Whitespace is defined by
-     * {@link Character#isWhitespace(char)}. A <code>null</code> input String returns <code>null</code>.</p>
+     * <p>
+     * Uncapitalizes all the whitespace separated words in a String. Only the first letter of each word is changed.
+     * </p>
      * <p/>
+     * <p>
+     * Whitespace is defined by {@link Character#isWhitespace(char)}. A <code>null</code> input String returns <code>null</code>.
+     * </p>
+     * <p/>
+     * 
      * <pre>
      * WordUtils.uncapitalize(null)        = null
      * WordUtils.uncapitalize("")          = ""
@@ -350,9 +414,7 @@ public class WordUtils {
      * </pre>
      *
      * @param str the String to uncapitalize, may be null
-     *
      * @return uncapitalized String, <code>null</code> if null String input
-     *
      * @see #capitalize(String)
      */
     public static String uncapitalize(String str) {
@@ -360,10 +422,20 @@ public class WordUtils {
     }
 
     /**
-     * <p>Uncapitalizes all the whitespace separated words in a String. Only the first letter of each word is changed.</p> <p/> <p>The delimiters represent a
-     * set of characters understood to separate words. The first string character and the first non-delimiter character after a delimiter will be uncapitalized.
-     * </p> <p/> <p>Whitespace is defined by {@link Character#isWhitespace(char)}. A <code>null</code> input String returns <code>null</code>.</p>
+     * <p>
+     * Uncapitalizes all the whitespace separated words in a String. Only the first letter of each word is changed.
+     * </p>
      * <p/>
+     * <p>
+     * The delimiters represent a set of characters understood to separate words. The first string character and the first non-delimiter
+     * character after a delimiter will be uncapitalized.
+     * </p>
+     * <p/>
+     * <p>
+     * Whitespace is defined by {@link Character#isWhitespace(char)}. A <code>null</code> input String returns <code>null</code>.
+     * </p>
+     * <p/>
+     * 
      * <pre>
      * WordUtils.uncapitalize(null, *)            = null
      * WordUtils.uncapitalize("", *)              = ""
@@ -374,9 +446,7 @@ public class WordUtils {
      *
      * @param str the String to uncapitalize, may be null
      * @param delimiters set of characters to determine uncapitalization, null means whitespace
-     *
      * @return uncapitalized String, <code>null</code> if null String input
-     *
      * @see #capitalize(String)
      * @since 2.1
      */
@@ -422,11 +492,22 @@ public class WordUtils {
     }
 
     /**
-     * <p>Swaps the case of a String using a word based algorithm.</p> <p/> <ul> <li>Upper case character converts to Lower case</li> <li>Title case character
-     * converts to Lower case</li> <li>Lower case character after Whitespace or at start converts to Title case</li> <li>Other Lower case character converts to
-     * Upper case</li> </ul> <p/> <p>Whitespace is defined by {@link Character#isWhitespace(char)}. A <code>null</code> input String returns
-     * <code>null</code>.</p>
+     * <p>
+     * Swaps the case of a String using a word based algorithm.
+     * </p>
      * <p/>
+     * <ul>
+     * <li>Upper case character converts to Lower case</li>
+     * <li>Title case character converts to Lower case</li>
+     * <li>Lower case character after Whitespace or at start converts to Title case</li>
+     * <li>Other Lower case character converts to Upper case</li>
+     * </ul>
+     * <p/>
+     * <p>
+     * Whitespace is defined by {@link Character#isWhitespace(char)}. A <code>null</code> input String returns <code>null</code>.
+     * </p>
+     * <p/>
+     * 
      * <pre>
      * StringUtils.swapCase(null)                 = null
      * StringUtils.swapCase("")                   = ""
@@ -434,7 +515,6 @@ public class WordUtils {
      * </pre>
      *
      * @param str the String to swap case, may be null
-     *
      * @return the changed String, <code>null</code> if null String input
      */
     public static String swapCase(String str) {

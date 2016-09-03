@@ -11,6 +11,8 @@
 
 package me.angrybyte.goose;
 
+import android.util.Log;
+
 import org.jsoup.nodes.Attribute;
 import org.jsoup.nodes.Attributes;
 import org.jsoup.nodes.Document;
@@ -33,8 +35,6 @@ import me.angrybyte.goose.cleaners.DocumentCleaner;
 import me.angrybyte.goose.images.BestImageGuesser;
 import me.angrybyte.goose.images.ImageExtractor;
 import me.angrybyte.goose.network.HtmlFetcher;
-import me.angrybyte.goose.network.MaxBytesException;
-import me.angrybyte.goose.network.NotHtmlException;
 import me.angrybyte.goose.outputformatters.DefaultOutputFormatter;
 import me.angrybyte.goose.outputformatters.OutputFormatter;
 import me.angrybyte.goose.texthelpers.ReplaceSequence;
@@ -45,18 +45,17 @@ import me.angrybyte.goose.texthelpers.WordStats;
 import me.angrybyte.goose.texthelpers.string;
 
 /**
- * User: jim plush Date: 12/16/10 a lot of work in this class is based on Arc90's readability code that does content extraction in JS I wasn't able to find a
- * good server side codebase to acheive the same so I started with their base ideas and then built additional metrics on top of it such as looking for clusters
- * of english stopwords. Gravity was doing 30+ million links per day with this codebase across a series of crawling servers for a project and it held up well.
- * Our current port is slightly different than this one but I'm working to align them so the goose project gets the love as we continue to move forward.
+ * User: jim plush Date: 12/16/10 a lot of work in this class is based on Arc90's readability code that does content extraction in JS I
+ * wasn't able to find a good server side codebase to achieve the same so I started with their base ideas and then built additional metrics
+ * on top of it such as looking for clusters of english stop words. Gravity was doing 30+ million links per day with this codebase across a
+ * series of crawling servers for a project and it held up well. Our current port is slightly different than this one but I'm working to
+ * align them so the goose project gets the love as we continue to move forward.
  * <p/>
- * Cougar: God dammit, Mustang! This is Ghost Rider 117. This bogey is all over me. He's got missile lock on me. Do I have permission to fire? Stinger: Do not
- * fire until fired upon...
+ * Cougar: God dammit, Mustang! This is Ghost Rider 117. This bogey is all over me. He's got missile lock on me. Do I have permission to
+ * fire? Stinger: Do not fire until fired upon...
  */
 
 public class ContentExtractor {
-
-    private static final String TAG = ContentExtractor.class.getSimpleName();
 
     private static final StringReplacement MOTLEY_REPLACEMENT = StringReplacement.compile("&#65533;", string.empty);
 
@@ -168,27 +167,25 @@ public class ContentExtractor {
 
             // cleans up all the temp images that we've downloaded
             releaseResources();
-        } catch (MaxBytesException e) {
-            ;// Log.e(TAG, e.toString(), e);
-        } catch (NotHtmlException e) {
-            ;// Log.e(TAG, "URL: " + urlToCrawl + " did not contain valid HTML to parse, exiting. " + e.toString());
-        } catch (Exception e) {
-            ;// Log.e(TAG, "General Exception occurred on url: " + urlToCrawl + " " + e.toString());
+        } catch (Exception ignored) {
         }
 
         return article;
     }
 
     private Set<String> extractTags(Element node) {
-        if (node.children().size() == 0) return NO_STRINGS;
+        if (node.children().size() == 0)
+            return NO_STRINGS;
 
         Elements elements = Selector.select(A_REL_TAG_SELECTOR, node);
-        if (elements.size() == 0) return NO_STRINGS;
+        if (elements.size() == 0)
+            return NO_STRINGS;
 
-        Set<String> tags = new HashSet<String>(elements.size());
+        Set<String> tags = new HashSet<>(elements.size());
         for (Element el : elements) {
             String tag = el.text();
-            if (!string.isNullOrEmpty(tag)) tags.add(tag);
+            if (!string.isNullOrEmpty(tag))
+                tags.add(tag);
         }
 
         return tags;
@@ -203,7 +200,6 @@ public class ContentExtractor {
             finalURL = urlToCrawl;
         }
 
-        ;// Log.d(TAG, "Goose Extraction: " + finalURL);
         return finalURL;
     }
 
@@ -241,40 +237,41 @@ public class ContentExtractor {
         try {
 
             Elements titleElem = doc.getElementsByTag("title");
-            if (titleElem == null || titleElem.isEmpty()) return string.empty;
+            if (titleElem == null || titleElem.isEmpty())
+                return string.empty;
 
             String titleText = titleElem.first().text();
 
-            if (string.isNullOrEmpty(titleText)) return string.empty;
+            if (string.isNullOrEmpty(titleText))
+                return string.empty;
 
-            boolean usedDelimeter = false;
+            boolean usedDelimiter = false;
 
             if (titleText.contains("|")) {
                 titleText = doTitleSplits(titleText, PIPE_SPLITTER);
-                usedDelimeter = true;
+                usedDelimiter = true;
             }
 
-            if (!usedDelimeter && titleText.contains("-")) {
+            if (!usedDelimiter && titleText.contains("-")) {
                 titleText = doTitleSplits(titleText, DASH_SPLITTER);
-                usedDelimeter = true;
+                usedDelimiter = true;
             }
-            if (!usedDelimeter && titleText.contains("»")) {
+            if (!usedDelimiter && titleText.contains("»")) {
                 titleText = doTitleSplits(titleText, ARROWS_SPLITTER);
-                usedDelimeter = true;
+                usedDelimiter = true;
             }
 
-            if (!usedDelimeter && titleText.contains(":")) {
+            if (!usedDelimiter && titleText.contains(":")) {
                 titleText = doTitleSplits(titleText, COLON_SPLITTER);
             }
 
-            // encode unicode charz
+            // encode unicode chars
             title = StringEscapeUtils.escapeHtml(titleText);
 
-            // todo this is a hack until I can fix this.. weird motely crue error with
+            // this is a hack until I can fix this.. weird motely crue error with
             // http://money.cnn.com/2010/10/25/news/companies/motley_crue_bp.fortune/index.htm?section=money_latest
             title = MOTLEY_REPLACEMENT.replaceAll(title);
-        } catch (NullPointerException e) {
-            ;// Log.e(TAG, e.toString());
+        } catch (NullPointerException ignored) {
         }
         return title;
 
@@ -337,6 +334,7 @@ public class ContentExtractor {
         }
     }
 
+    @SuppressWarnings("unused")
     private String getDomain(String canonicalLink) {
         try {
             return new URL(canonicalLink).getHost();
@@ -346,9 +344,9 @@ public class ContentExtractor {
     }
 
     /**
-     * We're going to start looking for where the clusters of paragraphs are. We'll score a cluster based on the number of stopwords and the number of
-     * consecutive paragraphs together, which should form the cluster of text that this node is around also store on how high up the paragraphs are, comments
-     * are usually at the bottom and should get a lower score
+     * We're going to start looking for where the clusters of paragraphs are. We'll score a cluster based on the number of stopwords and the
+     * number of consecutive paragraphs together, which should form the cluster of text that this node is around also store on how high up
+     * the paragraphs are, comments are usually at the bottom and should get a lower score
      */
     private Element calculateBestNodeBasedOnClustering(Document doc) {
         Element topNode = null;
@@ -361,12 +359,10 @@ public class ContentExtractor {
         int i = 0;
 
         // holds all the parents of the nodes we're checking
-        Set<Element> parentNodes = new HashSet<Element>();
-
-        ArrayList<Element> nodesWithText = new ArrayList<Element>();
+        Set<Element> parentNodes = new HashSet<>();
+        ArrayList<Element> nodesWithText = new ArrayList<>();
 
         for (Element node : nodesToCheck) {
-
             String nodeText = node.text();
             WordStats wordStats = StopWords.getStopWordCount(nodeText);
             boolean highLinkDensity = isHighLinkDensity(node);
@@ -375,7 +371,6 @@ public class ContentExtractor {
 
                 nodesWithText.add(node);
             }
-
         }
 
         int numberOfNodes = nodesWithText.size();
@@ -383,17 +378,13 @@ public class ContentExtractor {
         // we want to give the last 20% of nodes negative scores in case they're comments
         double bottomNodesForNegativeScore = (float) numberOfNodes * 0.25;
 
-        ;// Log.d(TAG, "About to inspect num of nodes with text: " + numberOfNodes);
-
         for (Element node : nodesWithText) {
-
             // add parents and grandparents to scoring
             // only add boost to the middle paragraphs, top and bottom is usually jankz city
             // so basically what we're doing is giving boost scores to paragraphs that appear higher up in the dom
             // and giving lower, even negative scores to those who appear lower which could be commenty stuff
 
             float boostScore = 0;
-
             if (isOkToBoost(node)) {
                 if (cnt >= 0) {
                     boostScore = (float) ((1.0 / startingBoost) * 50);
@@ -408,20 +399,18 @@ public class ContentExtractor {
                     boostScore = -(float) Math.pow(booster, (float) 2);
 
                     // we don't want to score too highly on the negative side.
-                    float negscore = Math.abs(boostScore) + negativeScoring;
-                    if (negscore > 40) {
+                    float negScore = Math.abs(boostScore) + negativeScoring;
+                    if (negScore > 40) {
                         boostScore = 5;
                     }
                 }
             }
 
-            ;// Log.d(TAG, "Location Boost Score: " + boostScore + " on interation: " + i + "' id='" + node.parent().id() + "' class='" + node.parent());
-
             String nodeText = node.text();
             WordStats wordStats = StopWords.getStopWordCount(nodeText);
-            int upscore = (int) (wordStats.getStopWordCount() + boostScore);
-            updateScore(node.parent(), upscore);
-            updateScore(node.parent().parent(), upscore / 2);
+            int upScore = (int) (wordStats.getStopWordCount() + boostScore);
+            updateScore(node.parent(), upScore);
+            updateScore(node.parent().parent(), upScore / 2);
             updateNodeCount(node.parent(), 1);
             updateNodeCount(node.parent().parent(), 1);
 
@@ -452,37 +441,14 @@ public class ContentExtractor {
             }
         }
 
-        // if (topNode == null) {
-        //     ;// Log.d(TAG, "ARTICLE NOT ABLE TO BE EXTRACTED!, WE HAZ FAILED YOU LORD VADAR");
-        // } else {
-        //     String logText;
-        //     String targetText = "";
-        //     Element topPara = topNode.getElementsByTag("p").first();
-        //     if (topPara == null) {
-        //         topNode.text();
-        //     } else {
-        //         topPara.text();
-        //     }
-        //
-        //     if (targetText.length() >= 51) {
-        //         logText = targetText.substring(0, 50);
-        //     } else {
-        //         logText = targetText;
-        //     }
-        //     ;// Log.d(TAG, "TOPNODE TEXT: " + logText.trim());
-        //     ;// Log.d(TAG, "Our TOPNODE: score='" + topNode.attr("gravityScore") + "' nodeCount='" + topNode.attr("gravityNodes") + "' id='" + topNode.id() +
-        //             "' class='" + topNode.attr("class") + "' ");
-        // }
-
         return topNode;
-
     }
 
     /**
      * Returns a list of nodes we want to search on like paragraphs and tables
      */
     private ArrayList<Element> getNodesToCheck(Document doc) {
-        ArrayList<Element> nodesToCheck = new ArrayList<Element>();
+        ArrayList<Element> nodesToCheck = new ArrayList<>();
 
         nodesToCheck.addAll(doc.getElementsByTag("p"));
         nodesToCheck.addAll(doc.getElementsByTag("pre"));
@@ -524,13 +490,9 @@ public class ContentExtractor {
     }
 
     /**
-     * alot of times the first paragraph might be the caption under an image so we'll want to make sure if we're going to boost a parent node that it should be
-     * connected to other paragraphs, at least for the first n paragraphs so we'll want to make sure that the next sibling is a paragraph and has at least some
-     * substatial weight to it
-     *
-     * @param node
-     *
-     * @return
+     * A lot of times the first paragraph might be the caption under an image so we'll want to make sure if we're going to boost a parent
+     * node that it should be connected to other paragraphs, at least for the first n paragraphs so we'll want to make sure that the next
+     * sibling is a paragraph and has at least some substatial weight to it
      */
     private boolean isOkToBoost(Element node) {
 
@@ -541,14 +503,12 @@ public class ContentExtractor {
 
             if (sibling.tagName().equals("p")) {
                 if (stepsAway >= 3) {
-                    ;// Log.d(TAG, "Next paragraph is too far away, not boosting");
                     return false;
                 }
 
                 String paraText = sibling.text();
                 WordStats wordStats = StopWords.getStopWordCount(paraText);
                 if (wordStats.getStopWordCount() > 5) {
-                    ;// Log.d(TAG, "We're gonna boost this node, seems contenty");
                     return true;
                 }
 
@@ -564,7 +524,8 @@ public class ContentExtractor {
     }
 
     /**
-     * Adds a score to the gravityScore Attribute we put on divs we'll get the current score then add the score we're passing in to the current
+     * Adds a score to the gravityScore Attribute we put on divs we'll get the current score then add the score we're passing in to the
+     * current
      *
      * @param addToScore - the score to add to the node
      */
@@ -601,10 +562,12 @@ public class ContentExtractor {
      * Returns the gravityScore as an integer from this node
      */
     private int getScore(Element node) {
-        if (node == null) return 0;
+        if (node == null)
+            return 0;
         try {
             String grvScoreString = node.attr("gravityScore");
-            if (string.isNullOrEmpty(grvScoreString)) return 0;
+            if (string.isNullOrEmpty(grvScoreString))
+                return 0;
             return Integer.parseInt(grvScoreString);
         } catch (NumberFormatException e) {
             return 0;
@@ -615,8 +578,8 @@ public class ContentExtractor {
      * Pulls out videos we like
      */
     private ArrayList<Element> extractVideos(Element node) {
-        ArrayList<Element> candidates = new ArrayList<Element>();
-        ArrayList<Element> goodMovies = new ArrayList<Element>();
+        ArrayList<Element> candidates = new ArrayList<>();
+        ArrayList<Element> goodMovies = new ArrayList<>();
         try {
 
             Elements embeds = node.parent().getElementsByTag("embed");
@@ -627,7 +590,6 @@ public class ContentExtractor {
             for (Element el : objects) {
                 candidates.add(el);
             }
-            ;// Log.d(TAG, "extractVideos: Starting to extract videos. Found: " + candidates.size());
 
             for (Element el : candidates) {
 
@@ -635,25 +597,18 @@ public class ContentExtractor {
 
                 for (Attribute a : attrs) {
                     try {
-                        ;// Log.d(TAG, a.getKey() + " : " + a.getValue());
                         if ((a.getValue().contains("youtube") || a.getValue().contains("vimeo")) && a.getKey().equals("src")) {
-                            ;// Log.d(TAG, "Found video... setting");
-                            ;// Log.d(TAG, "This page has a video!: " + a.getValue());
                             goodMovies.add(el);
 
                         }
-                    } catch (Exception e) {
-                        ;// Log.e(TAG, e.toString());
-                        e.printStackTrace();
+                    } catch (Exception ignored) {
                     }
                 }
 
             }
-        } catch (Exception e) {
-            ;// Log.e(TAG, e.toString(), e);
+        } catch (Exception ignored) {
         }
 
-        ;// Log.d(TAG, "extractVideos: done looking for videos");
         return goodMovies;
     }
 
@@ -661,8 +616,6 @@ public class ContentExtractor {
      * Remove any divs that looks like non-content, clusters of links, or paras with no gusto
      */
     private Element cleanupNode(Element node) {
-        ;// Log.d(TAG, "Starting cleanup Node");
-
         node = addSiblings(node);
 
         Elements nodes = node.children();
@@ -670,10 +623,8 @@ public class ContentExtractor {
             if (e.tagName().equals("p")) {
                 continue;
             }
-            ;// Log.d(TAG, "CLEANUP  NODE: " + e.id() + " class: " + e.attr("class"));
             boolean highLinkDensity = isHighLinkDensity(e);
             if (highLinkDensity) {
-                ;// Log.d(TAG, "REMOVING  NODE FOR LINK DENSITY: " + e.id() + " class: " + e.attr("class"));
                 e.remove();
                 continue;
             }
@@ -693,7 +644,6 @@ public class ContentExtractor {
             // first let's remove any element that now doesn't have any p tags at all
             Elements subParagraphs2 = e.getElementsByTag("p");
             if (subParagraphs2.size() == 0 && !e.tagName().equals("td")) {
-                ;// Log.d(TAG, "Removing node because it doesn't have any paragraphs");
                 e.remove();
                 continue;
             }
@@ -702,13 +652,9 @@ public class ContentExtractor {
             int topNodeScore = getScore(node);
             int currentNodeScore = getScore(e);
             float thresholdScore = (float) (topNodeScore * .08);
-            ;// Log.d(TAG, "topNodeScore: " + topNodeScore + " currentNodeScore: " + currentNodeScore + " threshold: " + thresholdScore);
             if (currentNodeScore < thresholdScore) {
                 if (!e.tagName().equals("td")) {
-                    ;// Log.d(TAG, "Removing node due to low threshold score");
                     e.remove();
-                } else {
-                    ;// Log.d(TAG, "Not removing TD node");
                 }
             }
 
@@ -721,15 +667,11 @@ public class ContentExtractor {
      * Adds any siblings that may have a decent score to this node
      */
     private Element addSiblings(Element node) {
-        ;// Log.d(TAG, "Starting to add siblings");
         int baselineScoreForSiblingParagraphs = getBaselineScoreForSiblings(node);
 
         Element currentSibling = node.previousElementSibling();
         while (currentSibling != null) {
-            ;// Log.d(TAG, "SIBLING CHECK: " + debugNode(currentSibling));
-
             if (currentSibling.tagName().equals("p")) {
-
                 node.child(0).before(currentSibling.outerHtml());
                 currentSibling = currentSibling.previousElementSibling();
                 continue;
@@ -748,7 +690,6 @@ public class ContentExtractor {
                 int paragraphScore = wordStats.getStopWordCount();
 
                 if ((float) (baselineScoreForSiblingParagraphs * .30) < paragraphScore) {
-                    ;// Log.d(TAG, "This node looks like a good sibling, adding it");
                     node.child(insertedSiblings).before("<p>" + firstParagraph.text() + "<p>");
                     insertedSiblings++;
                 }
@@ -762,9 +703,9 @@ public class ContentExtractor {
     }
 
     /**
-     * We could have long articles that have tons of paragraphs so if we tried to calculate the base score against the total text score of those paragraphs it
-     * would be unfair. So we need to normalize the score based on the average scoring of the paragraphs within the top node. For example if our total score of
-     * 10 paragraphs was 1000 but each had an average value of 100 then 100 should be our base.
+     * We could have long articles that have tons of paragraphs so if we tried to calculate the base score against the total text score of
+     * those paragraphs it would be unfair. So we need to normalize the score based on the average scoring of the paragraphs within the top
+     * node. For example if our total score of 10 paragraphs was 1000 but each had an average value of 100 then 100 should be our base.
      */
     private int getBaselineScoreForSiblings(Element topNode) {
         int base = 100000;
@@ -785,39 +726,25 @@ public class ContentExtractor {
 
         if (numberOfParagraphs > 0) {
             base = scoreOfParagraphs / numberOfParagraphs;
-            ;// Log.d(TAG, "The base score for siblings to beat is: " + base + " NumOfParas: " + numberOfParagraphs + " scoreOfAll: " + scoreOfParagraphs);
         }
 
         return base;
     }
 
-    private String debugNode(Element e) {
-        return "GravityScore: '" +
-                e.attr("gravityScore") +
-                "' paraNodeCount: '" +
-                e.attr("gravityNodes") +
-                "' nodeId: '" +
-                e.id() +
-                "' className: '" +
-                e.attr("class");
-    }
-
     /**
-     * Cleans up any temp files we have laying around like temp images removes any image in the temp dir that starts with the linkHash of the url we parsed
+     * Cleans up any temp files we have laying around like temp images removes any image in the temp dir that starts with the linkHash of
+     * the url we parsed
      */
     public void releaseResources() {
-        ;// Log.d(TAG, "STARTING TO RELEASE ALL RESOURCES");
         File dir = new File(config.getCacheDirectory());
         String[] children = dir.list();
 
-        if (children == null) {
-            ;// Log.d(TAG, "No Temp images found for linkHash: " + this.linkHash);
-        } else {
+        if (children != null) {
             for (String filename : children) {
                 if (filename.startsWith(this.linkHash)) {
                     File f = new File(dir.getAbsolutePath() + "/" + filename);
                     if (!f.delete()) {
-                        ;// Log.e(TAG, "Unable to remove temp file: " + filename);
+                        Log.e(ContentExtractor.class.getName(), "Unable to remove temp file: " + filename);
                     }
                 }
             }

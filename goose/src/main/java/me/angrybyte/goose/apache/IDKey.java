@@ -1,4 +1,6 @@
+
 package me.angrybyte.goose.apache;
+
 /*
  * Copyright 2001-2004 The Apache Software Foundation.
  *
@@ -50,7 +52,6 @@ public class IDKey {
      * checks if instances are equal
      *
      * @param other
-     *
      * @return
      */
     public boolean equals(Object other) {

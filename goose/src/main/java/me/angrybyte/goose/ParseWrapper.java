@@ -54,7 +54,6 @@ public class ParseWrapper {
     public static String now() {
         Calendar cal = Calendar.getInstance();
         return DATE_FORMAT.format(cal.getTime());
-
     }
 
 }

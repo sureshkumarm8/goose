@@ -58,7 +58,9 @@ public class HashUtils {
 
     @SuppressWarnings("unused")
     private static String bytesToUpperCaseHex(byte[] b) {
-        char hexDigit[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+        char hexDigit[] = {
+                '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
+        };
         StringBuilder buf = new StringBuilder();
         // noinspection ForLoopReplaceableByForEach
         for (int j = 0; j < b.length; j++) {

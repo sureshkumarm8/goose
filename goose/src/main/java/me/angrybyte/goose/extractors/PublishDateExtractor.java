@@ -28,14 +28,14 @@ import me.angrybyte.goose.ContentExtractor;
 public abstract class PublishDateExtractor implements Extractor<Date> {
 
     /**
-     * Intended to search the DOM and identify the {@link Date} of when this article was published. <p>This will be called by the {@link
-     * ContentExtractor#extractContent(String)} method and will be passed to {@link Article#setPublishDate(java.util.Date)}</p>
+     * Intended to search the DOM and identify the {@link Date} of when this article was published.
+     * <p>
+     * This will be called by the {@link ContentExtractor#extractContent(String)} method and will be passed to
+     * {@link Article#setPublishDate(java.util.Date)}
+     * </p>
      *
      * @param rootElement passed in from the {@link ContentExtractor} after the article has been parsed
-     *
      * @return {@link Date} of when this particular article was published or <code>null</code> if no date could be found.
      */
     public abstract Date extract(Element rootElement);
 }
-
-
