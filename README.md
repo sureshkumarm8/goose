@@ -43,11 +43,13 @@ Make sure you do this on a background thread (or in an `AsyncTask`). Some of the
 ```java
 Configuration config = new Configuration(getCacheDir().getAbsolutePath());
 ContentExtractor extractor = new ContentExtractor(config);
+
 Article article = extractor.extractContent(url);
 if (article == null) {
     Log.e(TAG, "Couldn't load the article, is your URL correct, is your Internet working?");
     return;
 }
+
 String details = article.getCleanedArticleText();
 if (details == null) {
     Log.w(TAG, "Couldn't load the article text, the page is messy. Trying with page description...");
