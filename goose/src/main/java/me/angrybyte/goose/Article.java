@@ -176,7 +176,7 @@ public class Article {
     }
 
     /**
-     * The unique set of tags that matched: "a[rel=tag], a[href*=/tag/]"
+     * The unique set of tags that matched: "a[rel=tag], a[href*=/tag/]".
      *
      * @return the unique set of TAGs extracted from this {@link Article}
      */
