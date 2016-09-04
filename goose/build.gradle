@@ -2,8 +2,8 @@ apply plugin: 'com.android.library'
 
 /*
  * To upload to Bintray, run:
- * .\gradlew install
- * .\gradlew bintrayUpload
+ * .\gradlew goose:clean goose:install
+ * .\gradlew goose:bintrayUpload
  * More information on http://inthecheesefactory.com/blog/how-to-upload-library-to-jcenter-maven-central-as-dependency/en
  */
 
