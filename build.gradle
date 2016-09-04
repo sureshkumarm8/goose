@@ -7,6 +7,12 @@ buildscript {
     }
 }
 
+plugins {
+    // used for uploading to maven central and jCenter
+    id "com.github.dcendents.android-maven" version "1.5"
+    id "com.jfrog.bintray" version "1.7"
+}
+
 allprojects {
     repositories {
         jcenter()

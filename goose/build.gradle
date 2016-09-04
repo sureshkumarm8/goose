@@ -1,5 +1,36 @@
 apply plugin: 'com.android.library'
 
+/*
+ * To upload to Bintray, run:
+ * .\gradlew install
+ * .\gradlew bintrayUpload
+ * More information on http://inthecheesefactory.com/blog/how-to-upload-library-to-jcenter-maven-central-as-dependency/en
+ */
+
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'goose'
+
+    publishedGroupId = 'me.angrybyte.goose'
+    libraryName = 'Goose'
+    artifact = 'goose'
+
+    libraryDescription = 'A simple circular slider for Android.'
+
+    siteUrl = 'https://github.com/milosmns/goose'
+    gitUrl = 'https://github.com/milosmns/goose.git'
+
+    libraryVersion = '1.5.0'
+
+    developerId = 'milosmns'
+    developerName = 'Milos Marinkovic'
+    developerEmail = 'milosmns@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
 android {
     compileSdkVersion 24
     buildToolsVersion "24.0.2"
@@ -8,7 +39,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 24
         versionCode 10
-        versionName "1.5"
+        versionName "1.5.0"
     }
     buildTypes {
         release {
@@ -19,7 +50,23 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-
     compile 'org.jsoup:jsoup:1.9.2'
+}
+
+// library configuration
+configurations {
+    javadocDep
+}
+
+apply from: '../pom_install.gradle'
+apply from: '../bintray_upload.gradle'
+
+task androidJavadoc(type: Javadoc) {
+    classpath += configurations.javadocDep
+    failOnError false
+    println('Creating Android javadoc!')
+}
+
+tasks['javadoc'].onlyIf {
+    false
 }
