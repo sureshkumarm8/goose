@@ -25,16 +25,8 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import cz.msebera.android.httpclient.Header;
-import cz.msebera.android.httpclient.HttpEntity;
-import cz.msebera.android.httpclient.HttpResponse;
-import cz.msebera.android.httpclient.client.HttpClient;
-import cz.msebera.android.httpclient.client.methods.HttpHead;
-import cz.msebera.android.httpclient.client.protocol.ClientContext;
-import cz.msebera.android.httpclient.protocol.BasicHttpContext;
-import cz.msebera.android.httpclient.protocol.HttpContext;
 import me.angrybyte.goose.Configuration;
-import me.angrybyte.goose.network.HtmlFetcher;
+import me.angrybyte.goose.network.GooseDownloader;
 import me.angrybyte.goose.texthelpers.string;
 
 /**
@@ -56,11 +48,6 @@ public class BestImageGuesser implements ImageExtractor {
         // create negative elements
         matchBadImageNames = Pattern.compile(negatives).matcher(string.empty);
     }
-
-    /**
-     * holds an httpclient connection object for doing head requests to get image sizes
-     */
-    HttpClient httpClient;
 
     /**
      * holds the document that we're extracting the image from
@@ -97,9 +84,7 @@ public class BestImageGuesser implements ImageExtractor {
      */
     Configuration config;
 
-    public BestImageGuesser(Configuration config, HttpClient httpClient, String targetUrl) {
-        this.httpClient = httpClient;
-
+    public BestImageGuesser(Configuration config, String targetUrl) {
         image = new Image();
 
         this.config = config;
@@ -387,37 +372,22 @@ public class BestImageGuesser implements ImageExtractor {
     /**
      * Does the HTTP HEAD request to get the image bytes for this images
      */
-    private int getBytesForImage(String src) {
+    private int getBytesForImage(String imageSrc) {
         int bytes = 0;
-        HttpHead httpHead = null;
         try {
-            String link = this.buildImagePath(src);
-            link = link.replace(" ", "%20");
-
-            HttpContext localContext = new BasicHttpContext();
-            // noinspection deprecation
-            localContext.setAttribute(ClientContext.COOKIE_STORE, HtmlFetcher.emptyCookieStore);
-            httpHead = new HttpHead(link);
-            HttpResponse response = httpClient.execute(httpHead, localContext);
-            HttpEntity entity = response.getEntity();
+            String content = this.buildImagePath(imageSrc);
+            content = content.replace(" ", "%20");
             bytes = this.minBytesForImages + 1;
 
             try {
-                int currentBytes = (int) entity.getContentLength();
-                Header contentType = entity.getContentType();
-                if (contentType.getValue().contains("image")) {
+                GooseDownloader.ContentInfo info = GooseDownloader.getContentInfo(content);
+                int currentBytes = info.size;
+                if (info.mimeType.contains("image")) {
                     bytes = currentBytes;
                 }
             } catch (NullPointerException ignored) {
             }
         } catch (Exception ignored) {
-        } finally {
-            try {
-                if (httpHead != null) {
-                    httpHead.abort();
-                }
-            } catch (NullPointerException ignored) {
-            }
         }
 
         return bytes;
@@ -446,8 +416,7 @@ public class BestImageGuesser implements ImageExtractor {
             try {
                 String imageSource = this.buildImagePath(image.attr("src"));
 
-                String cachePath = ImageSaver.storeTempImage(httpClient, linkhash, imageSource, config.getCacheDirectory(),
-                        config.getMinBytesForImages());
+                String cachePath = ImageSaver.storeTempImage(linkhash, imageSource, config.getCacheDirectory(), config.getMinBytesForImages());
                 if (cachePath == null) {
                     continue;
                 }
@@ -502,6 +471,7 @@ public class BestImageGuesser implements ImageExtractor {
     /**
      * Returns true if we think this is kind of a bannery dimension like 600 / 100 = 6 may be a fishy dimension for a good image
      */
+
     private boolean isBannerDimensions(Integer width, Integer height) {
         if (width.equals(height)) {
             return false;

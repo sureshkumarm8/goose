@@ -12,7 +12,6 @@
 package me.angrybyte.goose.images;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -22,14 +21,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Random;
 
-import cz.msebera.android.httpclient.HttpEntity;
-import cz.msebera.android.httpclient.HttpResponse;
-import cz.msebera.android.httpclient.client.HttpClient;
-import cz.msebera.android.httpclient.client.methods.HttpGet;
-import cz.msebera.android.httpclient.client.protocol.ClientContext;
-import cz.msebera.android.httpclient.protocol.BasicHttpContext;
-import cz.msebera.android.httpclient.protocol.HttpContext;
-import me.angrybyte.goose.network.HtmlFetcher;
+import me.angrybyte.goose.network.GooseDownloader;
 
 /**
  * This class will be responsible for storing images to disk
@@ -37,33 +29,20 @@ import me.angrybyte.goose.network.HtmlFetcher;
 public class ImageSaver {
 
     /**
-     * Stores an image to disk and returns the name of the file
+     * Stores an image to internal storage and returns the name of the file.
      */
-    public static String storeTempImage(HttpClient httpClient, String linkHash, String imageSrc, String cacheDirectory, int minPicSize)
-            throws Exception {
-        imageSrc = imageSrc.replace(" ", "%20");
+    public static String storeTempImage(String linkHash, String imageSrc, String cacheDirectory, int minPicSize) throws Exception {
+        FileOutputStream fileStream = null;
+        ByteArrayOutputStream webBitmapStream = null;
 
-        HttpGet getRequest = null;
         try {
-            // download it
-            HttpContext localContext = new BasicHttpContext();
-            //noinspection deprecation
-            localContext.setAttribute(ClientContext.COOKIE_STORE, HtmlFetcher.emptyCookieStore);
-            getRequest = new HttpGet(imageSrc);
-            HttpResponse response = httpClient.execute(getRequest, localContext);
-
-            String respStatus = response.getStatusLine().toString();
-            if (!respStatus.contains("200")) {
-                return null;
-            }
-
-            // get preliminary extension (if any)
-            HttpEntity entity = response.getEntity();
+            // check the URL, maybe it contains the mime type
+            imageSrc = imageSrc.replace(" ", "%20");
             String webType = null;
             try {
-                webType = ImageUtils.getFileExtensionSimple(entity.getContentType().getValue());
+                webType = ImageUtils.getFileExtensionSimple(GooseDownloader.getContentInfo(imageSrc).mimeType);
             } catch (Exception e) {
-                // Log.e(ImageSaver.class.getSimpleName(), e.getMessage());
+                Log.w(ImageSaver.class.getSimpleName(), e.getMessage());
             }
             if (webType == null) {
                 webType = "";
@@ -76,42 +55,41 @@ public class ImageSaver {
             String filePath = cacheDirectory + File.separator + fileName;
             String filePathRaw = cacheDirectory + File.separator + fileNameRaw;
 
-            if (entity != null) {
-                // save it to temporary cache
-                Bitmap webBitmap = BitmapFactory.decodeStream(entity.getContent());
-                FileOutputStream fileStream = new FileOutputStream(filePath);
-                ByteArrayOutputStream webBitmapStream = new ByteArrayOutputStream();
-
-                webBitmap.compress(Bitmap.CompressFormat.JPEG, 100, webBitmapStream);
-                byte[] byteArray = webBitmapStream.toByteArray();
-                fileStream.write(byteArray);
-                fileStream.flush();
-                close(fileStream);
-                close(webBitmapStream);
-
-                // get mime type and store the image extension based on that
-                String mimeExtension = ImageUtils.getFileExtension(filePath);
-                if (TextUtils.isEmpty(mimeExtension)) {
-                    return null;
-                }
-
-                File f = new File(filePath);
-                if (f.length() < minPicSize) {
-                    return null;
-                }
-
-                File newFile = new File(filePathRaw + mimeExtension);
-                if (!f.renameTo(newFile)) {
-                    Log.e(ImageSaver.class.getName(), "Can't rename file");
-                }
-                return filePathRaw + mimeExtension;
-            } else {
-                throw new IllegalArgumentException();
+            // save it to temporary cache
+            Bitmap webBitmap = GooseDownloader.getPhoto(imageSrc);
+            if (webBitmap == null) {
+                throw new IllegalArgumentException("Bitmap at " + imageSrc + " doesn't exist");
             }
+
+            fileStream = new FileOutputStream(filePath);
+            webBitmapStream = new ByteArrayOutputStream();
+
+            webBitmap.compress(Bitmap.CompressFormat.JPEG, 100, webBitmapStream);
+            byte[] byteArray = webBitmapStream.toByteArray();
+            fileStream.write(byteArray);
+            fileStream.flush();
+            close(fileStream);
+            close(webBitmapStream);
+
+            // get mime type and store the image extension based on that
+            String mimeExtension = ImageUtils.getFileExtension(filePath);
+            if (TextUtils.isEmpty(mimeExtension)) {
+                return null;
+            }
+
+            File f = new File(filePath);
+            if (f.length() < minPicSize) {
+                return null;
+            }
+
+            File newFile = new File(filePathRaw + mimeExtension);
+            if (!f.renameTo(newFile)) {
+                Log.e(ImageSaver.class.getName(), "Can't rename file");
+            }
+            return filePathRaw + mimeExtension;
         } finally {
-            if (getRequest != null) {
-                getRequest.abort();
-            }
+            close(fileStream);
+            close(webBitmapStream);
         }
     }
 

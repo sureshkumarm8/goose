@@ -29,14 +29,13 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-import cz.msebera.android.httpclient.client.HttpClient;
-import me.angrybyte.goose.outputformatters.Entities;
 import me.angrybyte.goose.cleaners.DefaultDocumentCleaner;
 import me.angrybyte.goose.cleaners.DocumentCleaner;
 import me.angrybyte.goose.images.BestImageGuesser;
 import me.angrybyte.goose.images.ImageExtractor;
-import me.angrybyte.goose.network.HtmlFetcher;
+import me.angrybyte.goose.network.GooseDownloader;
 import me.angrybyte.goose.outputformatters.DefaultOutputFormatter;
+import me.angrybyte.goose.outputformatters.Entities;
 import me.angrybyte.goose.outputformatters.OutputFormatter;
 import me.angrybyte.goose.texthelpers.ReplaceSequence;
 import me.angrybyte.goose.texthelpers.StopWords;
@@ -92,7 +91,7 @@ public class ContentExtractor {
 
     /**
      * @param urlToCrawl The url you want to extract the text from
-     * @param html If you already have the raw html handy you can pass it here to avoid a network call
+     * @param html       If you already have the raw html handy you can pass it here to avoid a network call
      */
     public Article extractContent(String urlToCrawl, String html) {
         return performExtraction(urlToCrawl, html);
@@ -118,7 +117,7 @@ public class ContentExtractor {
         Article article = null;
         try {
             if (rawHtml == null) {
-                rawHtml = HtmlFetcher.getHtml(urlToCrawl);
+                rawHtml = GooseDownloader.getHtml(urlToCrawl);
             }
 
             article = new Article();
@@ -155,8 +154,7 @@ public class ContentExtractor {
                 article.setMovies(extractVideos(article.getTopNode()));
 
                 if (config.isEnableImageFetching()) {
-                    HttpClient httpClient = HtmlFetcher.getHttpClient();
-                    imageExtractor = getImageExtractor(httpClient, urlToCrawl);
+                    imageExtractor = getImageExtractor(urlToCrawl);
                     article.setTopImage(imageExtractor.getBestImage(doc, article.getTopNode()));
                 }
 
@@ -249,9 +247,9 @@ public class ContentExtractor {
 
     }
 
-    private ImageExtractor getImageExtractor(HttpClient httpClient, String urlToCrawl) {
+    private ImageExtractor getImageExtractor(String urlToCrawl) {
         if (imageExtractor == null) {
-            return new BestImageGuesser(config, httpClient, urlToCrawl);
+            return new BestImageGuesser(config, urlToCrawl);
         } else {
             return imageExtractor;
         }
@@ -336,16 +334,17 @@ public class ContentExtractor {
      *
      * @param str the <code>String</code> to escape, may be null
      * @return a new escaped <code>String</code>, <code>null</code> if null string input
+     *
      * @see </br>
-     *      <a href="http://hotwired.lycos.com/webmonkey/reference/special_characters/">ISO Entities</a>
+     * <a href="http://hotwired.lycos.com/webmonkey/reference/special_characters/">ISO Entities</a>
      * @see </br>
-     *      <a href="http://www.w3.org/TR/REC-html32#latin1">HTML 3.2 Character Entities for ISO Latin-1</a>
+     * <a href="http://www.w3.org/TR/REC-html32#latin1">HTML 3.2 Character Entities for ISO Latin-1</a>
      * @see </br>
-     *      <a href="http://www.w3.org/TR/REC-html40/sgml/entities.html">HTML 4.0 Character entity references</a>
+     * <a href="http://www.w3.org/TR/REC-html40/sgml/entities.html">HTML 4.0 Character entity references</a>
      * @see </br>
-     *      <a href="http://www.w3.org/TR/html401/charset.html#h-5.3">HTML 4.01 Character References</a>
+     * <a href="http://www.w3.org/TR/html401/charset.html#h-5.3">HTML 4.01 Character References</a>
      * @see </br>
-     *      <a href="http://www.w3.org/TR/html401/charset.html#code-position">HTML 4.01 Code positions</a>
+     * <a href="http://www.w3.org/TR/html401/charset.html#code-position">HTML 4.01 Code positions</a>
      **/
     public static String escapeHtml(String str) {
         if (str == null) {

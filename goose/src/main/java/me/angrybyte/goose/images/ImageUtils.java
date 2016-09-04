@@ -14,6 +14,7 @@ package me.angrybyte.goose.images;
 import android.graphics.BitmapFactory;
 
 import java.io.IOException;
+import java.util.Locale;
 
 public class ImageUtils {
 
@@ -41,15 +42,16 @@ public class ImageUtils {
     }
 
     /**
-     * Reads the file extension from the given URL (string form), null if not found.
+     * Reads the file extension from the given content type or URL (in String form), {@code null} if not found.
      */
-    public static String getFileExtensionSimple(String url) {
-        if (url != null) {
-            if (url.endsWith("GIF")) {
+    public static String getFileExtensionSimple(String contentType) {
+        if (contentType != null) {
+            contentType = contentType.toUpperCase(Locale.getDefault());
+            if (contentType.endsWith("GIF")) {
                 return ".gif";
-            } else if (url.endsWith("JPEG") || url.endsWith("JPG")) {
+            } else if (contentType.endsWith("JPEG") || contentType.endsWith("JPG")) {
                 return ".jpg";
-            } else if (url.endsWith("PNG")) {
+            } else if (contentType.endsWith("PNG")) {
                 return ".png";
             } else {
                 return null;

@@ -3,7 +3,6 @@ package me.angrybyte.goosedemo;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,15 +18,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import me.angrybyte.goose.Article;
 import me.angrybyte.goose.Configuration;
 import me.angrybyte.goose.ContentExtractor;
+import me.angrybyte.goose.network.GooseDownloader;
 
 public class DemoActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -38,8 +35,8 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
 
     private final class ArticleTask extends AsyncTask<String, Void, Pair<String[], Bitmap>> {
 
-        private final Pair<String[], Bitmap> UNKNOWN_FAIL = new Pair<>(new String[] {"Unknown", "Unknown", "Unknown"}, null);
-        private final Pair<String[], Bitmap> LOAD_FAIL = new Pair<>(new String[] {"Load failed", "Load failed", "Load fail"}, null);
+        private final Pair<String[], Bitmap> UNKNOWN_FAIL = new Pair<>(new String[]{"Unknown", "Unknown", "Unknown"}, null);
+        private final Pair<String[], Bitmap> LOAD_FAIL = new Pair<>(new String[]{"Load failed", "Load failed", "Load fail"}, null);
 
         @Override
         protected Pair<String[], Bitmap> doInBackground(final String... strings) {
@@ -48,12 +45,12 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
             Matcher urlMatcher = PATTERN_URL.matcher(messageText);
 
             if (!urlMatcher.find()) {
-                // Log.d(TAG, "No URL found");
+                Log.d(TAG, "No URL found");
                 return UNKNOWN_FAIL;
             }
 
             String url = messageText.substring(urlMatcher.start(0), urlMatcher.end(0));
-            // Log.d(TAG, "Article extraction: found URL " + url);
+            Log.d(TAG, "Article extraction: found URL " + url);
 
             if (isCancelled()) {
                 return UNKNOWN_FAIL;
@@ -76,18 +73,19 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
                 return UNKNOWN_FAIL;
             }
 
-            Bitmap photo;
-            if (article.getTopImage() == null) {
-                photo = null;
-            } else {
-                photo = getBitmapFromURL(article.getTopImage().getImageSrc());
+            Bitmap photo = null;
+            if (article.getTopImage() != null) {
+                try {
+                    photo = GooseDownloader.getPhoto(article.getTopImage().getImageSrc());
+                } catch (Exception ignored) {
+                }
             }
 
             if (isCancelled()) {
                 return UNKNOWN_FAIL;
             }
 
-            String[] results = new String[] {url, article.getTitle(), details};
+            String[] results = new String[]{url, article.getTitle(), details};
             return new Pair<>(results, photo);
         }
 
@@ -111,43 +109,6 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         protected void onCancelled() {
             updateWorkResultUi(false, true);
-        }
-
-        private Bitmap getBitmapFromURL(String url) {
-            try {
-                URL base, next, parsed;
-                HttpURLConnection connection;
-
-                // loop for redirects
-                while (true) {
-                    parsed = new URL(url);
-                    connection = (HttpURLConnection) parsed.openConnection();
-
-                    connection.setReadTimeout(15000);
-                    connection.setConnectTimeout(15000);
-                    // we will handle redirects manually, because automatic redirect works only with same protocols
-                    connection.setInstanceFollowRedirects(false);
-
-                    switch (connection.getResponseCode()) {
-                        case HttpURLConnection.HTTP_MOVED_PERM:
-                        case HttpURLConnection.HTTP_MOVED_TEMP:
-                            String location = connection.getHeaderField("Location");
-                            // deal with relative URLs, don't reuse instance (bugs...)
-                            base = new URL(url);
-                            next = new URL(base, location);
-                            url = next.toExternalForm();
-                            continue;
-                    }
-                    break;
-                }
-
-                connection.connect();
-                InputStream input = connection.getInputStream();
-                return BitmapFactory.decodeStream(input);
-            } catch (Exception e) {
-                // Log.e(TAG, "Bitmap download exception");
-                return null;
-            }
         }
 
     }
@@ -186,7 +147,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED) {
             startTask();
         } else {
-            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.INTERNET}, 0);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET}, 0);
         }
     }
 
