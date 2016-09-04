@@ -1,5 +1,5 @@
 
-package me.angrybyte.goose.apache;
+package me.angrybyte.goose.outputformatters;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more

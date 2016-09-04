@@ -19,7 +19,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
 
-import me.angrybyte.goose.apache.StringEscapeUtils;
 import me.angrybyte.goose.texthelpers.StopWords;
 import me.angrybyte.goose.texthelpers.WordStats;
 
@@ -61,15 +60,11 @@ public class DefaultOutputFormatter implements OutputFormatter {
      * @return a formatted string with all HTML removed
      */
     public String getFormattedText(Element topNode) {
-
         this.topNode = topNode;
-
         removeNodesWithNegativeScores();
 
         convertLinksToText();
-
         replaceTagsWithText();
-
         removeParagraphsWithFewWords();
 
         // noinspection deprecation
@@ -82,19 +77,43 @@ public class DefaultOutputFormatter implements OutputFormatter {
      */
     @Deprecated
     public String getFormattedText() {
-
         StringBuilder sb = new StringBuilder();
 
         Elements nodes = topNode.getAllElements();
         for (Element e : nodes) {
             if (e.tagName().equals("p")) {
-                String text = StringEscapeUtils.unescapeHtml(e.text()).trim();
+                String text = unescapeHtml(e.text()).trim();
                 sb.append(text);
                 sb.append("\n\n");
             }
         }
 
         return sb.toString();
+    }
+
+    /**
+     * <p>
+     * Un-escapes a string containing entity escapes to a string containing the actual Unicode characters corresponding to the escapes.
+     * Supports HTML 4.0 entities.
+     * </p>
+     * <p/>
+     * <p>
+     * For example, the string "&amp;lt;Fran&amp;ccedil;ais&amp;gt;" will become "&lt;Fran&ccedil;ais&gt;"
+     * </p>
+     * <p/>
+     * <p>
+     * If an entity is unrecognized, it is left alone, and inserted verbatim into the result string. e.g. "&amp;gt;&amp;zzzz;x" will become
+     * "&gt;&amp;zzzz;x".
+     * </p>
+     *
+     * @param str the <code>String</code> to unescape, may be null
+     * @return a new unescaped <code>String</code>, <code>null</code> if null string input
+     **/
+    public static String unescapeHtml(String str) {
+        if (str == null) {
+            return null;
+        }
+        return Entities.HTML40.unescape(str);
     }
 
     /**

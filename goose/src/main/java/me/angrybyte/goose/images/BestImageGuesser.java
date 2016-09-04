@@ -18,6 +18,8 @@ import org.jsoup.select.Elements;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
@@ -32,7 +34,6 @@ import cz.msebera.android.httpclient.client.protocol.ClientContext;
 import cz.msebera.android.httpclient.protocol.BasicHttpContext;
 import cz.msebera.android.httpclient.protocol.HttpContext;
 import me.angrybyte.goose.Configuration;
-import me.angrybyte.goose.apache.HashUtils;
 import me.angrybyte.goose.network.HtmlFetcher;
 import me.angrybyte.goose.texthelpers.string;
 
@@ -51,8 +52,7 @@ public class BestImageGuesser implements ImageExtractor {
 
     static {
         String negatives = (".html|.gif|.ico|button|twitter.jpg|facebook.jpg|digg.jpg|digg.png|delicious.png|facebook.png|reddit" + ""
-                + ".jpg|doubleclick|diggthis|diggThis|adserver|/ads/|ec.atdmt.com")
-                + "|mediaplex.com|adsatt|view.atdmt";
+                + ".jpg|doubleclick|diggthis|diggThis|adserver|/ads/|ec.atdmt.com") + "|mediaplex.com|adsatt|view.atdmt";
         // create negative elements
         matchBadImageNames = Pattern.compile(negatives).matcher(string.empty);
     }
@@ -105,7 +105,7 @@ public class BestImageGuesser implements ImageExtractor {
         this.config = config;
 
         this.targetUrl = targetUrl;
-        this.linkhash = HashUtils.md5(this.targetUrl);
+        this.linkhash = md5(this.targetUrl);
     }
 
     public Image getBestImage(Document doc, Element topNode) {
@@ -126,6 +126,42 @@ public class BestImageGuesser implements ImageExtractor {
         }
 
         return image;
+    }
+
+    /**
+     * Return a string of 32 lower case hex characters.
+     *
+     * @return a string of 32 hex characters
+     */
+    private static String md5(String input) {
+        String hexHash;
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(input.getBytes());
+            byte[] output = md.digest();
+            hexHash = bytesToLowerCaseHex(output);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+        return hexHash;
+    }
+
+    private static String bytesToLowerCaseHex(byte[] data) {
+        StringBuilder buf = new StringBuilder();
+        // noinspection ForLoopReplaceableByForEach
+        for (int i = 0; i < data.length; i++) {
+            int halfByte = (data[i] >>> 4) & 0x0F;
+            int twoHalves = 0;
+            do {
+                if ((0 <= halfByte) && (halfByte <= 9)) {
+                    buf.append((char) ('0' + halfByte));
+                } else {
+                    buf.append((char) ('a' + (halfByte - 10)));
+                }
+                halfByte = data[i] & 0x0F;
+            } while (twoHalves++ < 1);
+        }
+        return buf.toString();
     }
 
     private boolean checkForMetaTag() {

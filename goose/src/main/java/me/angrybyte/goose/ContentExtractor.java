@@ -23,13 +23,14 @@ import org.jsoup.select.Selector;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 import cz.msebera.android.httpclient.client.HttpClient;
-import me.angrybyte.goose.apache.HashUtils;
-import me.angrybyte.goose.apache.StringEscapeUtils;
+import me.angrybyte.goose.outputformatters.Entities;
 import me.angrybyte.goose.cleaners.DefaultDocumentCleaner;
 import me.angrybyte.goose.cleaners.DocumentCleaner;
 import me.angrybyte.goose.images.BestImageGuesser;
@@ -108,7 +109,7 @@ public class ContentExtractor {
         urlToCrawl = getUrlToCrawl(urlToCrawl);
         try {
             new URL(urlToCrawl);
-            linkHash = HashUtils.md5(urlToCrawl);
+            linkHash = md5(urlToCrawl);
         } catch (MalformedURLException e) {
             throw new IllegalArgumentException("Invalid URL Passed in: " + urlToCrawl, e);
         }
@@ -171,6 +172,42 @@ public class ContentExtractor {
         }
 
         return article;
+    }
+
+    /**
+     * Return a string of 32 lower case hex characters.
+     *
+     * @return a string of 32 hex characters
+     */
+    private static String md5(String input) {
+        String hexHash;
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(input.getBytes());
+            byte[] output = md.digest();
+            hexHash = bytesToLowerCaseHex(output);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+        return hexHash;
+    }
+
+    private static String bytesToLowerCaseHex(byte[] data) {
+        StringBuilder buf = new StringBuilder();
+        // noinspection ForLoopReplaceableByForEach
+        for (int i = 0; i < data.length; i++) {
+            int halfByte = (data[i] >>> 4) & 0x0F;
+            int twoHalves = 0;
+            do {
+                if ((0 <= halfByte) && (halfByte <= 9)) {
+                    buf.append((char) ('0' + halfByte));
+                } else {
+                    buf.append((char) ('a' + (halfByte - 10)));
+                }
+                halfByte = data[i] & 0x0F;
+            } while (twoHalves++ < 1);
+        }
+        return buf.toString();
     }
 
     private Set<String> extractTags(Element node) {
@@ -266,15 +303,57 @@ public class ContentExtractor {
             }
 
             // encode unicode chars
-            title = StringEscapeUtils.escapeHtml(titleText);
+            title = escapeHtml(titleText);
 
             // this is a hack until I can fix this.. weird motely crue error with
             // http://money.cnn.com/2010/10/25/news/companies/motley_crue_bp.fortune/index.htm?section=money_latest
             title = MOTLEY_REPLACEMENT.replaceAll(title);
         } catch (NullPointerException ignored) {
         }
-        return title;
 
+        return title;
+    }
+
+    /**
+     * <p>
+     * Escapes the characters in a <code>String</code> using HTML entities.
+     * </p>
+     * <p/>
+     * <p>
+     * For example:
+     * </p>
+     * <p>
+     * <code>"bread" & "butter"</code>
+     * </p>
+     * becomes:
+     * <p>
+     * <code>&amp;quot;bread&amp;quot; &amp;amp; &amp;quot;butter&amp;quot;</code>.
+     * </p>
+     * <p/>
+     * <p>
+     * Supports all known HTML 4.0 entities, including funky accents.
+     * </p>
+     *
+     * @param str the <code>String</code> to escape, may be null
+     * @return a new escaped <code>String</code>, <code>null</code> if null string input
+     * @see </br>
+     *      <a href="http://hotwired.lycos.com/webmonkey/reference/special_characters/">ISO Entities</a>
+     * @see </br>
+     *      <a href="http://www.w3.org/TR/REC-html32#latin1">HTML 3.2 Character Entities for ISO Latin-1</a>
+     * @see </br>
+     *      <a href="http://www.w3.org/TR/REC-html40/sgml/entities.html">HTML 4.0 Character entity references</a>
+     * @see </br>
+     *      <a href="http://www.w3.org/TR/html401/charset.html#h-5.3">HTML 4.01 Character References</a>
+     * @see </br>
+     *      <a href="http://www.w3.org/TR/html401/charset.html#code-position">HTML 4.01 Code positions</a>
+     **/
+    public static String escapeHtml(String str) {
+        if (str == null) {
+            return null;
+        }
+        //todo: add a version that takes a Writer
+        //todo: rewrite underlying method to use a Writer instead of a StringBuffer
+        return Entities.HTML40.escape(str);
     }
 
     /**

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package me.angrybyte.goose.apache;
+package me.angrybyte.goose.outputformatters;
 
 import java.io.IOException;
 import java.io.StringWriter;
