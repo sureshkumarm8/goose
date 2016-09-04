@@ -53,20 +53,9 @@ dependencies {
     compile 'org.jsoup:jsoup:1.9.2'
 }
 
-// library configuration
+// Library configuration for Maven
 configurations {
     javadocDep
 }
 
-apply from: '../pom_install.gradle'
-apply from: '../bintray_upload.gradle'
-
-task androidJavadoc(type: Javadoc) {
-    classpath += configurations.javadocDep
-    failOnError false
-    println('Creating Android javadoc!')
-}
-
-tasks['javadoc'].onlyIf {
-    false
-}
+apply from: '../gradle/gradle-mvn-push.gradle'
