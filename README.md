@@ -17,6 +17,22 @@ Since version `1.5.0`, Goose for Android also uses the official `HttpURLConnecti
 SSL libraries such as OpenSSL.  
 A sample of how to use Goose for Android can be found in `DemoActivity.java` in the `app` folder source.
 
+How it works
+------------
+**Document cleaning**
+
+When you pass a URL to Goose, the first thing it starts to do is _clean up the document_ to make it easier to parse. It will go through the whole document and remove comments, common social network sharing elements, convert `em` and other tags to plain text nodes, try to convert `divs` used as text nodes to paragraphs, as well as do a general document cleanup (spaces, new lines, quotes, encoding, etc).
+
+**Content / Images Extraction**
+
+When dealing with random article links you're bound to come across the craziest of HTML files. Some sites even like to include 2 or more HTML files per site. Goose uses a scoring system based on clustering of English stop words and other factors that you can find in the code. Goose also does _descending scoring_ so as the nodes move down - the lower their scores become. The goal is to find the strongest grouping of text nodes inside a parent container and assume that's the relevant group of content as long as it's high enough (up) on the page.
+
+Image extraction is the one that takes the longest. Trying to find the most important image on a page proved to be challenging and required to download all the images to manually inspect them using external tools (not all images are considered, Goose checks mime types, dimensions, byte sizes, compression quality, etc). Java's Image functions were just too unreliable and inaccurate. On Android, Goose uses the `BitmapFactory` class, it is well documented, tested, and is fast and accurate. Images are analyzed from the top node that Goose finds the content in, then comes a recursive run outwards trying to find good images - Goose also checks if those images are ads, banners or author logos, and ignores them if so.
+
+**Output Formatting**
+
+Once Goose has the top node where we think the content is, Goose will try to format the content of that node for the output. For example, for NLP-type applications, Goose's output formatter will just suck all the text and ignore everything else, and other (custom) extractors can be built to offer a more Flipboardy-type experience.
+
 Requirements
 ------------
 - Android 4.0 or later (Minimum SDK level 14)

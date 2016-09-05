@@ -20,7 +20,7 @@ ext {
     siteUrl = 'https://github.com/milosmns/goose'
     gitUrl = 'https://github.com/milosmns/goose.git'
 
-    libraryVersion = '1.5.0'
+    libraryVersion = '1.5.1'
 
     developerId = 'milosmns'
     developerName = 'Milos Marinkovic'
@@ -38,8 +38,8 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 24
-        versionCode 10
-        versionName "1.5.0"
+        versionCode 11
+        versionName "1.5.1"
     }
     buildTypes {
         release {
