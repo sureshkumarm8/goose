@@ -63,7 +63,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
                 return LOAD_FAIL;
             }
             String details = article.getCleanedArticleText();
-            if (details == null) {
+            if (details == null || details.trim().isEmpty()) {
                 details = article.getMetaDescription();
             } else {
                 details = details.substring(0, Math.min(DETAILS_MAX_LENGTH, details.length() - 1));
@@ -76,7 +76,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
             Bitmap photo = null;
             if (article.getTopImage() != null) {
                 try {
-                    photo = GooseDownloader.getPhoto(article.getTopImage().getImageSrc());
+                    photo = GooseDownloader.getPhoto(article.getTopImage().getImageSrc(), true);
                 } catch (Exception ignored) {
                 }
             }

@@ -380,7 +380,7 @@ public class BestImageGuesser implements ImageExtractor {
             bytes = this.minBytesForImages + 1;
 
             try {
-                GooseDownloader.ContentInfo info = GooseDownloader.getContentInfo(content);
+                GooseDownloader.ContentInfo info = GooseDownloader.getContentInfo(content, true);
                 int currentBytes = info.size;
                 if (info.mimeType.contains("image")) {
                     bytes = currentBytes;

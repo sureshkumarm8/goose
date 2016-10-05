@@ -20,8 +20,8 @@ public class GooseDownloader {
     private static final String TAG = GooseDownloader.class.getSimpleName();
     private static final int MAX_BYTES = 15 * 1024 * 1024;
 
-    private static final String DEFAULT_AGENT = "Mozilla/5.0 (X11; U; Linux x86_64; de; rv:1.9.2.8) Gecko/20100723 Ubuntu/10.04 (lucid) Firefox/3.6.8";
-    private static final String DEFAULT_CONTENT = "application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5";
+    private static final String AGENT = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4";
+    private static final String CONTENT = "application/xml,application/xhtml+xml,text/html,application/javascript;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5";
 
     /**
      * A helper class to store HTTP info before downloading the content.
@@ -46,18 +46,19 @@ public class GooseDownloader {
      * Given a URL, establishes an HttpUrlConnection and retrieves the web page content as a InputStream, which it returns as a string. Follows redirects.
      *
      * @param textUrl Which URL to use
+     * @param followRedirects Whether to follow 301 and 302 server redirect codes
      * @return HTML content as text, or throws an exception if something goes wrong
      *
      * @throws IOException       Usually occurs when URL connection fails or you have an invalid URL
      * @throws MaxBytesException Maximum page size must be smaller than {@link #MAX_BYTES}, or this will be thrown
      * @throws NotHtmlException  If we determine it's not HTML, this will be thrown
      */
-    public static String getHtml(String textUrl) throws IOException, MaxBytesException, NotHtmlException {
+    public static String getHtml(String textUrl, boolean followRedirects) throws IOException, MaxBytesException, NotHtmlException {
         HttpURLConnection connection = null;
         InputStream stream = null;
 
         try {
-            connection = prepareConnection(textUrl);
+            connection = prepareConnection(textUrl, followRedirects);
             connection.connect();
             if (connection.getContentLength() > MAX_BYTES) {
                 throw new MaxBytesException();
@@ -92,11 +93,12 @@ public class GooseDownloader {
      * Prepares and opens a HTTP connection to the given URL. Sets all required request parameters and follows redirects.
      *
      * @param url Which URL to use
+     * @param followRedirects Whether to follow 301 and 302 server redirect codes
      * @return Either a {@link HttpURLConnection} if everything works fine, or throws an exception if something goes wrong
      *
      * @throws IOException Usually occurs when URL connection fails or you have an invalid URL
      */
-    private static HttpURLConnection prepareConnection(String url) throws IOException {
+    private static HttpURLConnection prepareConnection(String url, boolean followRedirects) throws IOException {
         URL base, next, parsed;
         HttpURLConnection conn;
 
@@ -106,18 +108,19 @@ public class GooseDownloader {
             conn = (HttpURLConnection) parsed.openConnection();
             // we will handle redirects manually, because automatic redirect
             // works only when the same protocol is being used
-            conn.setInstanceFollowRedirects(false);
+            conn.setInstanceFollowRedirects(!followRedirects);
             conn.setReadTimeout(10 * 1000);
             conn.setConnectTimeout(15 * 1000);
             conn.setRequestMethod("GET");
             conn.setDoInput(true);
             conn.setUseCaches(true);
 
+            conn.setRequestProperty("User-agent", AGENT);
+            conn.setRequestProperty("http.User-Agent", AGENT);
             conn.setRequestProperty("http.protocol.cookie-policy", "compatibility");
-            conn.setRequestProperty("http.User-Agent", DEFAULT_AGENT);
             conn.setRequestProperty("http.language.Accept-Language", "en-us"); // MM do we need this?
             conn.setRequestProperty("http.protocol.content-charset", "UTF-8");
-            conn.setRequestProperty("Accept", DEFAULT_CONTENT);
+            conn.setRequestProperty("Accept", CONTENT);
             conn.setRequestProperty("Cache-Control", "max-age=0");
             conn.setRequestProperty("http.connection.stalecheck", "false"); // stale check impacts performance
 
@@ -126,15 +129,17 @@ public class GooseDownloader {
             conn.setRequestProperty("http.protocol.wait-for-continue", "10000");
             conn.setRequestProperty("http.tcp.nodelay", "true");
 
-            switch (conn.getResponseCode()) {
-                case HttpURLConnection.HTTP_MOVED_PERM:
-                case HttpURLConnection.HTTP_MOVED_TEMP:
-                    String location = conn.getHeaderField("Location");
-                    // deal with relative URLs, don't reuse instance (bugs...)
-                    base = new URL(url);
-                    next = new URL(base, location);
-                    url = next.toExternalForm();
-                    continue;
+            if (followRedirects) {
+                switch (conn.getResponseCode()) {
+                    case HttpURLConnection.HTTP_MOVED_PERM:
+                    case HttpURLConnection.HTTP_MOVED_TEMP:
+                        String location = conn.getHeaderField("Location");
+                        // deal with relative URLs, don't reuse instance (bugs...)
+                        base = new URL(url);
+                        next = new URL(base, location);
+                        url = next.toExternalForm();
+                        continue;
+                }
             }
             break;
         }
@@ -174,13 +179,14 @@ public class GooseDownloader {
      * Downloads a Bitmap image from the given URL. Follows redirects.
      *
      * @param textUrl Which URL to use
+     * @param followRedirects Whether to follow 301 and 302 server redirect codes
      * @return A Bitmap object if download succeeds, or {@code null} if download fails
      */
-    public static Bitmap getPhoto(String textUrl) {
+    public static Bitmap getPhoto(String textUrl, boolean followRedirects) {
         HttpURLConnection connection = null;
         InputStream stream = null;
         try {
-            connection = prepareConnection(textUrl);
+            connection = prepareConnection(textUrl, followRedirects);
             connection.connect();
             stream = connection.getInputStream();
             return BitmapFactory.decodeStream(stream);
@@ -197,12 +203,13 @@ public class GooseDownloader {
      * Returns {@link ContentInfo} for the given URL.
      *
      * @param textUrl Which URL to use
+     * @param followRedirects Whether to follow 301 and 302 server redirect codes
      * @return Either a content info object, or {@link ContentInfo#EMPTY} if something fails
      */
-    public static ContentInfo getContentInfo(String textUrl) {
+    public static ContentInfo getContentInfo(String textUrl, boolean followRedirects) {
         HttpURLConnection connection = null;
         try {
-            connection = prepareConnection(textUrl);
+            connection = prepareConnection(textUrl, followRedirects);
             connection.connect();
             int size = connection.getContentLength();
             String type = connection.getContentType();

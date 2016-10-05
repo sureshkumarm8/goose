@@ -117,7 +117,7 @@ public class ContentExtractor {
         Article article = null;
         try {
             if (rawHtml == null) {
-                rawHtml = GooseDownloader.getHtml(urlToCrawl);
+                rawHtml = GooseDownloader.getHtml(urlToCrawl, true);
             }
 
             article = new Article();

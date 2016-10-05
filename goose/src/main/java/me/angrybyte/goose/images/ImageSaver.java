@@ -40,7 +40,7 @@ public class ImageSaver {
             imageSrc = imageSrc.replace(" ", "%20");
             String webType = null;
             try {
-                webType = ImageUtils.getFileExtensionSimple(GooseDownloader.getContentInfo(imageSrc).mimeType);
+                webType = ImageUtils.getFileExtensionSimple(GooseDownloader.getContentInfo(imageSrc, true).mimeType);
             } catch (Exception e) {
                 Log.w(ImageSaver.class.getSimpleName(), e.getMessage());
             }
@@ -56,7 +56,7 @@ public class ImageSaver {
             String filePathRaw = cacheDirectory + File.separator + fileNameRaw;
 
             // save it to temporary cache
-            Bitmap webBitmap = GooseDownloader.getPhoto(imageSrc);
+            Bitmap webBitmap = GooseDownloader.getPhoto(imageSrc, true);
             if (webBitmap == null) {
                 throw new IllegalArgumentException("Bitmap at " + imageSrc + " doesn't exist");
             }
