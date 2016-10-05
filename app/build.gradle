@@ -27,7 +27,7 @@ dependencies {
 
     compile 'com.android.support:cardview-v7:24.2.1'
     compile 'com.android.support:appcompat-v7:24.2.1'
-    // compile 'me.angrybyte.goose:goose:1.5.1' // - production
+    // compile 'me.angrybyte.goose:goose:1.6.0' // - production
 
     compile project(':goose') // - dev mode only
 }
