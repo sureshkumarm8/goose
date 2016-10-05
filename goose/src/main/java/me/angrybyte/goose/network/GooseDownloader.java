@@ -77,7 +77,7 @@ public class GooseDownloader {
             }
 
             String mimeType = connection.getContentType(); // MM make this more loose (don't check for type)?
-            if (mimeType == null || (!mimeType.contains("text/html") && !mimeType.contains("application/xml"))) {
+            if (mimeType == null || (!mimeType.contains("text/html") && !mimeType.contains("text/xml") && !mimeType.contains("application/xml"))) {
                 throw new NotHtmlException();
             }
 
