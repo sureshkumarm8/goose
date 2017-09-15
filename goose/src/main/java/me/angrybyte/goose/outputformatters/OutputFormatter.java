@@ -23,6 +23,8 @@ public interface OutputFormatter {
 
     String getFormattedText();
 
+    String getFormattedTextForWebView(Element topNode);
+
     String getFormattedText(Element topNode);
 
 }

@@ -91,20 +91,22 @@ public class ContentExtractor {
 
     /**
      * @param urlToCrawl The url you want to extract the text from
-     * @param html       If you already have the raw html handy you can pass it here to avoid a network call
+     * @param html       If you already have the raw html handy you can pass it here to avoid a network call.
+     * @param forWebView true to preserve useful html tags in topNode
      */
-    public Article extractContent(String urlToCrawl, String html) {
-        return performExtraction(urlToCrawl, html);
+    public Article extractContent(String urlToCrawl, String html, boolean forWebView) {
+        return performExtraction(urlToCrawl, html, forWebView);
     }
 
     /**
      * @param urlToCrawl The url you want to extract the text from, makes a network call
+     * @param forWebView true to preserve useful html tags in topNode
      */
-    public Article extractContent(String urlToCrawl) {
-        return performExtraction(urlToCrawl, null);
+    public Article extractContent(String urlToCrawl, boolean forWebView) {
+        return performExtraction(urlToCrawl, null, forWebView);
     }
 
-    private Article performExtraction(String urlToCrawl, String rawHtml) {
+    private Article performExtraction(String urlToCrawl, String rawHtml, boolean forWebView) {
         urlToCrawl = getUrlToCrawl(urlToCrawl);
         try {
             new URL(urlToCrawl);
@@ -161,7 +163,12 @@ public class ContentExtractor {
                 // grab siblings and remove high link density elements
                 cleanupNode(article.getTopNode());
                 outputFormatter = getOutputFormatter();
-                article.setCleanedArticleText(outputFormatter.getFormattedText(article.getTopNode()));
+
+                // if forWebView is enabled, then process topNode such that necessary html tags are not removed.
+                if(forWebView)
+                    article.setCleanedArticleText(outputFormatter.getFormattedTextForWebView(article.getTopNode()));
+                else
+                    article.setCleanedArticleText(outputFormatter.getFormattedText(article.getTopNode()));
             }
 
             // cleans up all the temp images that we've downloaded
