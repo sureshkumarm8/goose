@@ -72,6 +72,22 @@ public class DefaultOutputFormatter implements OutputFormatter {
     }
 
     /**
+     *  Removes unnecessary elements. Unlike getFormattedText(), it does not remove links and other use full html tags used for formatting.
+     * @param topNode
+     * @return
+     */
+    @Override
+    public String getFormattedTextForWebView(Element topNode) {
+        this.topNode = topNode;
+        removeNodesWithNegativeScores();
+
+        removeEmptyParagraphs();
+
+        // noinspection deprecation
+        return getFormattedText();
+    }
+
+    /**
      * Deprecated use {@link #getFormattedText(Element)} takes an element and turns the P tags into \n\n // todo move this to an output
      * formatter object instead of inline here
      */
@@ -178,6 +194,25 @@ public class DefaultOutputFormatter implements OutputFormatter {
                 WordStats stopWords = StopWords.getStopWordCount(el.text());
 
                 if (stopWords.getStopWordCount() < 5 && el.getElementsByTag("object").size() == 0
+                        && el.getElementsByTag("embed").size() == 0) {
+                    el.remove();
+                }
+            } catch (IllegalArgumentException ignored) {
+            }
+        }
+    }
+
+    /**
+     * Removes empty paragraph
+     */
+    private void removeEmptyParagraphs() {
+        Elements allNodes = this.topNode.getAllElements();
+        for (Element el : allNodes) {
+            try {
+                // get stop words that appear in each node
+                WordStats stopWords = StopWords.getStopWordCount(el.text());
+
+                if (el.text().trim().length() < 1 && el.getElementsByTag("object").size() == 0
                         && el.getElementsByTag("embed").size() == 0) {
                     el.remove();
                 }
