@@ -11,10 +11,6 @@
 
 package me.angrybyte.goose.extractors;
 
-/**
- * Created by IntelliJ IDEA. User: robbie Date: 5/19/11 Time: 2:50 PM
- */
-
 import org.jsoup.nodes.Element;
 
 import java.util.Date;
