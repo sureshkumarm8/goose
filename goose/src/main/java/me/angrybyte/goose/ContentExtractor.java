@@ -81,8 +81,6 @@ public class ContentExtractor {
     // once we have our topNode then we want to format that guy for output to the user
     private OutputFormatter outputFormatter;
     private ImageExtractor imageExtractor;
-    private String html;
-    private boolean forWebView;
 
 
     /**
@@ -97,7 +95,7 @@ public class ContentExtractor {
      * @param html       If you already have the raw html handy you can pass it here to avoid a network call.
      * @param forWebView true to preserve useful html tags in topNode
      */
-    public Article extractContent(String urlToCrawl) {
+    public Article extractContent(String urlToCrawl, String html, boolean forWebView) {
         return performExtraction(urlToCrawl, html, forWebView);
     }
 
